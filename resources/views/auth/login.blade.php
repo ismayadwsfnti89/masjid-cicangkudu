@@ -13,20 +13,17 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
-    <!-- CSS Custom -->
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
 
-    <!-- =========================
-         LOGIN PAGE
-    ========================= -->
     <main class="login-page">
 
         <div class="login-card">
 
-            <!-- Logo Masjid -->
+            <!-- Logo -->
             <div class="logo-wrapper">
                 <div class="logo">
                     <i class="fa-solid fa-mosque"></i>
@@ -34,45 +31,88 @@
             </div>
 
             <!-- Judul -->
-            <div class="text-center">
-                <h1>Masjid Jami Cicangkudu</h1>
+            <div class="login-heading text-center">
+
+                <h1>
+                    Masjid Jami Cicangkudu
+                </h1>
 
                 <p class="subtitle">
                     Sistem Digital Masjid
                 </p>
+
+                <p class="login-description">
+                    Silakan masuk untuk mengakses layanan warga.
+                </p>
+
             </div>
 
-            <!-- Form Login -->
+
+            <!-- Success -->
+            @if(session('success'))
+
+                <div class="alert alert-success login-alert">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <span>
+                        {{ session('success') }}
+                    </span>
+
+                </div>
+
+            @endif
+
+
+            <!-- Error -->
+            @if($errors->any())
+
+                <div class="alert alert-danger login-alert">
+
+                    <i class="fa-solid fa-circle-exclamation"></i>
+
+                    <span>
+                        {{ $errors->first() }}
+                    </span>
+
+                </div>
+
+            @endif
+
+
+            <!-- FORM -->
             <form action="{{ route('login.submit') }}" method="POST">
+
                 @csrf
 
-                <!-- Email -->
+
+                <!-- USERNAME -->
                 <div class="form-group">
 
-                    <label for="email">
-                        Email
+                    <label for="username">
+                        Username
                     </label>
 
                     <div class="input-box">
 
-                        <i class="fa-solid fa-envelope"></i>
+                        <i class="fa-solid fa-user input-icon"></i>
 
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Masukkan email"
-                            autocomplete="email"
+                            type="text"
+                            name="username"
+                            id="username"
+                            class="form-control"
+                            placeholder="Masukkan username"
+                            value="{{ old('username') }}"
+                            autocomplete="username"
                             required>
 
                     </div>
 
-                    <small class="error-message" id="emailError"></small>
-
                 </div>
 
 
-                <!-- Password -->
+                <!-- PASSWORD -->
                 <div class="form-group">
 
                     <label for="password">
@@ -81,73 +121,65 @@
 
                     <div class="input-box">
 
-                        <i class="fa-solid fa-lock"></i>
+                        <i class="fa-solid fa-lock input-icon"></i>
 
                         <input
                             type="password"
-                            id="password"
                             name="password"
+                            id="password"
+                            class="form-control password-input"
                             placeholder="Masukkan password"
                             autocomplete="current-password"
                             required>
 
-                        <!-- Tombol lihat password -->
                         <button
                             type="button"
                             class="password-toggle"
                             id="togglePassword"
                             aria-label="Tampilkan password">
 
-                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                            <i
+                                class="fa-solid fa-eye"
+                                id="eyeIcon">
+                            </i>
 
                         </button>
 
                     </div>
 
-                    <small class="error-message" id="passwordError"></small>
-
                 </div>
 
 
-                <!-- Lupa Password -->
-                <div class="forgot-password">
-
-                    <a href="#">
-                        Lupa password?
-                    </a>
-
-                </div>
-
-
-                <!-- Tombol Login -->
+                <!-- LOGIN BUTTON -->
                 <button
                     type="submit"
                     class="login-button">
 
-                    <i class="fa-solid fa-right-to-bracket"></i>
+                    <span>
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Login
+                    </span>
 
-                    Login
+                    <i class="fa-solid fa-arrow-right login-arrow"></i>
 
                 </button>
 
             </form>
 
 
-            <!-- Register -->
-            <div class="register-section">
+            <!-- INFO -->
+            <div class="login-info">
+
+                <i class="fa-solid fa-circle-info"></i>
 
                 <span>
-                    Belum punya akun?
+                    Akun warga diberikan oleh pengurus masjid.
                 </span>
-
-                <a href="{{ route('register') }}">
-                    Daftar sekarang
-                </a>
 
             </div>
 
 
-            <!-- Footer -->
+            <!-- FOOTER -->
             <div class="footer">
 
                 <i class="fa-solid fa-mosque"></i>
@@ -166,8 +198,43 @@
     <!-- Bootstrap JS -->
     <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- JavaScript Custom -->
-    <script src="{{ asset('js/script.js') }}"></script>
+
+    <!-- Password Toggle -->
+    <script>
+
+        const togglePassword =
+            document.getElementById('togglePassword');
+
+        const password =
+            document.getElementById('password');
+
+        const eyeIcon =
+            document.getElementById('eyeIcon');
+
+
+        togglePassword.addEventListener('click', function () {
+
+            const isPassword =
+                password.type === 'password';
+
+
+            password.type =
+                isPassword ? 'text' : 'password';
+
+
+            eyeIcon.classList.toggle(
+                'fa-eye',
+                !isPassword
+            );
+
+            eyeIcon.classList.toggle(
+                'fa-eye-slash',
+                isPassword
+            );
+
+        });
+
+    </script>
 
 </body>
 

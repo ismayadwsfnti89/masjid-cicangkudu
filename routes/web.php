@@ -3,14 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WargaProfileController;
+use App\Http\Controllers\WargaImportController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [Authcontroller::class, 'login'])->name('login.submit');
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'storeRegister'])->name('register.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'warga.dashboard')->name('dashboard');
@@ -23,4 +20,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/profil-warga', [WargaProfileController::class, 'index'])->name('profil');
 Route::put('/profil-warga', [WargaProfileController::class, 'update'])->name('profil.update');
+Route::get('/admin/import-warga', [WargaImportController::class, 'index'])->name('admin.import-warga');
+Route::post('/admin/import-warga', [WargaImportController::class, 'import'])->name('admin.import-warga.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

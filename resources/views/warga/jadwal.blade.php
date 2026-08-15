@@ -21,7 +21,9 @@
 
 <body>
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
     <aside class="sidebar">
 
         <a href="{{ route('dashboard') }}" class="sidebar-brand">
@@ -66,17 +68,24 @@
                 Profil Warga
             </a>
 
-            <a href="{{ route('login') }}">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Logout
-            </a>
+            <!-- LOGOUT -->
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+
+                <button type="submit" class="sidebar-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    Logout
+                </button>
+            </form>
 
         </div>
 
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
     <main class="main-content">
 
         <!-- TOPBAR -->
@@ -94,9 +103,12 @@
         </header>
 
 
-        <!-- CONTENT -->
+        <!-- =========================
+             CONTENT
+        ========================= -->
         <section class="page-content">
 
+            <!-- HEADER -->
             <div class="page-header">
 
                 <a href="{{ route('dashboard') }}" class="back-link">
@@ -113,7 +125,9 @@
             </div>
 
 
-            <!-- TANGGAL -->
+            <!-- =========================
+                 TANGGAL
+            ========================= -->
             <div class="date-card mb-4">
 
                 <i class="fa-solid fa-calendar-day"></i>
@@ -124,8 +138,8 @@
                         Hari ini
                     </span>
 
-                    <h5>
-                        Senin, 12 Agustus 2026
+                    <h5 id="tanggalHariIni">
+                        Memuat tanggal...
                     </h5>
 
                 </div>
@@ -133,7 +147,9 @@
             </div>
 
 
-            <!-- JADWAL -->
+            <!-- =========================
+                 JADWAL SALAT
+            ========================= -->
             <div class="content-card">
 
                 <h4 class="section-title">
@@ -141,15 +157,17 @@
                 </h4>
 
                 <p class="section-description">
-                    Waktu salat dapat menyesuaikan dengan jadwal
-                    yang digunakan oleh Masjid Jami Cicangkudu.
+                    Jadwal salat diperoleh secara otomatis
+                    berdasarkan lokasi Masjid Jami Cicangkudu.
                 </p>
 
 
                 <div class="row g-4">
 
 
-                    <!-- SUBUH -->
+                    <!-- =========================
+                         SUBUH
+                    ========================= -->
                     <div class="col-md-6 col-lg-4">
 
                         <div class="prayer-card">
@@ -164,8 +182,8 @@
                                     Subuh
                                 </span>
 
-                                <strong>
-                                    04:45
+                                <strong id="subuh">
+                                    --:--
                                 </strong>
 
                             </div>
@@ -175,7 +193,9 @@
                     </div>
 
 
-                    <!-- DZUHUR -->
+                    <!-- =========================
+                         DZUHUR
+                    ========================= -->
                     <div class="col-md-6 col-lg-4">
 
                         <div class="prayer-card">
@@ -190,8 +210,8 @@
                                     Dzuhur
                                 </span>
 
-                                <strong>
-                                    12:00
+                                <strong id="dzuhur">
+                                    --:--
                                 </strong>
 
                             </div>
@@ -201,7 +221,9 @@
                     </div>
 
 
-                    <!-- ASHAR -->
+                    <!-- =========================
+                         ASHAR
+                    ========================= -->
                     <div class="col-md-6 col-lg-4">
 
                         <div class="prayer-card">
@@ -216,8 +238,8 @@
                                     Ashar
                                 </span>
 
-                                <strong>
-                                    15:15
+                                <strong id="ashar">
+                                    --:--
                                 </strong>
 
                             </div>
@@ -227,7 +249,9 @@
                     </div>
 
 
-                    <!-- MAGHRIB -->
+                    <!-- =========================
+                         MAGHRIB
+                    ========================= -->
                     <div class="col-md-6 col-lg-4">
 
                         <div class="prayer-card">
@@ -242,8 +266,8 @@
                                     Maghrib
                                 </span>
 
-                                <strong>
-                                    18:00
+                                <strong id="maghrib">
+                                    --:--
                                 </strong>
 
                             </div>
@@ -253,7 +277,9 @@
                     </div>
 
 
-                    <!-- ISYA -->
+                    <!-- =========================
+                         ISYA
+                    ========================= -->
                     <div class="col-md-6 col-lg-4">
 
                         <div class="prayer-card">
@@ -268,8 +294,8 @@
                                     Isya
                                 </span>
 
-                                <strong>
-                                    19:10
+                                <strong id="isya">
+                                    --:--
                                 </strong>
 
                             </div>
@@ -283,7 +309,9 @@
             </div>
 
 
-            <!-- CATATAN -->
+            <!-- =========================
+                 INFORMASI
+            ========================= -->
             <div class="prayer-note mt-4">
 
                 <i class="fa-solid fa-circle-info"></i>
@@ -295,9 +323,8 @@
                     </strong>
 
                     <p>
-                        Jadwal di atas merupakan contoh untuk
-                        prototype dan nantinya dapat diubah
-                        melalui sistem admin.
+                        Jadwal salat diperoleh secara otomatis
+                        berdasarkan lokasi Masjid Jami Cicangkudu.
                     </p>
 
                 </div>
@@ -307,16 +334,203 @@
         </section>
 
 
-        <!-- FOOTER -->
+        <!-- =========================
+             FOOTER
+        ========================= -->
         <footer class="dashboard-footer">
+
             © 2026 Masjid Jami Cicangkudu
+
         </footer>
 
     </main>
 
 
-    <!-- Bootstrap JS -->
+    <!-- =========================
+         BOOTSTRAP JS
+    ========================= -->
     <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+
+    <!-- =========================
+         API JADWAL SALAT
+    ========================= -->
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            /*
+             * ==============================
+             * TANGGAL HARI INI
+             * ==============================
+             */
+
+            const today = new Date();
+
+            const day = String(today.getDate()).padStart(2, '0');
+
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+
+            const year = today.getFullYear();
+
+
+            /*
+             * ==============================
+             * FORMAT TANGGAL INDONESIA
+             * ==============================
+             */
+
+            const tanggal = today.toLocaleDateString('id-ID', {
+
+                weekday: 'long',
+
+                day: 'numeric',
+
+                month: 'long',
+
+                year: 'numeric'
+
+            });
+
+
+            document.getElementById('tanggalHariIni').textContent = tanggal;
+
+
+            /*
+             * ==============================
+             * LOKASI CICANGKUDU
+             * ==============================
+             *
+             * Untuk sementara menggunakan
+             * koordinat wilayah Cicangkudu.
+             *
+             * Nanti bisa diganti dengan
+             * koordinat tepat Masjid Jami Cicangkudu.
+             */
+
+            const latitude = -6.9;
+
+            const longitude = 107.6;
+
+
+            /*
+             * ==============================
+             * URL API
+             * ==============================
+             */
+
+            const apiUrl =
+                `https://api.aladhan.com/v1/timings/${day}-${month}-${year}?latitude=${latitude}&longitude=${longitude}&method=20`;
+
+
+            /*
+             * ==============================
+             * AMBIL DATA API
+             * ==============================
+             */
+
+            fetch(apiUrl)
+
+                .then(response => {
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            'Gagal terhubung ke server API.'
+                        );
+
+                    }
+
+                    return response.json();
+
+                })
+
+                .then(result => {
+
+                    /*
+                     * Pastikan API berhasil
+                     */
+
+                    if (result.code !== 200) {
+
+                        throw new Error(
+                            'Data jadwal salat tidak tersedia.'
+                        );
+
+                    }
+
+
+                    /*
+                     * Ambil data waktu salat
+                     */
+
+                    const timings = result.data.timings;
+
+
+                    /*
+                     * Tampilkan waktu
+                     */
+
+                    document.getElementById('subuh').textContent =
+                        timings.Fajr.substring(0, 5);
+
+
+                    document.getElementById('dzuhur').textContent =
+                        timings.Dhuhr.substring(0, 5);
+
+
+                    document.getElementById('ashar').textContent =
+                        timings.Asr.substring(0, 5);
+
+
+                    document.getElementById('maghrib').textContent =
+                        timings.Maghrib.substring(0, 5);
+
+
+                    document.getElementById('isya').textContent =
+                        timings.Isha.substring(0, 5);
+
+                })
+
+
+                /*
+                 * ==============================
+                 * JIKA API ERROR
+                 * ==============================
+                 */
+
+                .catch(error => {
+
+                    console.error(
+                        'Jadwal salat:',
+                        error
+                    );
+
+
+                    document.getElementById('subuh').textContent =
+                        '--:--';
+
+
+                    document.getElementById('dzuhur').textContent =
+                        '--:--';
+
+
+                    document.getElementById('ashar').textContent =
+                        '--:--';
+
+
+                    document.getElementById('maghrib').textContent =
+                        '--:--';
+
+
+                    document.getElementById('isya').textContent =
+                        '--:--';
+
+                });
+
+        });
+
+    </script>
 
 </body>
 
