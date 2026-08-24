@@ -1,207 +1,151 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login | Masjid Jami Cicangkudu</title>
 
-    <!-- Bootstrap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
-
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
+    <main class="auth-page">
 
-    <main class="login-page">
+        <div class="auth-decoration auth-decoration-one"></div>
+        <div class="auth-decoration auth-decoration-two"></div>
 
-        <div class="login-card">
+        <section class="auth-card">
 
-            <!-- Logo -->
-            <div class="logo-wrapper">
-                <div class="logo">
-                    <i class="fa-solid fa-mosque"></i>
-                </div>
+            <div class="auth-brand">
+                <span class="auth-mark">
+                    <i class="fa-solid fa-moon"></i>
+                </span>
+
+                <span>
+                    <strong>Masjid Jami</strong>
+                    <small>Cicangkudu</small>
+                </span>
             </div>
 
-            <!-- Judul -->
-            <div class="login-heading text-center">
+            <div class="auth-intro">
+                <span class="auth-kicker">
+                    Sistem digital masjid
+                </span>
 
                 <h1>
-                    Masjid Jami Cicangkudu
+                    Selamat datang kembali.
                 </h1>
 
-                <p class="subtitle">
-                    Sistem Digital Masjid
+                <p>
+                    Masuk untuk mengakses layanan warga
+                    Masjid Jami Cicangkudu.
                 </p>
-
-                <p class="login-description">
-                    Silakan masuk untuk mengakses layanan warga.
-                </p>
-
             </div>
 
-
-            <!-- Success -->
             @if(session('success'))
-
-                <div class="alert alert-success login-alert">
-
+                <div class="auth-alert success">
                     <i class="fa-solid fa-circle-check"></i>
-
-                    <span>
-                        {{ session('success') }}
-                    </span>
-
+                    <span>{{ session('success') }}</span>
                 </div>
-
             @endif
 
-
-            <!-- Error -->
             @if($errors->any())
-
-                <div class="alert alert-danger login-alert">
-
+                <div class="auth-alert danger">
                     <i class="fa-solid fa-circle-exclamation"></i>
-
-                    <span>
-                        {{ $errors->first() }}
-                    </span>
-
+                    <span>{{ $errors->first() }}</span>
                 </div>
-
             @endif
 
-
-            <!-- FORM -->
-            <form action="{{ route('login.submit') }}" method="POST">
+            <form
+                action="{{ route('login.submit') }}"
+                method="POST"
+                class="auth-form">
 
                 @csrf
 
+                <label for="username">
+                    Username
+                </label>
 
-                <!-- USERNAME -->
-                <div class="form-group">
+                <div class="auth-input">
+                    <i class="fa-solid fa-user"></i>
 
-                    <label for="username">
-                        Username
-                    </label>
-
-                    <div class="input-box">
-
-                        <i class="fa-solid fa-user input-icon"></i>
-
-                        <input
-                            type="text"
-                            name="username"
-                            id="username"
-                            class="form-control"
-                            placeholder="Masukkan username"
-                            value="{{ old('username') }}"
-                            autocomplete="username"
-                            required>
-
-                    </div>
-
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Masukkan username"
+                        value="{{ old('username') }}"
+                        autocomplete="username"
+                        required>
                 </div>
 
+                <label for="password">
+                    Password
+                </label>
 
-                <!-- PASSWORD -->
-                <div class="form-group">
+                <div class="auth-input">
+                    <i class="fa-solid fa-lock"></i>
 
-                    <label for="password">
-                        Password
-                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Masukkan password"
+                        autocomplete="current-password"
+                        required>
 
-                    <div class="input-box">
+                    <button
+                        type="button"
+                        id="togglePassword"
+                        aria-label="Tampilkan password">
 
-                        <i class="fa-solid fa-lock input-icon"></i>
-
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="form-control password-input"
-                            placeholder="Masukkan password"
-                            autocomplete="current-password"
-                            required>
-
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            id="togglePassword"
-                            aria-label="Tampilkan password">
-
-                            <i
-                                class="fa-solid fa-eye"
-                                id="eyeIcon">
-                            </i>
-
-                        </button>
-
-                    </div>
-
+                        <i
+                            class="fa-solid fa-eye"
+                            id="eyeIcon">
+                        </i>
+                    </button>
                 </div>
 
-
-                <!-- LOGIN BUTTON -->
                 <button
                     type="submit"
-                    class="login-button">
+                    class="auth-submit">
 
                     <span>
                         <i class="fa-solid fa-right-to-bracket"></i>
-                        Login
+                        Masuk ke dashboard
                     </span>
 
-                    <i class="fa-solid fa-arrow-right login-arrow"></i>
-
+                    <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
             </form>
 
-
-            <!-- INFO -->
-            <div class="login-info">
-
+            <div class="auth-note">
                 <i class="fa-solid fa-circle-info"></i>
 
                 <span>
                     Akun warga diberikan oleh pengurus masjid.
                 </span>
-
             </div>
 
-
-            <!-- FOOTER -->
-            <div class="footer">
-
+            <p class="auth-footer">
                 <i class="fa-solid fa-mosque"></i>
+                Masjid Jami Cicangkudu
+            </p>
 
-                <span>
-                    Masjid Jami Cicangkudu
-                </span>
-
-            </div>
-
-        </div>
+        </section>
 
     </main>
 
-
-    <!-- Bootstrap JS -->
-    <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-
-    <!-- Password Toggle -->
     <script>
-
         const togglePassword =
             document.getElementById('togglePassword');
 
@@ -211,31 +155,25 @@
         const eyeIcon =
             document.getElementById('eyeIcon');
 
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function () {
+                const showPassword =
+                    password.type === 'password';
 
-        togglePassword.addEventListener('click', function () {
+                password.type =
+                    showPassword ? 'text' : 'password';
 
-            const isPassword =
-                password.type === 'password';
+                eyeIcon.classList.toggle(
+                    'fa-eye',
+                    !showPassword
+                );
 
-
-            password.type =
-                isPassword ? 'text' : 'password';
-
-
-            eyeIcon.classList.toggle(
-                'fa-eye',
-                !isPassword
-            );
-
-            eyeIcon.classList.toggle(
-                'fa-eye-slash',
-                isPassword
-            );
-
-        });
-
+                eyeIcon.classList.toggle(
+                    'fa-eye-slash',
+                    showPassword
+                );
+            });
+        }
     </script>
-
 </body>
-
 </html>
