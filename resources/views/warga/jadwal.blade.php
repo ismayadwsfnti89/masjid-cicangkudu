@@ -1,6 +1,6 @@
 @extends('warga.layout')
 
-@section('title', 'Jadwal Salat | Masjid Jami Cicangkudu')
+@section('title', 'Jadwal Salat Bulanan | Masjid Jami Cicangkudu')
 
 @section('content')
 <!-- Tombol Kembali & Header Section -->
@@ -10,97 +10,35 @@
     </a>
     <div class="d-flex justify-content-between align-items-start">
         <div>
-            <h2 class="fw-bold mb-1" style="color: #111d13; font-family: serif;">Jadwal Salat</h2>
-            <p class="text-muted mb-0">Jadwal salat Masjid Jami Cicangkudu.</p>
+            <h2 class="fw-bold mb-1" style="color: #111d13; font-family: serif;">Jadwal Salat Sebulan Penuh</h2>
+            <p class="text-muted mb-0">Jadwal salat bulanan Masjid Jami Cicangkudu.</p>
         </div>
-        <span class="text-muted small d-none d-md-inline">Waktu Salat Otomatis</span>
+        <span id="labelBulanTahun" class="badge bg-success px-3 py-2 fs-6" style="border-radius: 0.75rem;">Memuat bulan...</span>
     </div>
 </div>
 
-<!-- Date Card -->
+<!-- Content Card: Tabel Jadwal Salat Bulanan -->
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem; background-color: #ffffff;">
-    <div class="card-body p-4 d-flex align-items-center">
-        <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px; background-color: #e8f5e9; color: #0b5c3d;">
-            <i class="fa-solid fa-calendar-day fs-5"></i>
-        </div>
-        <div>
-            <span class="text-muted small d-block mb-1">Hari ini</span>
-            <h5 id="tanggalHariIni" class="fw-bold mb-0 text-dark">Memuat tanggal...</h5>
-        </div>
-    </div>
-</div>
-
-<!-- Content Card: Jadwal Salat Hari Ini -->
-<div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem; background-color: #ffffff;">
-    <div class="card-body p-4 p-md-4">
-        <h4 class="fw-bold mb-1 text-dark">Jadwal Salat Hari Ini</h4>
-        <p class="text-muted mb-4 small">Jadwal salat diperoleh secara otomatis berdasarkan lokasi Masjid Jami Cicangkudu.</p>
-
-        <div class="row g-3">
-            <!-- SUBUH -->
-            <div class="col-md-6 col-lg-4">
-                <div class="p-3 border-0 rounded-3 bg-light h-100 d-flex align-items-center">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; min-width: 44px; background-color: #e8f5e9; color: #0b5c3d;">
-                        <i class="fa-solid fa-cloud-sun"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block" style="font-size: 0.75rem;">Subuh</span>
-                        <strong id="subuh" class="fs-5 fw-bold text-dark">--:--</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DZUHUR -->
-            <div class="col-md-6 col-lg-4">
-                <div class="p-3 border-0 rounded-3 bg-light h-100 d-flex align-items-center">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; min-width: 44px; background-color: #e8f5e9; color: #0b5c3d;">
-                        <i class="fa-solid fa-sun"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block" style="font-size: 0.75rem;">Dzuhur</span>
-                        <strong id="dzuhur" class="fs-5 fw-bold text-dark">--:--</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ASHAR -->
-            <div class="col-md-6 col-lg-4">
-                <div class="p-3 border-0 rounded-3 bg-light h-100 d-flex align-items-center">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; min-width: 44px; background-color: #e8f5e9; color: #0b5c3d;">
-                        <i class="fa-solid fa-cloud-sun"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block" style="font-size: 0.75rem;">Ashar</span>
-                        <strong id="ashar" class="fs-5 fw-bold text-dark">--:--</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MAGHRIB -->
-            <div class="col-md-6 col-lg-4">
-                <div class="p-3 border-0 rounded-3 bg-light h-100 d-flex align-items-center">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; min-width: 44px; background-color: #e8f5e9; color: #0b5c3d;">
-                        <i class="fa-solid fa-cloud-sun"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block" style="font-size: 0.75rem;">Maghrib</span>
-                        <strong id="maghrib" class="fs-5 fw-bold text-dark">--:--</strong>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ISYA -->
-            <div class="col-md-6 col-lg-4">
-                <div class="p-3 border-0 rounded-3 bg-light h-100 d-flex align-items-center">
-                    <div class="rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 44px; height: 44px; min-width: 44px; background-color: #e8f5e9; color: #0b5c3d;">
-                        <i class="fa-solid fa-moon"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block" style="font-size: 0.75rem;">Isya</span>
-                        <strong id="isya" class="fs-5 fw-bold text-dark">--:--</strong>
-                    </div>
-                </div>
-            </div>
+    <div class="card-body p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-light text-uppercase fs-7 text-muted">
+                    <tr>
+                        <th class="text-start">Tanggal</th>
+                        <th>Imsak</th>
+                        <th>Subuh</th>
+                        <th>Dzuhur</th>
+                        <th>Ashar</th>
+                        <th>Maghrib</th>
+                        <th>Isya</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelJadwalBulanan">
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">Memuat data jadwal sebulan penuh...</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -114,7 +52,7 @@
         <div>
             <strong class="fw-bold d-block mb-1 text-dark" style="color: #0b5c3d !important;">Informasi</strong>
             <p class="text-muted mb-0 small">
-                Jadwal salat diperoleh secara otomatis berdasarkan lokasi Masjid Jami Cicangkudu dan diperbarui setiap harinya.
+                Jadwal salat di atas bersumber dari data otomatis wilayah Kabupaten Garut/Jawa Barat dan sekitarnya untuk kurun waktu satu bulan penuh.
             </p>
         </div>
     </div>
@@ -123,33 +61,51 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Format tanggal hari ini dalam bahasa Indonesia
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const today = new Date();
-        document.getElementById('tanggalHariIni').innerText = today.toLocaleDateString('id-ID', options);
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1; // Bulan berjalan (1-12)
 
-        // Mengambil jadwal salat otomatis menggunakan Aladhan API untuk wilayah Indonesia (menggunakan koordinat umum atau kota/region, cth: Jakarta/Bandung/Nasional via API)
-        // Menggunakan endpointgetByDate untuk tanggal hari ini
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        const dateStr = `${dd}-${mm}-${yyyy}`;
+        // Set Label Bulan & Tahun di Header
+        const namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        document.getElementById('labelBulanTahun').innerText = `${namaBulan[today.getMonth()]} ${year}`;
 
-        // Contoh koordinat wilayah sekitar atau menggunakan endpoint kota (misal: bandung / jakarta sebagai acuan nasional/regional terdekat)
-        fetch(`https://api.aladhan.com/v1/timingsByAddress/${dateStr}?address=Bandung,Indonesia&method=11`)
+        // Menggunakan MyQuran API untuk jadwal bulanan wilayah Kabupaten Garut (ID Kota: 1219 / sesuaikan daerah terdekat)
+        fetch(`https://api.myquran.com/v2/sholat/jadwal/1219/${year}/${month}`)
             .then(response => response.json())
-            .then(data => {
-                if (data && data.code === 200) {
-                    const timings = data.data.timings;
-                    document.getElementById('subuh').innerText = timings.Fajr;
-                    document.getElementById('dzuhur').innerText = timings.Dhuhr;
-                    document.getElementById('ashar').innerText = timings.Asr;
-                    document.getElementById('maghrib').innerText = timings.Maghrib;
-                    document.getElementById('isya').innerText = timings.Isha;
+            .then(result => {
+                if (result && result.status && result.data && result.data.jadwal) {
+                    const listJadwal = result.data.jadwal;
+                    let rows = '';
+
+                    listJadwal.forEach((item, index) => {
+                        // Tandai baris jika tanggalnya adalah hari ini
+                        let isToday = '';
+                        let dateFormatted = new Date().toISOString().split('T')[0];
+                        if (item.date === dateFormatted) {
+                            isToday = 'table-success fw-bold';
+                        }
+
+                        rows += `
+                            <tr class="${isToday}">
+                                <td class="text-start">${item.tanggal}</td>
+                                <td>${item.imsak}</td>
+                                <td>${item.subuh}</td>
+                                <td>${item.dzuhur}</td>
+                                <td>${item.ashar}</td>
+                                <td>${item.maghrib}</td>
+                                <td>${item.isya}</td>
+                            </tr>
+                        `;
+                    });
+
+                    document.getElementById('tabelJadwalBulanan').innerHTML = rows;
+                } else {
+                    document.getElementById('tabelJadwalBulanan').innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Gagal memuat data jadwal bulanan.</td></tr>`;
                 }
             })
             .catch(error => {
-                console.error("Gagal memuat jadwal salat:", error);
+                console.error("Gagal mengambil data:", error);
+                document.getElementById('tabelJadwalBulanan').innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Terjadi kesalahan koneksi ke server jadwal.</td></tr>`;
             });
     });
 </script>

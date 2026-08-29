@@ -56,10 +56,9 @@
                 </div>
             @endif
 
-            @if($errors->any())
-                <div class="auth-alert danger">
-                    <i class="fa-solid fa-circle-exclamation"></i>
-                    <span>{{ $errors->first() }}</span>
+            @if ($errors->has('username'))
+                <div class="alert alert-danger py-2 small mb-3" style="border-radius: 0.5rem;">
+                    {{ $errors->first('username') }}
                 </div>
             @endif
 

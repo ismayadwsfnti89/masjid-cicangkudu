@@ -15,7 +15,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
+        'email',
         'password',
+        'role',
+        'no_hp',    // <-- Pastikan baris ini ada
+        'alamat',   // <-- Pastikan baris ini ada
     ];
 
     protected $hidden = [
@@ -23,12 +27,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'password' => 'hashed',
-        ];
-    }
     
     public function wargaProfile()
     {
