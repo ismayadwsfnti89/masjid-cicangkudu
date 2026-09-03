@@ -23,17 +23,23 @@
                 <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fa-solid fa-chart-pie"></i><span>Dashboard Admin</span>
                 </a>
+                <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users*', 'admin.import-warga*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users"></i><span>Kelola Data Warga</span>
+                </a>
                 <a href="{{ route('admin.jadwal') }}" class="{{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
-                    <i class="fa-solid fa-clock"></i><span>Kelola Jadwal</span>
+                    <i class="fa-solid fa-clock"></i><span>Kelola Jadwal Salat</span>
                 </a>
-                <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users', 'admin.users.edit') ? 'active' : '' }}">
-                    <i class="fa-solid fa-users"></i><span>Data Warga</span>
+                <a href="{{ route('admin.contents.index', 'kegiatan') }}" class="{{ request()->is('admin/kegiatan*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-calendar-days"></i><span>Kelola Kegiatan</span>
                 </a>
-                <a href="{{ route('admin.import-warga') }}" class="{{ request()->routeIs('admin.import-warga') ? 'active' : '' }}">
-                    <i class="fa-solid fa-file-excel"></i><span>Import Warga</span>
+                <a href="{{ route('admin.contents.index', 'donasi') }}" class="{{ request()->is('admin/donasi*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-hand-holding-heart"></i><span>Kelola Program Donasi</span>
                 </a>
-                <a href="{{ route('admin.admins') }}" class="{{ request()->routeIs('admin.admins') ? 'active' : '' }}">
-                    <i class="fa-solid fa-user-shield"></i><span>Kelola Admin</span>
+                <a href="{{ route('admin.contents.index', 'laporan-keuangan') }}" class="{{ request()->is('admin/laporan-keuangan*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-file-invoice-dollar"></i><span>Kelola Laporan Keuangan</span>
+                </a>
+                <a href="{{ route('admin.contents.index', 'informasi-masjid') }}" class="{{ request()->is('admin/informasi-masjid*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-mosque"></i><span>Kelola Informasi Masjid</span>
                 </a>
                 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline mt-3" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari sistem?');">
@@ -56,12 +62,13 @@
         <main class="main-content">
             <header class="topbar">
                 <div>
-                    <div class="topbar-eyebrow">{{ now()->translatedFormat('l, d F Y') }}</div>
+                    <div class="topbar-eyebrow">{{ now()->translatedFormat('l, d F Y') }} · <span id="currentClock">{{ now()->format('H:i') }}</span> WIB</div>
                     <div class="topbar-title">@yield('header', 'Dashboard admin')</div>
                 </div>
                 <div class="topbar-user">
-                    <button class="notification-btn" type="button" onclick="showToast('Belum ada notifikasi baru')">
-                        <i class="fa-regular fa-bell"></i><span></span>
+                    <a href="{{ route('admin.contents.index', 'donasi') }}" class="notification-btn text-decoration-none" title="Notifikasi donasi">
+                        <i class="fa-regular fa-bell"></i>@if(auth()->user()->unreadNotifications()->count())<span>{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
+                    </a>
                     </button>
                     <span class="user-chip">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 2)) }}</span>
                     <strong>{{ auth()->user()->name ?? 'Admin' }}</strong>
@@ -102,6 +109,12 @@
             clearTimeout(window.toastTimer);
             window.toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
         }
+        function updateClock() {
+            const clock = document.getElementById('currentClock');
+            if (clock) clock.textContent = new Intl.DateTimeFormat('id-ID', {timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', hour12: false}).format(new Date());
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
     </script>
     @stack('scripts')
 </body>

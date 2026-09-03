@@ -47,8 +47,8 @@
                             <td class="fw-semibold">{{ $index + 1 }}</td>
                             <td class="fw-semibold text-dark">{{ $user->name }}</td>
                             <td>{{ $user->username ?? $user->email ?? '-' }}</td>
-                            <td>{{ $user->no_hp ?? '-' }}</td>
-                            <td>{{ $user->alamat ?? '-' }}</td>
+                        <td>{{ $user->wargaProfile?->no_hp ?? '-' }}</td>
+                        <td>{{ $user->wargaProfile?->alamat ?? '-' }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-1">
                                     @if(Route::has('admin.users.edit'))

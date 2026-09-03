@@ -9,7 +9,7 @@
             <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Dashboard
         </a>
         <h2 class="fw-bold mb-1" style="color: #111d13; font-family: serif;">Jadwal Salat (Otomatis API)</h2>
-        <p class="text-muted mb-0">Data jadwal bulanan disinkronkan secara otomatis melalui API.</p>
+        <p class="text-muted mb-0">Jadwal untuk Cicangkudu, Mangunreja, Kabupaten Tasikmalaya, disinkronkan dari data Kemenag.</p>
     </div>
 </div>
 

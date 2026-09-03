@@ -18,8 +18,6 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'no_hp',    // <-- Pastikan baris ini ada
-        'alamat',   // <-- Pastikan baris ini ada
     ];
 
     protected $hidden = [
@@ -31,5 +29,10 @@ class User extends Authenticatable
     public function wargaProfile()
     {
         return $this->hasOne(WargaProfile::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
     }
 }

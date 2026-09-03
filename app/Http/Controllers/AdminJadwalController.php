@@ -9,12 +9,12 @@ class AdminJadwalController extends Controller
 {
     public function index(Request $request)
     {
-        // Contoh mengambil jadwal bulan aktif (format: tahun/bulan)
+        // Cicangkudu Mangunreja berada di Kabupaten Tasikmalaya; ID wilayah diverifikasi dari API MyQuran.
         $tahun = date('Y');
         $bulan = date('m');
         
         // Contoh endpoint API (sesuaikan dengan API yang sedang digunakan pada project)
-        $response = Http::get("https://api.myquran.com/v2/sholat/jadwal/1219/{$tahun}/{$bulan}");
+        $response = Http::timeout(10)->get("https://api.myquran.com/v3/sholat/jadwal/045117b0e0a11a242b9765e79cbf113f/{$tahun}/{$bulan}");
         $jadwalList = $response->json()['data']['jadwal'] ?? [];
 
         return view('admin.kelola_jadwal', compact('jadwalList'));

@@ -35,7 +35,11 @@
             <div class="mb-3">
                 <label for="file" class="form-label fw-semibold text-secondary">Pilih File (Excel / CSV)</label>
                 <input type="file" name="file" id="file" class="form-control" accept=".xlsx,.xls,.csv" required style="border-radius: 0.5rem; padding: 0.75rem;">
-                <div class="form-text mt-2">Pastikan format kolom pada file sesuai dengan struktur data warga yang ditentukan.</div>
+                <div class="form-text mt-2">
+                    Kolom yang didukung: <code>nama</code> (wajib), <code>username</code>, <code>email</code>, <code>no_hp</code>, dan <code>alamat</code>.
+                    Kolom <code>name</code>, <code>nama_lengkap</code>, <code>nomor_hp</code>, atau <code>telepon</code> juga dapat digunakan.
+                    Username dan email akan dibuat otomatis bila dikosongkan.
+                </div>
             </div>
 
             <button type="submit" class="btn btn-success px-4 py-2" style="border-radius: 0.5rem;">

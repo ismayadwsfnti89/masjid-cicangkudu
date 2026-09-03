@@ -43,15 +43,6 @@
                         <input type="text" name="nama_lengkap" class="form-control bg-light border-light py-2" value="{{ old('nama_lengkap', $warga->name ?? '') }}" required />
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-muted">Nomor HP</label>
-                        <input type="text" name="nomor_hp" class="form-control bg-light border-light py-2" value="{{ old('nomor_hp', $warga->no_hp ?? '') }}" placeholder="Masukkan nomor HP" />
-                    </div>
-
-                    <div class="col-12">
-                        <label class="form-label small fw-semibold text-muted">Alamat</label>
-                        <input type="text" name="alamat" class="form-control bg-light border-light py-2" value="{{ old('alamat', $warga->alamat ?? '') }}" placeholder="Masukkan alamat" />
-                    </div>
                 </div>
             </div>
 
@@ -61,11 +52,6 @@
                     <h5 class="fw-bold mb-0" style="color: #111d13;">Informasi Akun</h5>
                 </div>
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label small fw-semibold text-muted">Username</label>
-                        <input type="text" name="username" class="form-control bg-light border-light py-2" value="{{ old('username', $warga->username ?? '') }}" required />
-                    </div>
-
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-muted">Password Baru (Opsional)</label>
                         <input type="password" name="password" class="form-control bg-light border-light py-2" placeholder="Kosongkan jika tidak ingin mengubah" />

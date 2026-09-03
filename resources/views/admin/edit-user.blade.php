@@ -45,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="no_hp" class="form-label fw-semibold">Nomor HP</label>
-                <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $user->no_hp) }}">
+                <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{ old('no_hp', $user->wargaProfile?->no_hp) }}">
                 @error('no_hp')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -53,7 +53,7 @@
 
             <div class="mb-3">
                 <label for="alamat" class="form-label fw-semibold">Alamat</label>
-                <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="3">{{ old('alamat', $user->alamat) }}</textarea>
+                <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="3">{{ old('alamat', $user->wargaProfile?->alamat) }}</textarea>
                 @error('alamat')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

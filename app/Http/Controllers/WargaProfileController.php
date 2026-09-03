@@ -22,12 +22,10 @@ class WargaProfileController extends Controller
 
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'username'     => 'required|string|max:255|unique:users,username,' . $warga->id,
+            'password' => 'nullable|string|min:8',
         ]);
 
         $warga->name = $request->nama_lengkap;
-        $warga->username = $request->username;
-
         if ($request->filled('password')) {
             $warga->password = Hash::make($request->password);
         }

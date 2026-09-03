@@ -52,7 +52,7 @@
         <div>
             <strong class="fw-bold d-block mb-1 text-dark" style="color: #0b5c3d !important;">Informasi</strong>
             <p class="text-muted mb-0 small">
-                Jadwal salat di atas bersumber dari data otomatis wilayah Kabupaten Garut/Jawa Barat dan sekitarnya untuk kurun waktu satu bulan penuh.
+                Jadwal salat di atas bersumber dari data Kemenag untuk Cicangkudu, Mangunreja, Kabupaten Tasikmalaya, untuk kurun waktu satu bulan penuh.
             </p>
         </div>
     </div>
@@ -69,8 +69,8 @@
         const namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         document.getElementById('labelBulanTahun').innerText = `${namaBulan[today.getMonth()]} ${year}`;
 
-        // Menggunakan MyQuran API untuk jadwal bulanan wilayah Kabupaten Garut (ID Kota: 1219 / sesuaikan daerah terdekat)
-        fetch(`https://api.myquran.com/v2/sholat/jadwal/1219/${year}/${month}`)
+        // ID Kabupaten Tasikmalaya, lokasi Cicangkudu Mangunreja/Singaparna.
+        fetch(`https://api.myquran.com/v3/sholat/jadwal/045117b0e0a11a242b9765e79cbf113f/${year}/${month}`)
             .then(response => response.json())
             .then(result => {
                 if (result && result.status && result.data && result.data.jadwal) {
