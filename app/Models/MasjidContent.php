@@ -17,6 +17,7 @@ class MasjidContent extends Model
         'image_path',
         'event_date',
         'amount',
+        'transaction_type',
         'status',
     ];
 

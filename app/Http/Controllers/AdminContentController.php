@@ -94,16 +94,24 @@ class AdminContentController extends Controller
 
     private function validated(Request $request, string $section): array
     {
-        $meta = $this->section($section);
+    $meta = $this->section($section);
 
-        return $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:2048'],
-            'event_date' => ['nullable', 'date'],
-            'amount' => [$meta['requires_amount'] ? 'required' : 'nullable', 'numeric', 'min:0'],
-            'status' => ['required', 'in:draft,published,active,completed'],
-        ]);
+    return $request->validate([
+        'title' => ['required', 'string', 'max:255'],
+        'description' => ['nullable', 'string'],
+        'image' => ['nullable', 'image', 'max:2048'],
+        'event_date' => ['nullable', 'date'],
+        'amount' => [
+            $meta['requires_amount'] ? 'required' : 'nullable',
+            'numeric',
+            'min:0'
+        ],
+        'transaction_type' => [
+            $section === 'laporan-keuangan' ? 'required' : 'nullable',
+            'in:pemasukan,pengeluaran'
+        ],
+        'status' => ['required', 'in:draft,published,active,completed'],
+    ]);
     }
 
     private function notifyWargaIfPublished(MasjidContent $content): void

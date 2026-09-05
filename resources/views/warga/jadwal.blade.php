@@ -61,52 +61,79 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
         const today = new Date();
         const year = today.getFullYear();
-        const month = today.getMonth() + 1; // Bulan berjalan (1-12)
+        const month = String(today.getMonth() + 1).padStart(2, '0');
 
-        // Set Label Bulan & Tahun di Header
-        const namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        document.getElementById('labelBulanTahun').innerText = `${namaBulan[today.getMonth()]} ${year}`;
+        // Set Label Bulan & Tahun
+        const namaBulan = [
+            'Januari', 'Februari', 'Maret', 'April',
+            'Mei', 'Juni', 'Juli', 'Agustus',
+            'September', 'Oktober', 'November', 'Desember'
+        ];
 
-        // ID Kabupaten Tasikmalaya, lokasi Cicangkudu Mangunreja/Singaparna.
-        fetch(`https://api.myquran.com/v3/sholat/jadwal/045117b0e0a11a242b9765e79cbf113f/${year}/${month}`)
+        document.getElementById('labelBulanTahun').innerText =
+            `${namaBulan[today.getMonth()]} ${year}`;
+
+        // ID wilayah
+        const idWilayah = '045117b0e0a11a242b9765e79cbf113f';
+
+        // Ambil jadwal 1 bulan penuh
+        const url =
+            `https://api.myquran.com/v3/sholat/jadwal/${idWilayah}/${year}-${month}`;
+
+        fetch(url)
             .then(response => response.json())
             .then(result => {
+
                 if (result && result.status && result.data && result.data.jadwal) {
+
                     const listJadwal = result.data.jadwal;
                     let rows = '';
 
-                    listJadwal.forEach((item, index) => {
-                        // Tandai baris jika tanggalnya adalah hari ini
-                        let isToday = '';
-                        let dateFormatted = new Date().toISOString().split('T')[0];
-                        if (item.date === dateFormatted) {
-                            isToday = 'table-success fw-bold';
-                        }
+                    listJadwal.forEach(item => {
 
                         rows += `
-                            <tr class="${isToday}">
-                                <td class="text-start">${item.tanggal}</td>
-                                <td>${item.imsak}</td>
-                                <td>${item.subuh}</td>
-                                <td>${item.dzuhur}</td>
-                                <td>${item.ashar}</td>
-                                <td>${item.maghrib}</td>
-                                <td>${item.isya}</td>
+                            <tr>
+                                <td class="text-start">${item.tanggal ?? '-'}</td>
+                                <td>${item.imsak ?? '-'}</td>
+                                <td>${item.subuh ?? '-'}</td>
+                                <td>${item.dzuhur ?? '-'}</td>
+                                <td>${item.ashar ?? '-'}</td>
+                                <td>${item.maghrib ?? '-'}</td>
+                                <td>${item.isya ?? '-'}</td>
                             </tr>
                         `;
                     });
 
                     document.getElementById('tabelJadwalBulanan').innerHTML = rows;
+
                 } else {
-                    document.getElementById('tabelJadwalBulanan').innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Gagal memuat data jadwal bulanan.</td></tr>`;
+
+                    document.getElementById('tabelJadwalBulanan').innerHTML = `
+                        <tr>
+                            <td colspan="7" class="text-center text-danger py-4">
+                                Gagal memuat data jadwal bulanan.
+                            </td>
+                        </tr>
+                    `;
                 }
+
             })
             .catch(error => {
+
                 console.error("Gagal mengambil data:", error);
-                document.getElementById('tabelJadwalBulanan').innerHTML = `<tr><td colspan="7" class="text-center text-danger py-4">Terjadi kesalahan koneksi ke server jadwal.</td></tr>`;
+
+                document.getElementById('tabelJadwalBulanan').innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-danger py-4">
+                            Terjadi kesalahan koneksi ke server jadwal.
+                        </td>
+                    </tr>
+                `;
             });
+
     });
 </script>
 @endpush

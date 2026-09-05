@@ -29,11 +29,118 @@
             @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
         <div class="row g-3 mb-4">
-            <div class="col-md-{{ $meta['requires_amount'] ? '4' : '6' }}"><label class="form-label fw-semibold" for="event_date">Tanggal</label><input id="event_date" type="date" name="event_date" class="form-control" value="{{ old('event_date', isset($content) && $content->event_date ? $content->event_date->format('Y-m-d') : '') }}"></div>
-            @if($meta['requires_amount'])<div class="col-md-4"><label class="form-label fw-semibold" for="amount">Nominal (Rp)</label><input id="amount" type="number" min="0" name="amount" class="form-control @error('amount') is-invalid @enderror" value="{{ old('amount', $content->amount ?? '') }}" required>@error('amount')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>@endif
-            <div class="col-md-{{ $meta['requires_amount'] ? '4' : '6' }}"><label class="form-label fw-semibold" for="status">Status</label><select id="status" name="status" class="form-select" required>@foreach(['draft' => 'Draf', 'published' => 'Terbit', 'active' => 'Aktif', 'completed' => 'Selesai'] as $value => $label)<option value="{{ $value }}" @selected(old('status', $content->status ?? 'draft') === $value)>{{ $label }}</option>@endforeach</select></div>
+
+            <div class="col-md-{{ $meta['requires_amount'] ? '3' : '6' }}">
+                <label class="form-label fw-semibold" for="event_date">
+                    Tanggal
+                </label>
+
+                <input
+                    id="event_date"
+                    type="date"
+                    name="event_date"
+                    class="form-control @error('event_date') is-invalid @enderror"
+                    value="{{ old('event_date', isset($content) && $content->event_date ? $content->event_date->format('Y-m-d') : '') }}"
+                >
+
+                @error('event_date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+
+            @if($meta['requires_amount'])
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold" for="amount">
+                        Nominal (Rp)
+                    </label>
+
+                    <input
+                        id="amount"
+                        type="number"
+                        min="0"
+                        name="amount"
+                        class="form-control @error('amount') is-invalid @enderror"
+                        value="{{ old('amount', $content->amount ?? '') }}"
+                        required
+                    >
+
+                    @error('amount')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+
+                @if($section === 'laporan-keuangan')
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold" for="transaction_type">
+                            Jenis Transaksi
+                        </label>
+
+                        <select
+                            id="transaction_type"
+                            name="transaction_type"
+                            class="form-select @error('transaction_type') is-invalid @enderror"
+                            required
+                        >
+                            <option value="">-- Pilih Jenis --</option>
+
+                            <option
+                                value="pemasukan"
+                                @selected(old('transaction_type', $content->transaction_type ?? '') === 'pemasukan')
+                            >
+                                Pemasukan
+                            </option>
+
+                            <option
+                                value="pengeluaran"
+                                @selected(old('transaction_type', $content->transaction_type ?? '') === 'pengeluaran')
+                            >
+                                Pengeluaran
+                            </option>
+                        </select>
+
+                        @error('transaction_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                @endif
+
+            @endif
+
+
+            <div class="col-md-{{ $meta['requires_amount'] ? '3' : '6' }}">
+                <label class="form-label fw-semibold" for="status">
+                    Status
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                    class="form-select"
+                    required
+                >
+                    @foreach([
+                        'draft' => 'Draf',
+                        'published' => 'Terbit',
+                        'active' => 'Aktif',
+                        'completed' => 'Selesai'
+                    ] as $value => $label)
+
+                        <option
+                            value="{{ $value }}"
+                            @selected(old('status', $content->status ?? 'draft') === $value)
+                        >
+                            {{ $label }}
+                        </option>
+
+                    @endforeach
+                </select>
+            </div>
+
         </div>
-        <div class="d-flex justify-content-end gap-2"><a href="{{ route('admin.contents.index', $section) }}" class="btn btn-light">Batal</a><button class="btn btn-success px-4"><i class="fa-solid fa-floppy-disk me-1"></i> Simpan</button></div>
     </form>
-</div></div>
+</div>
+</div>
 @endsection

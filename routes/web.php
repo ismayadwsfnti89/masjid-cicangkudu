@@ -12,6 +12,7 @@ use App\Http\Controllers\MasjidInformationController;
 use App\Http\Controllers\PaymentSettingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 
 /*
@@ -37,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/kegiatan', 'warga.kegiatan')->name('kegiatan');
     Route::get('/donasi', [DonationController::class, 'index'])->name('donasi');
     Route::post('/donasi', [DonationController::class, 'store'])->name('donasi.store');
-    Route::view('/laporan', 'warga.laporan')->name('laporan');
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
     Route::get('/informasi-masjid', [MasjidInformationController::class, 'index'])->name('informasi');
 
     // Profil Warga
