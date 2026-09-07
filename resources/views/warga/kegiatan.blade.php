@@ -27,176 +27,69 @@
     </div>
 
     <!-- Content Grid: Daftar Kegiatan -->
-    <div class="row g-4">
-        <!-- KEGIATAN 1 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Pendidikan</span>
-                    <h5 class="fw-bold mb-2">Kajian Rutin</h5>
-                    <p class="text-muted small mb-4">Kajian rutin untuk jamaah dan masyarakat sekitar Masjid Jami Cicangkudu.</p>
+   @forelse($kegiatan as $item)
+
+    <div class="col-md-6 col-lg-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body p-4">
+
+                {{-- ICON --}}
+                <div class="mb-3">
+                    <i class="fa-solid fa-calendar-days fs-3 text-success"></i>
                 </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Setiap Sabtu</span>
+
+                {{-- JUDUL --}}
+                <h5 class="fw-bold mb-2">
+                    {{ $item->title }}
+                </h5>
+
+                {{-- DESKRIPSI --}}
+                <p class="text-muted small">
+                    {{ $item->description }}
+                </p>
+
+                <hr>
+
+                {{-- TANGGAL --}}
+                @if($item->event_date)
+                    <div class="small text-muted mb-2">
+                        <i class="fa-solid fa-calendar me-2"></i>
+
+                        {{ $item->event_date->translatedFormat('d F Y') }}
                     </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>19.30 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
+                @endif
+
+                {{-- STATUS --}}
+                <div class="small text-success">
+                    <i class="fa-solid fa-circle-check me-2"></i>
+                    Kegiatan Masjid Jami Cicangkudu
                 </div>
+
             </div>
+
         </div>
 
-        <!-- KEGIATAN 2 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-children"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Sosial</span>
-                    <h5 class="fw-bold mb-2">Santunan Anak Yatim</h5>
-                    <p class="text-muted small mb-4">Kegiatan santunan dan pemberian bantuan kepada anak yatim di sekitar masjid.</p>
-                </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>15 Agustus 2026</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>09.00 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- KEGIATAN 3 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-quran"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Keagamaan</span>
-                    <h5 class="fw-bold mb-2">Tadarus Al-Qur'an</h5>
-                    <p class="text-muted small mb-4">Kegiatan membaca Al-Qur'an bersama jamaah dan masyarakat sekitar masjid.</p>
-                </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Setiap Malam</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Setelah Maghrib</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- KEGIATAN 4 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-people-group"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Masyarakat</span>
-                    <h5 class="fw-bold mb-2">Kerja Bakti Masjid</h5>
-                    <p class="text-muted small mb-4">Kegiatan membersihkan area masjid bersama warga dan jamaah.</p>
-                </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Minggu Pagi</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>07.00 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- KEGIATAN 5 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-moon"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Keagamaan</span>
-                    <h5 class="fw-bold mb-2">Kajian Bulanan</h5>
-                    <p class="text-muted small mb-4">Kajian keislaman bersama ustaz dan jamaah Masjid Jami Cicangkudu.</p>
-                </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Setiap Bulan</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>19.30 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- KEGIATAN 6 -->
-        <div class="col-md-6 col-lg-4">
-            <div class="content-card h-100 d-flex flex-column justify-content-between">
-                <div>
-                    <div class="donation-icon mb-3 text-success fs-3">
-                        <i class="fa-solid fa-hand-holding-heart"></i>
-                    </div>
-                    <span class="badge bg-light text-success mb-2">Sosial</span>
-                    <h5 class="fw-bold mb-2">Berbagi Sembako</h5>
-                    <p class="text-muted small mb-4">Program pembagian sembako untuk membantu masyarakat yang membutuhkan.</p>
-                </div>
-                <div class="text-muted small pt-3 border-top border-light">
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-calendar me-2 text-secondary" style="width: 14px;"></i>
-                        <span>20 Agustus 2026</span>
-                    </div>
-                    <div class="d-flex align-items-center mb-1">
-                        <i class="fa-solid fa-clock me-2 text-secondary" style="width: 14px;"></i>
-                        <span>09.00 WIB</span>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-location-dot me-2 text-secondary" style="width: 14px;"></i>
-                        <span>Masjid Jami Cicangkudu</span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-</div>
+
+@empty
+
+    <div class="col-12">
+
+        <div class="text-center py-5 text-muted">
+
+            <i class="fa-solid fa-calendar-xmark fs-1 mb-3"></i>
+
+            <p class="mb-0">
+                Belum ada kegiatan yang tersedia.
+            </p>
+
+        </div>
+
+    </div>
+
+@endforelse
 
 <!-- SECTION: INFORMASI -->
 <div>

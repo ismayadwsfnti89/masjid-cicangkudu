@@ -35,7 +35,7 @@ Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'warga.dashboard')->name('dashboard');
     Route::view('/jadwal', 'warga.jadwal')->name('jadwal');
-    Route::view('/kegiatan', 'warga.kegiatan')->name('kegiatan');
+    Route::get('/kegiatan', [AdminContentController::class, 'wargaKegiatan'])->name('kegiatan');
     Route::get('/donasi', [DonationController::class, 'index'])->name('donasi');
     Route::post('/donasi', [DonationController::class, 'store'])->name('donasi.store');
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
@@ -65,13 +65,13 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::post('/import-warga', [WargaImportController::class, 'import'])->name('import-warga.store');
     Route::post('/donasi/pengaturan', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
 
-    Route::prefix('{section}')->whereIn('section', ['kegiatan', 'donasi', 'laporan-keuangan', 'informasi-masjid'])
-        ->name('contents.')->controller(AdminContentController::class)->group(function () {
-            Route::get('/', 'index')->name('index');
-            Route::get('/tambah', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-            Route::get('/{content}/edit', 'edit')->name('edit');
-            Route::put('/{content}', 'update')->name('update');
-            Route::delete('/{content}', 'destroy')->name('destroy');
-        });
+    Route::prefix('{section}')->whereIn('section', ['kegiatan','donasi','laporan-keuangan','informasi-masjid'])->name('contents.')->controller(AdminContentController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/tambah', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{content}/edit', 'edit')->name('edit');
+        Route::put('/{content}', 'update')->name('update');
+        Route::delete('/{content}', 'destroy')->name('destroy');
+    });
 });

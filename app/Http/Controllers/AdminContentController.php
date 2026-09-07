@@ -21,14 +21,54 @@ class AdminContentController extends Controller
 
     public function index(string $section)
     {
+        
         $meta = $this->section($section);
-        $contents = MasjidContent::where('type', $section)->latest('event_date')->latest()->get();
+
+        $contents = MasjidContent::where('type', $section)
+            ->latest('event_date')
+            ->latest()
+            ->get();
+
+        if ($section === 'laporan-keuangan') {
+
+            $totalPemasukan = $contents
+                ->where('transaction_type', 'pemasukan')
+                ->sum('amount');
+
+            $totalPengeluaran = $contents
+                ->where('transaction_type', 'pengeluaran')
+                ->sum('amount');
+
+            $saldo = $totalPemasukan - $totalPengeluaran;
+
+            return view('admin.kelola_laporan', compact(
+                'section',
+                'meta',
+                'contents',
+                'totalPemasukan',
+                'totalPengeluaran',
+                'saldo'
+            ));
+        }
+
         $donations = $section === 'donasi'
             ? Donation::with(['user', 'program'])->latest()->get()
             : collect();
-        $paymentSetting = $section === 'donasi' ? PaymentSetting::first() : null;
 
-        return view('admin.contents.index', compact('section', 'meta', 'contents', 'donations', 'paymentSetting'));
+        $paymentSetting = $section === 'donasi'
+            ? PaymentSetting::first()
+            : null;
+
+        return view(
+            'admin.contents.index',
+            compact(
+                'section',
+                'meta',
+                'contents',
+                'donations',
+                'paymentSetting'
+            )
+        );
     }
 
     public function create(string $section)
