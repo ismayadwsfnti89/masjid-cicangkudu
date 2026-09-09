@@ -13,6 +13,10 @@ use App\Http\Controllers\PaymentSettingController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\AdminDonationController;
+use App\Http\Controllers\WargaDashboardController;
+use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\MasjidProfileController;
 use App\Http\Middleware\EnsureUserIsAdmin;
 
 /*
@@ -33,7 +37,7 @@ Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.
 
 // Routes untuk Warga (Authenticated User)
 Route::middleware(['auth'])->group(function () {
-    Route::view('/dashboard', 'warga.dashboard')->name('dashboard');
+    Route::get('/dashboard', [WargaDashboardController::class, 'index'])->name('dashboard');
     Route::view('/jadwal', 'warga.jadwal')->name('jadwal');
     Route::get('/kegiatan', [AdminContentController::class, 'wargaKegiatan'])->name('kegiatan');
     Route::get('/donasi', [DonationController::class, 'index'])->name('donasi');
@@ -50,6 +54,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes Khusus Admin (Panel Pengelola)
 Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/notifikasi', [AdminNotificationController::class, 'index'])->name('notifications');
     Route::get('/jadwal', [AdminJadwalController::class, 'index'])->name('jadwal');
     
     // Manajemen Warga & Import
@@ -59,11 +64,15 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
     Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+    Route::delete('/users', [AdminUserController::class, 'bulkDestroy'])->name('users.bulk-destroy');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
     Route::post('/users', [AdminUserController::class, 'store'])->name('users.store');
     Route::get('/import-warga', [WargaImportController::class, 'index'])->name('import-warga');
     Route::post('/import-warga', [WargaImportController::class, 'import'])->name('import-warga.store');
     Route::post('/donasi/pengaturan', [PaymentSettingController::class, 'update'])->name('payment-settings.update');
+    Route::put('/profil-masjid', [MasjidProfileController::class, 'update'])->name('masjid-profile.update');
+    Route::put('/donasi/{donation}/verifikasi', [AdminDonationController::class, 'verify'])->name('donations.verify');
+    Route::put('/donasi/{donation}/tolak', [AdminDonationController::class, 'reject'])->name('donations.reject');
 
     Route::prefix('{section}')->whereIn('section', ['kegiatan','donasi','laporan-keuangan','informasi-masjid'])->name('contents.')->controller(AdminContentController::class)
     ->group(function () {
@@ -73,5 +82,6 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
         Route::get('/{content}/edit', 'edit')->name('edit');
         Route::put('/{content}', 'update')->name('update');
         Route::delete('/{content}', 'destroy')->name('destroy');
+        Route::delete('/', 'bulkDestroy')->name('bulk-destroy');
     });
 });

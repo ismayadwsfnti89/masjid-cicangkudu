@@ -25,6 +25,14 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users')->with('success', 'Data warga berhasil dihapus!');
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        $data = $request->validate(['ids' => ['required', 'array', 'min:1'], 'ids.*' => ['integer']]);
+        $count = User::where('role', 'warga')->whereIn('id', $data['ids'])->delete();
+
+        return redirect()->route('admin.users')->with('success', $count.' data warga berhasil dihapus.');
+    }
+
     public function create()
     {
         return view('admin.create-user');

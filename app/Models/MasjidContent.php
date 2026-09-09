@@ -12,6 +12,7 @@ class MasjidContent extends Model
 
     protected $fillable = [
         'type',
+        'donation_id',
         'title',
         'description',
         'image_path',

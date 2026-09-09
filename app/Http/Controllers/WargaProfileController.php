@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Models\WargaProfile;
 
 class WargaProfileController extends Controller
 {
     public function index()
     {
-        $warga = Auth::user();
+        $warga = Auth::user()->load('wargaProfile');
+
         return view('warga.profil', compact('warga'));
     }
 
@@ -23,15 +26,42 @@ class WargaProfileController extends Controller
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'password' => 'nullable|string|min:8',
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
+        // Update nama
         $warga->name = $request->nama_lengkap;
+
+        // Update password jika diisi
         if ($request->filled('password')) {
             $warga->password = Hash::make($request->password);
         }
 
         $warga->save();
 
-        return redirect()->route('profil')->with('success', 'Profil berhasil diperbarui!');
+        // Ambil atau buat profil warga
+        $profile = WargaProfile::firstOrCreate([
+            'user_id' => $warga->id
+        ]);
+
+        // Jika user mengupload avatar baru
+        if ($request->hasFile('avatar')) {
+
+            // Hapus avatar lama hanya jika ada
+            if (!empty($profile->avatar_path)) {
+                Storage::disk('public')->delete($profile->avatar_path);
+            }
+
+            // Simpan avatar baru
+            $profile->avatar_path = $request
+                ->file('avatar')
+                ->store('warga-avatars', 'public');
+
+            $profile->save();
+        }
+
+        return redirect()
+            ->route('profil')
+            ->with('success', 'Profil berhasil diperbarui!');
     }
 }

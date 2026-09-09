@@ -20,6 +20,7 @@
                 <thead class="table-light text-uppercase fs-7 text-muted">
                     <tr>
                         <th>Tanggal</th>
+                        <th>Hari</th>
                         <th>Imsak</th>
                         <th>Subuh</th>
                         <th>Terbit</th>
@@ -31,8 +32,10 @@
                 </thead>
                 <tbody>
                     @forelse($jadwalList ?? [] as $jadwal)
-                        <tr>
+                        @php($isToday = ($jadwal['date'] ?? null) === now('Asia/Jakarta')->toDateString())
+                        <tr class="{{ $isToday ? 'table-success' : '' }}">
                             <td class="fw-semibold text-dark">{{ $jadwal['tanggal'] ?? '-' }}</td>
+                            <td><span class="{{ $isToday ? 'badge bg-success' : 'text-muted' }}">{{ isset($jadwal['date']) ? \Carbon\Carbon::parse($jadwal['date'])->translatedFormat('l') : '-' }}{{ $isToday ? ' · Hari ini' : '' }}</span></td>
                             <td>{{ $jadwal['imsak'] ?? '-' }}</td>
                             <td class="fw-semibold text-primary">{{ $jadwal['subuh'] ?? '-' }}</td>
                             <td>{{ $jadwal['terbit'] ?? '-' }}</td>
@@ -43,7 +46,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted py-4">Gagal memuat data dari API.</td>
+                            <td colspan="9" class="text-center text-muted py-4">Gagal memuat data dari API.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -34,6 +34,13 @@ class LaporanController extends Controller
             ->sum('amount');
 
         $saldo = $totalPemasukan - $totalPengeluaran;
+        // Neraca kas sederhana: seluruh transaksi memakai basis kas.
+        // Pemasukan menambah kas/dana bersih, pengeluaran mengurangi kas/dana bersih.
+        $neraca = [
+            'aset_kas' => $saldo,
+            'kewajiban' => 0,
+            'dana_bersih' => $saldo,
+        ];
 
         $bulanOptions = collect();
 
@@ -53,6 +60,7 @@ class LaporanController extends Controller
             'saldo',
             'bulan',
             'bulanOptions'
+            , 'neraca'
         ));
     }
 }

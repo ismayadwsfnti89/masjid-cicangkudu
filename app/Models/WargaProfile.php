@@ -12,6 +12,7 @@ class WargaProfile extends Model
         'user_id',
         'no_hp',
         'alamat',
+        'avatar_path',
     ];
 
     public function user(): BelongsTo

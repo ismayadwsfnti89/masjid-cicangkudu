@@ -17,10 +17,22 @@
             <input id="title" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title', $content->title ?? '') }}" required>
             @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
+        @if($section === 'informasi-masjid')
+        <div class="mb-3">
+            <label class="form-label fw-semibold" for="content_type">Jenis konten</label>
+            <select id="content_type" name="content_type" class="form-select @error('content_type') is-invalid @enderror" required>
+                <option value="informasi-masjid" @selected(old('content_type', $content->type ?? 'informasi-masjid') === 'informasi-masjid')>Informasi / Berita</option>
+                <option value="kegiatan" @selected(old('content_type', $content->type ?? '') === 'kegiatan')>Kegiatan Masjid</option>
+            </select>
+            <div class="form-text">Keduanya akan tampil pada halaman Informasi & Kegiatan warga.</div>
+            @error('content_type')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        </div>
+        @endif
         <div class="mb-3">
             <label class="form-label fw-semibold" for="image">Gambar {{ $section === 'informasi-masjid' ? '/ Foto Berita' : '(opsional)' }}</label>
             <input id="image" type="file" name="image" accept="image/jpeg,image/png,image/webp" class="form-control @error('image') is-invalid @enderror">
-            @if(isset($content) && $content->image_path)<img src="{{ asset('storage/'.$content->image_path) }}" class="img-thumbnail mt-2" style="max-height: 120px" alt="Gambar saat ini">@endif
+            <img id="imagePreview" src="{{ isset($content) && $content->image_path ? asset('storage/'.$content->image_path) : '' }}" class="img-thumbnail mt-2 {{ isset($content) && $content->image_path ? '' : 'd-none' }}" style="max-height: 160px" alt="Preview gambar">
+            <div class="form-text">Setelah memilih gambar, preview tampil otomatis; setelah Simpan, gambar langsung muncul di halaman warga.</div>
             @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
         </div>
         <div class="mb-3">
@@ -140,7 +152,22 @@
             </div>
 
         </div>
+        <div class="d-flex justify-content-end gap-2">
+            <a href="{{ route('admin.contents.index', $section) }}" class="btn btn-light px-4">Batal</a>
+            <button type="submit" class="btn btn-success px-4"><i class="fa-solid fa-floppy-disk me-1"></i>Simpan</button>
+        </div>
     </form>
 </div>
 </div>
+@push('scripts')
+<script>
+document.getElementById('image')?.addEventListener('change', function () {
+    const file = this.files?.[0];
+    if (!file) return;
+    const preview = document.getElementById('imagePreview');
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('d-none');
+});
+</script>
+@endpush
 @endsection

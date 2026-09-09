@@ -20,6 +20,7 @@ class DonationProofSubmitted extends Notification
             'title' => 'Bukti donasi baru',
             'message' => $this->donation->user->name.' mengunggah bukti donasi Rp '.number_format((float) $this->donation->amount, 0, ',', '.'),
             'donation_id' => $this->donation->id,
+            'url' => route('admin.contents.index', 'donasi'),
         ];
     }
 }

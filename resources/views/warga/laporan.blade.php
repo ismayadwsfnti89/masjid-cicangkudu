@@ -33,6 +33,14 @@
 </div>
 
 
+{{-- NERACA KAS --}}
+<div class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-start mb-3"><div><h5 class="fw-bold mb-1">Neraca Kas Masjid</h5><p class="text-muted small mb-0">Posisi kas berdasarkan transaksi pemasukan dan pengeluaran yang telah dipublikasikan.</p></div><span class="badge bg-success">Basis Kas</span></div>
+        <div class="row g-3"><div class="col-md-6"><div class="border rounded-3 p-3 h-100"><strong class="d-block mb-2 text-success">Aset</strong><div class="d-flex justify-content-between"><span>Kas dan Bank</span><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div><hr><div class="d-flex justify-content-between"><strong>Total Aset</strong><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div></div></div><div class="col-md-6"><div class="border rounded-3 p-3 h-100"><strong class="d-block mb-2 text-primary">Kewajiban dan Dana Bersih</strong><div class="d-flex justify-content-between"><span>Kewajiban</span><strong>Rp {{ number_format($neraca['kewajiban'], 0, ',', '.') }}</strong></div><div class="d-flex justify-content-between mt-2"><span>Dana Bersih</span><strong>Rp {{ number_format($neraca['dana_bersih'], 0, ',', '.') }}</strong></div><hr><div class="d-flex justify-content-between"><strong>Total</strong><strong>Rp {{ number_format($neraca['kewajiban'] + $neraca['dana_bersih'], 0, ',', '.') }}</strong></div></div></div></div>
+    </div>
+</div>
+
 {{-- ========================= --}}
 {{-- RINGKASAN KEUANGAN --}}
 {{-- ========================= --}}

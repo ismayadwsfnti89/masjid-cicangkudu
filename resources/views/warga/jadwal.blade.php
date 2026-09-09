@@ -25,6 +25,7 @@
                 <thead class="table-light text-uppercase fs-7 text-muted">
                     <tr>
                         <th class="text-start">Tanggal</th>
+                        <th>Hari</th>
                         <th>Imsak</th>
                         <th>Subuh</th>
                         <th>Dzuhur</th>
@@ -35,7 +36,7 @@
                 </thead>
                 <tbody id="tabelJadwalBulanan">
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">Memuat data jadwal sebulan penuh...</td>
+                        <td colspan="8" class="text-center text-muted py-4">Memuat data jadwal sebulan penuh...</td>
                     </tr>
                 </tbody>
             </table>
@@ -76,12 +77,16 @@
         document.getElementById('labelBulanTahun').innerText =
             `${namaBulan[today.getMonth()]} ${year}`;
 
+        const jakartaDateParts = new Intl.DateTimeFormat('en-US', {timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit'}).formatToParts(new Date());
+        const part = type => jakartaDateParts.find(item => item.type === type)?.value;
+        const todayIso = `${part('year')}-${part('month')}-${part('day')}`;
+
         // ID wilayah
-        const idWilayah = '045117b0e0a11a242b9765e79cbf113f';
+        const idWilayah = '1218';
 
         // Ambil jadwal 1 bulan penuh
         const url =
-            `https://api.myquran.com/v3/sholat/jadwal/${idWilayah}/${year}-${month}`;
+            `https://api.myquran.com/v2/sholat/jadwal/${idWilayah}/${year}/${month}`;
 
         fetch(url)
             .then(response => response.json())
@@ -94,9 +99,14 @@
 
                     listJadwal.forEach(item => {
 
+                        const itemDate = new Date(`${item.date}T12:00:00+07:00`);
+                        const hari = new Intl.DateTimeFormat('id-ID', {weekday: 'long', timeZone: 'Asia/Jakarta'}).format(itemDate);
+                        const isToday = item.date === todayIso ? 'table-success fw-bold' : '';
+
                         rows += `
-                            <tr>
+                            <tr class="${isToday}">
                                 <td class="text-start">${item.tanggal ?? '-'}</td>
+                                <td><span class="${item.date === todayIso ? 'badge bg-success' : 'text-muted'}">${hari}${item.date === todayIso ? ' · Hari ini' : ''}</span></td>
                                 <td>${item.imsak ?? '-'}</td>
                                 <td>${item.subuh ?? '-'}</td>
                                 <td>${item.dzuhur ?? '-'}</td>
@@ -113,7 +123,7 @@
 
                     document.getElementById('tabelJadwalBulanan').innerHTML = `
                         <tr>
-                            <td colspan="7" class="text-center text-danger py-4">
+                            <td colspan="8" class="text-center text-danger py-4">
                                 Gagal memuat data jadwal bulanan.
                             </td>
                         </tr>
@@ -127,7 +137,7 @@
 
                 document.getElementById('tabelJadwalBulanan').innerHTML = `
                     <tr>
-                        <td colspan="7" class="text-center text-danger py-4">
+                        <td colspan="8" class="text-center text-danger py-4">
                             Terjadi kesalahan koneksi ke server jadwal.
                         </td>
                     </tr>

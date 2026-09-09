@@ -29,9 +29,6 @@
                 <a href="{{ route('admin.jadwal') }}" class="{{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
                     <i class="fa-solid fa-clock"></i><span>Kelola Jadwal Salat</span>
                 </a>
-                <a href="{{ route('admin.contents.index', 'kegiatan') }}" class="{{ request()->is('admin/kegiatan*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-calendar-days"></i><span>Kelola Kegiatan</span>
-                </a>
                 <a href="{{ route('admin.contents.index', 'donasi') }}" class="{{ request()->is('admin/donasi*') ? 'active' : '' }}">
                     <i class="fa-solid fa-hand-holding-heart"></i><span>Kelola Program Donasi</span>
                 </a>
@@ -39,14 +36,13 @@
                     <i class="fa-solid fa-file-invoice-dollar"></i><span>Kelola Laporan Keuangan</span>
                 </a>
                 <a href="{{ route('admin.contents.index', 'informasi-masjid') }}" class="{{ request()->is('admin/informasi-masjid*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-mosque"></i><span>Kelola Informasi Masjid</span>
+                    <i class="fa-solid fa-mosque"></i><span>Kelola Informasi & Kegiatan</span>
                 </a>
                 
                 <form action="{{ route('logout') }}" method="POST" class="d-inline mt-3" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari sistem?');">
                     @csrf
                     <button type="submit" class="btn btn-link text-danger text-decoration-none p-0 w-100 text-start px-3 py-2">
                         <i class="fa-solid fa-right-from-bracket me-2"></i> Keluar / Logout
-                    </button>
                 </form>
             </nav>
             
@@ -66,7 +62,7 @@
                     <div class="topbar-title">@yield('header', 'Dashboard admin')</div>
                 </div>
                 <div class="topbar-user">
-                    <a href="{{ route('admin.contents.index', 'donasi') }}" class="notification-btn text-decoration-none" title="Notifikasi donasi">
+                    <a href="{{ route('admin.notifications') }}" class="notification-btn text-decoration-none" title="Buka notifikasi">
                         <i class="fa-regular fa-bell"></i>@if(auth()->user()->unreadNotifications()->count())<span>{{ auth()->user()->unreadNotifications()->count() }}</span>@endif
                     </a>
                     </button>

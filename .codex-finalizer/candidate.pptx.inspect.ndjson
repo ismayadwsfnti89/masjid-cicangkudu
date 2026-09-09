@@ -1,0 +1,155 @@
+{"kind":"deck","id":"pr/6zvown","name":"Deck"}
+{"kind":"layout","layoutId":"4e247ead-3d0e-4c27-bf3d-a4e9fb81feae","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"8dd70a82-6163-42e9-aec5-14d187991be5","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/ge54gc","slide":1,"title":"SISTEM DIGITAL","textShapes":5}
+{"kind":"shape","id":"sh/jatgb29g","slide":1,"bbox":[920,70,280,280]}
+{"kind":"shape","id":"sh/4b2x47al","slide":1,"bbox":[990,365,175,175]}
+{"kind":"textbox","id":"sh/5cbydcr6","slide":1,"text":"SISTEM DIGITAL","textPreview":"SISTEM DIGITAL","textChars":14,"textLines":1,"bbox":[78,150,480,35]}
+{"kind":"textbox","id":"sh/al0fyxsj","slide":1,"text":"Masjid Jami\nCicangkudu","textPreview":"Masjid Jami | Cicangkudu","textChars":22,"textLines":2,"bbox":[78,196,670,142]}
+{"kind":"textbox","id":"sh/v69w7i94","slide":1,"text":"Pengelolaan informasi, kegiatan, donasi,\nlaporan keuangan, dan data warga.","textPreview":"Pengelolaan informasi, kegiatan, donasi, | laporan keuangan, dan data warga.","textChars":74,"textLines":2,"bbox":[82,366,600,70]}
+{"kind":"shape","id":"sh/w7ix0nap","slide":1,"bbox":[82,490,282,48]}
+{"kind":"textbox","id":"sh/x8be9sra","slide":1,"text":"Penyaji: [Nama Anda]","textPreview":"Penyaji: [Nama Anda]","textChars":20,"textLines":1,"bbox":[104,505,240,22]}
+{"kind":"textbox","id":"sh/eh4fahs3","slide":1,"text":"September 2026","textPreview":"September 2026","textChars":14,"textLines":1,"bbox":[82,610,240,22]}
+{"kind":"notes","id":"nt/ge54gc","slide":1,"text":"Sapa audiens dan jelaskan bahwa presentasi ini membahas solusi digital untuk kebutuhan administrasi Masjid Jami Cicangkudu."}
+{"kind":"slide","id":"sl/vrdudz","slide":2,"title":"02","textShapes":12}
+{"kind":"shape","id":"sh/9wfix0n2","slide":2,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/mtoz254b","slide":2,"text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/nux0vq5w","slide":2,"text":"Masalah dan tujuan sistem","textPreview":"Masalah dan tujuan sistem","textChars":25,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/wj618fmd","slide":2,"text":"Satu sistem untuk menghubungkan pengelola masjid dan warga.","textPreview":"Satu sistem untuk menghubungkan pengelola masjid dan warga.","textChars":59,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/xkzi1kny","slide":2,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/ahoj654n","slide":2,"text":"2/7","textPreview":"2/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/vix0za58","slide":2,"bbox":[72,220,345,225]}
+{"kind":"shape","id":"sh/knq1cfmp","slide":2,"bbox":[92,240,8,38]}
+{"kind":"textbox","id":"sh/5ozi5kna","slide":2,"text":"Akses informasi","textPreview":"Akses informasi","textChars":15,"textLines":1,"bbox":[118,239,279,31]}
+{"kind":"textbox","id":"sh/9wj6dgn2","slide":2,"text":"Warga membutuhkan pengumuman, jadwal salat, dan kegiatan yang selalu diperbarui.","textPreview":"Warga membutuhkan pengumuman, jadwal salat, dan kegiatan yang selalu diperbarui.","textChars":80,"textLines":1,"bbox":[118,281,279,150]}
+{"kind":"shape","id":"sh/8va54b6h","slide":2,"bbox":[468,220,345,225]}
+{"kind":"shape","id":"sh/7u1ob65w","slide":2,"bbox":[488,240,8,38]}
+{"kind":"textbox","id":"sh/m9sn2lob","slide":2,"text":"Transaksi transparan","textPreview":"Transaksi transparan","textChars":20,"textLines":1,"bbox":[514,239,279,31]}
+{"kind":"textbox","id":"sh/h036h0ny","slide":2,"text":"Donasi perlu bukti transfer, verifikasi admin, serta laporan keuangan yang mudah dipantau.","textPreview":"Donasi perlu bukti transfer, verifikasi admin, serta laporan keuangan yang mudah dipantau.","textChars":90,"textLines":1,"bbox":[514,281,279,150]}
+{"kind":"shape","id":"sh/wzup8v6d","slide":2,"bbox":[864,220,345,225]}
+{"kind":"shape","id":"sh/vy1ofq5s","slide":2,"bbox":[884,240,8,38]}
+{"kind":"textbox","id":"sh/uxs76lo7","slide":2,"text":"Administrasi tertata","textPreview":"Administrasi tertata","textChars":20,"textLines":1,"bbox":[910,239,279,31]}
+{"kind":"textbox","id":"sh/x4z65w7u","slide":2,"text":"Admin perlu pengelolaan warga, konten, profil masjid, dan penghapusan data terpilih.","textPreview":"Admin perlu pengelolaan warga, konten, profil masjid, dan penghapusan data terpilih.","textChars":84,"textLines":1,"bbox":[910,281,279,150]}
+{"kind":"textbox","id":"sh/c3q5wr69","slide":2,"text":"Tujuan: pelayanan informasi lebih cepat, pencatatan lebih rapi, dan keuangan lebih transparan.","textPreview":"Tujuan: pelayanan informasi lebih cepat, pencatatan lebih rapi, dan keuangan lebih transparan.","textChars":94,"textLines":1,"bbox":[72,520,1080,38]}
+{"kind":"notes","id":"nt/vrdudz","slide":2,"text":"Jelaskan tiga masalah utama dan hubungan setiap masalah dengan fitur yang dibangun."}
+{"kind":"slide","id":"sl/exzyg3","slide":3,"title":"03","textShapes":18}
+{"kind":"shape","id":"sh/0b6hsby5","slide":3,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/faxgj6hk","slide":3,"text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/e9ozq1gz","slide":3,"text":"Alur layanan untuk warga","textPreview":"Alur layanan untuk warga","textChars":24,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/pgfipgzm","slide":3,"text":"Pengalaman warga dibuat sederhana dari login sampai melihat status donasi.","textPreview":"Pengalaman warga dibuat sederhana dari login sampai melihat status donasi.","textChars":74,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/of6hwby1","slide":3,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/nex0n6hg","slide":3,"text":"3/7","textPreview":"3/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/2dozu1gv","slide":3,"bbox":[72,260,72,72]}
+{"kind":"textbox","id":"sh/5kvydczi","slide":3,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[72,277,72,26]}
+{"kind":"textbox","id":"sh/4jmhkrix","slide":3,"text":"Login","textPreview":"Login","textChars":5,"textLines":1,"bbox":[72,354,220,28]}
+{"kind":"textbox","id":"sh/axkv2d8n","slide":3,"text":"Masuk dengan akun warga","textPreview":"Masuk dengan akun warga","textChars":23,"textLines":1,"bbox":[72,390,220,48]}
+{"kind":"shape","id":"sh/bytcvi98","slide":3,"bbox":[290,282,48,28]}
+{"kind":"shape","id":"sh/czmd4nqt","slide":3,"bbox":[357,260,72,72]}
+{"kind":"textbox","id":"sh/x0vexsre","slide":3,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[357,277,72,26]}
+{"kind":"textbox","id":"sh/y14v6x8z","slide":3,"text":"Akses informasi","textPreview":"Akses informasi","textChars":15,"textLines":1,"bbox":[357,354,220,28]}
+{"kind":"textbox","id":"sh/z2dwz294","slide":3,"text":"Lihat jadwal, berita, kegiatan, dan laporan","textPreview":"Lihat jadwal, berita, kegiatan, dan laporan","textChars":43,"textLines":1,"bbox":[357,390,220,48]}
+{"kind":"shape","id":"sh/k3md87qp","slide":3,"bbox":[575,282,48,28]}
+{"kind":"shape","id":"sh/love1cra","slide":3,"bbox":[642,260,72,72]}
+{"kind":"textbox","id":"sh/mp4vax8v","slide":3,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[642,277,72,26]}
+{"kind":"textbox","id":"sh/7qdw329g","slide":3,"text":"Donasi","textPreview":"Donasi","textChars":6,"textLines":1,"bbox":[642,354,220,28]}
+{"kind":"textbox","id":"sh/juxcr25o","slide":3,"text":"Pilih program dan unggah bukti transfer","textPreview":"Pilih program dan unggah bukti transfer","textChars":39,"textLines":1,"bbox":[642,390,220,48]}
+{"kind":"shape","id":"sh/itovyho3","slide":3,"bbox":[860,282,48,28]}
+{"kind":"shape","id":"sh/5wfutcne","slide":3,"bbox":[927,260,72,72]}
+{"kind":"textbox","id":"sh/4v6d0769","slide":3,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[927,277,72,26]}
+{"kind":"textbox","id":"sh/vqxcn2pc","slide":3,"text":"Notifikasi","textPreview":"Notifikasi","textChars":10,"textLines":1,"bbox":[927,354,220,28]}
+{"kind":"textbox","id":"sh/up4buxor","slide":3,"text":"Terima kabar konten baru atau hasil verifikasi","textPreview":"Terima kabar konten baru atau hasil verifikasi","textChars":46,"textLines":1,"bbox":[927,390,220,48]}
+{"kind":"textbox","id":"sh/hsfupc7i","slide":3,"text":"Profil warga dapat diperbarui untuk nama, kata sandi, dan foto profil.","textPreview":"Profil warga dapat diperbarui untuk nama, kata sandi, dan foto profil.","textChars":70,"textLines":1,"bbox":[72,520,920,32]}
+{"kind":"notes","id":"nt/exzyg3","slide":3,"text":"Jelaskan alur warga dari autentikasi, akses informasi, donasi, hingga notifikasi."}
+{"kind":"slide","id":"sl/ufnh8k","slide":4,"title":"04","textShapes":13}
+{"kind":"shape","id":"sh/218r2pcv","slide":4,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/p4jqd4v6","slide":4,"text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/o3q94zul","slide":4,"text":"Alur kerja admin","textPreview":"Alur kerja admin","textChars":16,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/fyh87ud4","slide":4,"text":"Admin mengelola konten, data, pembayaran, dan verifikasi dalam dashboard.","textPreview":"Admin mengelola konten, data, pembayaran, dan verifikasi dalam dashboard.","textChars":73,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/ex8rypcj","slide":4,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/10zq9kva","slide":4,"text":"4/7","textPreview":"4/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/gzq90fup","slide":4,"bbox":[72,220,500,165]}
+{"kind":"shape","id":"sh/rax83ad8","slide":4,"bbox":[92,240,8,38]}
+{"kind":"textbox","id":"sh/69o7u5cn","slide":4,"text":"Kelola konten","textPreview":"Kelola konten","textChars":13,"textLines":1,"bbox":[118,239,434,31]}
+{"kind":"textbox","id":"sh/cru54j6d","slide":4,"text":"Buat informasi atau kegiatan, unggah gambar, lalu terbitkan agar warga memperoleh notifikasi.","textPreview":"Buat informasi atau kegiatan, unggah gambar, lalu terbitkan agar warga memperoleh notifikasi.","textChars":93,"textLines":1,"bbox":[118,281,434,90]}
+{"kind":"shape","id":"sh/ds36xony","slide":4,"bbox":[708,220,500,165]}
+{"kind":"shape","id":"sh/qpcn29o7","slide":4,"bbox":[728,240,8,38]}
+{"kind":"textbox","id":"sh/bqlove5s","slide":4,"text":"Kelola donasi","textPreview":"Kelola donasi","textChars":13,"textLines":1,"bbox":[754,239,434,31]}
+{"kind":"textbox","id":"sh/o3u50z61","slide":4,"text":"Atur rekening dan QRIS sendiri. Periksa bukti transfer dan terima atau tolak donasi.","textPreview":"Atur rekening dan QRIS sendiri. Periksa bukti transfer dan terima atau tolak donasi.","textChars":84,"textLines":1,"bbox":[754,281,434,90]}
+{"kind":"shape","id":"sh/po36t4nm","slide":4,"bbox":[72,420,500,165]}
+{"kind":"shape","id":"sh/21sny9ov","slide":4,"bbox":[92,440,8,38]}
+{"kind":"textbox","id":"sh/32loru5g","slide":4,"text":"Kelola warga dan profil","textPreview":"Kelola warga dan profil","textChars":23,"textLines":1,"bbox":[118,439,434,31]}
+{"kind":"textbox","id":"sh/8zepc3ml","slide":4,"text":"Tambah, impor, edit, atau pilih beberapa data warga untuk dihapus sekaligus. Edit kartu profil masjid.","textPreview":"Tambah, impor, edit, atau pilih beberapa data warga untuk dihapus sekaligus. Edit kartu profil masjid.","textChars":102,"textLines":1,"bbox":[118,481,434,90]}
+{"kind":"shape","id":"sh/9kn658nq","slide":4,"bbox":[708,420,500,165]}
+{"kind":"shape","id":"sh/hg36pofa","slide":4,"bbox":[728,440,8,38]}
+{"kind":"textbox","id":"sh/wfa5w3ep","slide":4,"text":"Kelola keuangan","textPreview":"Kelola keuangan","textChars":15,"textLines":1,"bbox":[754,439,434,31]}
+{"kind":"textbox","id":"sh/ve1onyx4","slide":4,"text":"Catat pemasukan dan pengeluaran. Donasi diterima menjadi pemasukan secara otomatis.","textPreview":"Catat pemasukan dan pengeluaran. Donasi diterima menjadi pemasukan secara otomatis.","textChars":83,"textLines":1,"bbox":[754,481,434,90]}
+{"kind":"notes","id":"nt/ufnh8k","slide":4,"text":"Jelaskan tugas rutin admin dan tekankan bahwa hapus massal meminta konfirmasi sebelum data dihapus."}
+{"kind":"slide","id":"sl/as1tvw","slide":5,"title":"05","textShapes":14}
+{"kind":"shape","id":"sh/gjyhovyh","slide":5,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/fip0fqxw","slide":5,"text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/uhgzmlgr","slide":5,"text":"Struktur sistem dan data","textPreview":"Struktur sistem dan data","textChars":24,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/tg7idgf6","slide":5,"text":"Aplikasi Laravel memisahkan tampilan, rute, proses bisnis, dan basis data.","textPreview":"Aplikasi Laravel memisahkan tampilan, rute, proses bisnis, dan basis data.","textChars":74,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/sfyhkbyl","slide":5,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/7e50b6x0","slide":5,"text":"5/7","textPreview":"5/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/6dwzi1gf","slide":5,"bbox":[72,230,250,255]}
+{"kind":"shape","id":"sh/5cni9gfu","slide":5,"bbox":[92,250,8,38]}
+{"kind":"textbox","id":"sh/kbehgby9","slide":5,"text":"Tampilan","textPreview":"Tampilan","textChars":8,"textLines":1,"bbox":[118,249,184,31]}
+{"kind":"textbox","id":"sh/29snqpgz","slide":5,"text":"Blade admin dan warga\n\nDashboard, formulir, kartu informasi, profil, notifikasi","textPreview":"Blade admin dan warga |  | Dashboard, formulir, kartu informasi, profil, notifikasi","textChars":79,"textLines":3,"bbox":[118,291,184,180]}
+{"kind":"shape","id":"sh/3alozuxk","slide":5,"bbox":[357,230,250,255]}
+{"kind":"shape","id":"sh/obu5szy5","slide":5,"bbox":[377,250,8,38]}
+{"kind":"textbox","id":"sh/pc3614fq","slide":5,"text":"Rute","textPreview":"Rute","textChars":4,"textLines":1,"bbox":[403,249,184,31]}
+{"kind":"textbox","id":"sh/elsnm5g3","slide":5,"text":"routes/web.php\n\nMenghubungkan URL, middleware admin, dan controller","textPreview":"routes/web.php |  | Menghubungkan URL, middleware admin, dan controller","textChars":67,"textLines":3,"bbox":[403,291,184,180]}
+{"kind":"shape","id":"sh/fm1ovax8","slide":5,"bbox":[642,230,250,255]}
+{"kind":"shape","id":"sh/gna5ofyt","slide":5,"bbox":[662,250,8,38]}
+{"kind":"textbox","id":"sh/1oj6xkfe","slide":5,"text":"Proses","textPreview":"Proses","textChars":6,"textLines":1,"bbox":[688,249,184,31]}
+{"kind":"textbox","id":"sh/6h8ni5gr","slide":5,"text":"Controller + Model\n\nCRUD, verifikasi donasi, API jadwal, neraca kas","textPreview":"Controller + Model |  | CRUD, verifikasi donasi, API jadwal, neraca kas","textChars":67,"textLines":3,"bbox":[688,291,184,180]}
+{"kind":"shape","id":"sh/rihoraxc","slide":5,"bbox":[927,230,250,255]}
+{"kind":"shape","id":"sh/vmxkz6d4","slide":5,"bbox":[947,250,8,38]}
+{"kind":"textbox","id":"sh/ulo3q1wj","slide":5,"text":"Data","textPreview":"Data","textChars":4,"textLines":1,"bbox":[973,249,184,31]}
+{"kind":"textbox","id":"sh/hof21gva","slide":5,"text":"MySQL + storage\n\nAkun, konten, donasi, profil, notifikasi, dan gambar","textPreview":"MySQL + storage |  | Akun, konten, donasi, profil, notifikasi, dan gambar","textChars":69,"textLines":3,"bbox":[973,291,184,180]}
+{"kind":"textbox","id":"sh/wn6lsbep","slide":5,"text":"API jadwal salat memakai data Kab. Tasikmalaya, Jawa Barat (wilayah Cicangkudu).","textPreview":"API jadwal salat memakai data Kab. Tasikmalaya, Jawa Barat (wilayah Cicangkudu).","textChars":80,"textLines":1,"bbox":[72,540,1080,34]}
+{"kind":"notes","id":"nt/as1tvw","slide":5,"text":"Perlihatkan struktur empat lapisan. Sebutkan bahwa API jadwal disesuaikan dengan Kab. Tasikmalaya."}
+{"kind":"slide","id":"sl/a9lly8","slide":6,"title":"06","textShapes":15}
+{"kind":"shape","id":"sh/jexs725g","slide":6,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/kf6tg761","slide":6,"text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/lgfa9cnm","slide":6,"text":"Donasi terverifikasi dan Neraca Kas","textPreview":"Donasi terverifikasi dan Neraca Kas","textChars":35,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/6hobiho7","slide":6,"text":"Pencatatan dibuat berbasis kas agar mudah dipahami dan siap dikembangkan.","textPreview":"Pencatatan dibuat berbasis kas agar mudah dipahami dan siap dikembangkan.","textChars":73,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/7ixsbm5s","slide":6,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/8j6tkr6d","slide":6,"text":"6/7","textPreview":"6/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/tkzadwny","slide":6,"bbox":[72,235,250,175]}
+{"kind":"shape","id":"sh/mlkr6xo3","slide":6,"bbox":[92,255,210,34]}
+{"kind":"textbox","id":"sh/nmdszi58","slide":6,"text":"Pemasukan","textPreview":"Pemasukan","textChars":9,"textLines":1,"bbox":[104,263,188,17]}
+{"kind":"textbox","id":"sh/7yl4zuls","slide":6,"text":"Donasi diterima + transaksi pemasukan","textPreview":"Donasi diterima + transaksi pemasukan","textChars":37,"textLines":1,"bbox":[97,310,200,58]}
+{"kind":"shape","id":"sh/6xcn6pk7","slide":6,"bbox":[357,235,250,175]}
+{"kind":"shape","id":"sh/t03m143y","slide":6,"bbox":[377,255,210,34]}
+{"kind":"textbox","id":"sh/szu58z2d","slide":6,"text":"Pengeluaran","textPreview":"Pengeluaran","textChars":11,"textLines":1,"bbox":[389,263,188,17]}
+{"kind":"textbox","id":"sh/ju14vulw","slide":6,"text":"Transaksi pengeluaran","textPreview":"Transaksi pengeluaran","textChars":21,"textLines":1,"bbox":[382,310,200,58]}
+{"kind":"shape","id":"sh/yts32pkb","slide":6,"bbox":[642,235,250,175]}
+{"kind":"shape","id":"sh/lwjmxk32","slide":6,"bbox":[662,255,210,34]}
+{"kind":"textbox","id":"sh/kval4f2h","slide":6,"text":"Kas dan Bank","textPreview":"Kas dan Bank","textChars":12,"textLines":1,"bbox":[674,263,188,17]}
+{"kind":"textbox","id":"sh/b614ralk","slide":6,"text":"Pemasukan − Pengeluaran","textPreview":"Pemasukan − Pengeluaran","textChars":23,"textLines":1,"bbox":[667,310,200,58]}
+{"kind":"shape","id":"sh/a5s3y5kf","slide":6,"bbox":[927,235,250,175]}
+{"kind":"shape","id":"sh/e18na5o7","slide":6,"bbox":[947,255,210,34]}
+{"kind":"textbox","id":"sh/z2hoja5s","slide":6,"text":"Dana Bersih","textPreview":"Dana Bersih","textChars":11,"textLines":1,"bbox":[959,263,188,17]}
+{"kind":"textbox","id":"sh/03q5cf6d","slide":6,"text":"Kas dan Bank − kewajiban","textPreview":"Kas dan Bank − kewajiban","textChars":24,"textLines":1,"bbox":[952,310,200,58]}
+{"kind":"textbox","id":"sh/14z6lkni","slide":6,"text":"Dalam versi ini kewajiban bernilai Rp0, sehingga Aset Kas = Dana Bersih.","textPreview":"Dalam versi ini kewajiban bernilai Rp0, sehingga Aset Kas = Dana Bersih.","textChars":72,"textLines":1,"bbox":[72,500,1060,36]}
+{"kind":"textbox","id":"sh/m5snepo3","slide":6,"text":"Jika nanti ada utang atau aset tetap, modul dapat diperluas tanpa mengubah alur transaksi kas.","textPreview":"Jika nanti ada utang atau aset tetap, modul dapat diperluas tanpa mengubah alur transaksi kas.","textChars":94,"textLines":1,"bbox":[72,548,1040,30]}
+{"kind":"notes","id":"nt/a9lly8","slide":6,"text":"Terangkan rumus neraca kas. Tekankan bahwa sistem sekarang menggunakan basis kas dan bisa dikembangkan untuk kewajiban atau aset tetap."}
+{"kind":"slide","id":"sl/2tp4tw","slide":7,"title":"07","textShapes":10}
+{"kind":"shape","id":"sh/v6xcr29k","slide":7,"bbox":[0,0,1280,16]}
+{"kind":"textbox","id":"sh/w76t07q5","slide":7,"text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[72,48,60,28]}
+{"kind":"textbox","id":"sh/h8futsrq","slide":7,"text":"Hasil akhir dan langkah demo","textPreview":"Hasil akhir dan langkah demo","textChars":28,"textLines":1,"bbox":[72,78,1050,58]}
+{"kind":"textbox","id":"sh/i98b2x8b","slide":7,"text":"Sistem siap digunakan sebagai dasar pengelolaan masjid yang lebih tertib.","textPreview":"Sistem siap digunakan sebagai dasar pengelolaan masjid yang lebih tertib.","textChars":73,"textLines":1,"bbox":[72,140,1040,34]}
+{"kind":"textbox","id":"sh/jahcv29w","slide":7,"text":"Sistem Digital Masjid Jami Cicangkudu","textPreview":"Sistem Digital Masjid Jami Cicangkudu","textChars":37,"textLines":1,"bbox":[72,678,420,18]}
+{"kind":"textbox","id":"sh/4vqt47qh","slide":7,"text":"7/7","textPreview":"7/7","textChars":3,"textLines":1,"bbox":[1140,678,68,18]}
+{"kind":"shape","id":"sh/5wzuxcr2","slide":7,"bbox":[72,230,520,210]}
+{"kind":"shape","id":"sh/6x8b6h87","slide":7,"bbox":[92,250,8,38]}
+{"kind":"textbox","id":"sh/ryhczm9s","slide":7,"text":"1. Demo admin","textPreview":"1. Demo admin","textChars":13,"textLines":1,"bbox":[118,249,454,31]}
+{"kind":"textbox","id":"sh/nmhc3e5g","slide":7,"text":"Tambahkan informasi, ubah profil masjid, atur QRIS, verifikasi donasi, dan lihat neraca kas.","textPreview":"Tambahkan informasi, ubah profil masjid, atur QRIS, verifikasi donasi, dan lihat neraca kas.","textChars":92,"textLines":1,"bbox":[118,291,454,135]}
+{"kind":"shape","id":"sh/ml8vu9ov","slide":7,"bbox":[688,230,520,210]}
+{"kind":"shape","id":"sh/9ozu54nm","slide":7,"bbox":[708,250,8,38]}
+{"kind":"textbox","id":"sh/onqdwj61","slide":7,"text":"2. Demo warga","textPreview":"2. Demo warga","textChars":13,"textLines":1,"bbox":[734,249,454,31]}
+{"kind":"textbox","id":"sh/fixczu54","slide":7,"text":"Buka jadwal salat, baca informasi, donasi dengan bukti transfer, dan cek notifikasi.","textPreview":"Buka jadwal salat, baca informasi, donasi dengan bukti transfer, dan cek notifikasi.","textChars":84,"textLines":1,"bbox":[734,291,454,135]}
+{"kind":"shape","id":"sh/ehovqpoj","slide":7,"bbox":[72,510,1136,80]}
+{"kind":"textbox","id":"sh/1kzu14na","slide":7,"text":"Terima kasih — Sistem Digital Masjid Jami Cicangkudu","textPreview":"Terima kasih — Sistem Digital Masjid Jami Cicangkudu","textChars":52,"textLines":1,"bbox":[98,535,1080,28]}
+{"kind":"notes","id":"nt/2tp4tw","slide":7,"text":"Tutup dengan rangkuman hasil. Jika ada demo langsung, mulai dari dashboard admin lalu tunjukkan tampilan warga."}

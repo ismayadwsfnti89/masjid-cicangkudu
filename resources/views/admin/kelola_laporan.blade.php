@@ -148,6 +148,8 @@
 
 
     {{-- RINGKASAN --}}
+    <div class="card shadow-sm border-0 mb-4"><div class="card-body p-4"><div class="d-flex justify-content-between align-items-start mb-3"><div><h5 class="fw-bold mb-1">Neraca Kas</h5><p class="text-muted small mb-0">Neraca dihitung otomatis dari transaksi. Total aset selalu setara dengan kewajiban dan dana bersih.</p></div><span class="badge bg-success">Basis Kas</span></div><div class="row g-3"><div class="col-md-6"><div class="border rounded p-3"><strong class="text-success">Aset</strong><div class="d-flex justify-content-between mt-2"><span>Kas dan Bank</span><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div></div></div><div class="col-md-6"><div class="border rounded p-3"><strong class="text-primary">Kewajiban dan Dana Bersih</strong><div class="d-flex justify-content-between mt-2"><span>Kewajiban</span><strong>Rp {{ number_format($neraca['kewajiban'], 0, ',', '.') }}</strong></div><div class="d-flex justify-content-between mt-2"><span>Dana Bersih</span><strong>Rp {{ number_format($neraca['dana_bersih'], 0, ',', '.') }}</strong></div></div></div></div></div></div>
+
     <div class="row g-3 mb-4">
 
         <div class="col-md-4">

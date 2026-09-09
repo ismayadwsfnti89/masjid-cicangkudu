@@ -18,13 +18,18 @@
 
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem;">
     <div class="card-body p-4 p-md-5">
-        <form action="{{ route('profil.update') }}" method="POST">
+        <form action="{{ route('profil.update') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="d-flex align-items-center mb-4 pb-4 border-bottom">
-                <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 64px; height: 64px; background-color: #e8f5e9; color: #0b5c3d;">
-                    <i class="fa-solid fa-user fs-3"></i>
+                <div class="rounded-circle d-flex align-items-center justify-content-center me-3 overflow-hidden" style="width: 64px; height: 64px; background-color: #e8f5e9; color: #0b5c3d;">
+                    @if($warga->wargaProfile?->avatar_path)
+                        <img id="avatarPreview" src="{{ asset('storage/'.$warga->wargaProfile->avatar_path) }}" alt="Foto profil" class="w-100 h-100" style="object-fit:cover">
+                    @else
+                        <i id="avatarIcon" class="fa-solid fa-user fs-3"></i>
+                        <img id="avatarPreview" class="w-100 h-100 d-none" style="object-fit:cover" alt="Preview foto profil">
+                    @endif
                 </div>
                 <div>
                     <h4 class="fw-bold mb-1" style="color: #111d13;">{{ $warga->name ?? 'Nama Warga' }}</h4>
@@ -41,6 +46,12 @@
                     <div class="col-md-6">
                         <label class="form-label small fw-semibold text-muted">Nama Lengkap</label>
                         <input type="text" name="nama_lengkap" class="form-control bg-light border-light py-2" value="{{ old('nama_lengkap', $warga->name ?? '') }}" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted" for="avatar">Foto Profil (opsional)</label>
+                        <input id="avatar" type="file" name="avatar" accept="image/jpeg,image/png,image/webp" class="form-control bg-light border-light py-2 @error('avatar') is-invalid @enderror">
+                        <div class="form-text">JPG, PNG, atau WEBP, maksimal 2 MB. Foto tersimpan otomatis saat profil disimpan.</div>
+                        @error('avatar')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
                 </div>
@@ -70,4 +81,17 @@
         </form>
     </div>
 </div>
-@endsection+
+@push('scripts')
+<script>
+document.getElementById('avatar')?.addEventListener('change', function () {
+    const file = this.files?.[0];
+    if (!file) return;
+    const preview = document.getElementById('avatarPreview');
+    const icon = document.getElementById('avatarIcon');
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('d-none');
+    icon?.classList.add('d-none');
+});
+</script>
+@endpush
+@endsection

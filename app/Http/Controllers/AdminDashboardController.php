@@ -12,7 +12,7 @@ class AdminDashboardController extends Controller
     {
         $stats = [
             'warga' => User::where('role', 'warga')->count(),
-            'kegiatan' => MasjidContent::where('type', 'kegiatan')->count(),
+            'informasi' => MasjidContent::whereIn('type', ['kegiatan', 'informasi-masjid'])->count(),
             'donasiPending' => Donation::where('status', 'pending')->count(),
             'totalDonasi' => Donation::where('status', 'verified')->sum('amount'),
         ];

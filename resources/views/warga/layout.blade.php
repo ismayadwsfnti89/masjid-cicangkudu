@@ -22,19 +22,18 @@
             <nav class="sidebar-menu" aria-label="Navigasi utama">
                 <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><i class="fa-solid fa-house"></i><span>Dashboard</span></a>
                 <a href="{{ route('jadwal') }}" class="{{ request()->routeIs('jadwal') ? 'active' : '' }}"><i class="fa-solid fa-clock"></i><span>Jadwal Salat</span></a>
-                <a href="{{ route('kegiatan') }}" class="{{ request()->routeIs('kegiatan') ? 'active' : '' }}"><i class="fa-solid fa-calendar-days"></i><span>Kegiatan</span></a>
                 <a href="{{ route('donasi') }}" class="{{ request()->routeIs('donasi') ? 'active' : '' }}"><i class="fa-solid fa-hand-holding-heart"></i><span>Donasi</span></a>
                 <a href="{{ route('laporan') }}" class="{{ request()->routeIs('laporan') ? 'active' : '' }}"><i class="fa-solid fa-chart-column"></i><span>Laporan</span></a>
-                <a href="{{ route('informasi') }}" class="{{ request()->routeIs('informasi') ? 'active' : '' }}"><i class="fa-solid fa-mosque"></i><span>Informasi Masjid</span></a>
+                <a href="{{ route('informasi') }}" class="{{ request()->routeIs('informasi', 'kegiatan') ? 'active' : '' }}"><i class="fa-solid fa-mosque"></i><span>Informasi & Kegiatan</span></a>
                 <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-user"></i><span>Profil Warga</span></a>
                 <form action="{{ route('logout') }}" method="POST" class="logout-form" onsubmit="return confirm('Yakin ingin logout dari akun warga?')">@csrf<button type="submit"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button></form>
             </nav>
-            <div class="sidebar-account"><small>Akun warga</small><div class="account-row"><span class="avatar">{{ strtoupper(substr(auth()->user()->name ?? 'W', 0, 2)) }}</span><span><strong>{{ auth()->user()->name ?? 'Warga' }}</strong><small>Warga aktif</small></span></div></div>
+            <div class="sidebar-account"><small>Akun warga</small><div class="account-row"><span class="avatar">@if(auth()->user()->wargaProfile?->avatar_path)<img src="{{ asset('storage/'.auth()->user()->wargaProfile->avatar_path) }}" alt="Foto profil">@else{{ strtoupper(substr(auth()->user()->name ?? 'W', 0, 2)) }}@endif</span><span><strong>{{ auth()->user()->name ?? 'Warga' }}</strong><small>Warga aktif</small></span></div></div>
         </aside>
         <main class="main-content">
             <header class="topbar">
                 <div><div class="topbar-eyebrow">{{ now()->translatedFormat('l, d F Y') }} · <span id="currentClock">{{ now()->format('H:i') }}</span> WIB</div><div class="topbar-title">@yield('header', 'Dashboard warga')</div></div>
-                <div class="topbar-user"><a href="{{ route('notifications') }}" class="notification-btn text-decoration-none" title="Notifikasi"><i class="fa-regular fa-bell"></i>@if(auth()->user()->unreadNotifications()->count())<span>{{ auth()->user()->unreadNotifications()->count() }}</span>@endif</a><span class="user-chip">{{ strtoupper(substr(auth()->user()->name ?? 'W', 0, 2)) }}</span><strong>{{ auth()->user()->name ?? 'Warga' }}</strong></div>
+                <div class="topbar-user"><a href="{{ route('notifications') }}" class="notification-btn text-decoration-none" title="Notifikasi"><i class="fa-regular fa-bell"></i>@if(auth()->user()->unreadNotifications()->count())<span>{{ auth()->user()->unreadNotifications()->count() }}</span>@endif</a><span class="user-chip">@if(auth()->user()->wargaProfile?->avatar_path)<img src="{{ asset('storage/'.auth()->user()->wargaProfile->avatar_path) }}" alt="Foto profil">@else{{ strtoupper(substr(auth()->user()->name ?? 'W', 0, 2)) }}@endif</span><strong>{{ auth()->user()->name ?? 'Warga' }}</strong></div>
             </header>
             <section class="page-content">@yield('content')</section>
             <footer class="dashboard-footer">© {{ date('Y') }} Masjid Jami Cicangkudu</footer>

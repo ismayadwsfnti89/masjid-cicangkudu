@@ -33,6 +33,7 @@
             <table class="table table-hover align-middle">
                 <thead class="table-light text-uppercase fs-7 text-muted">
                     <tr>
+                        <th><input id="selectAllUsers" type="checkbox" class="form-check-input" title="Pilih semua warga"></th>
                         <th>No</th>
                         <th>Nama Lengkap</th>
                         <th>Username / Email</th>
@@ -44,6 +45,7 @@
                 <tbody>
                     @forelse($users as $index => $user)
                         <tr>
+                            <td><input type="checkbox" name="ids[]" value="{{ $user->id }}" form="bulkDeleteUsers" class="form-check-input user-checkbox"></td>
                             <td class="fw-semibold">{{ $index + 1 }}</td>
                             <td class="fw-semibold text-dark">{{ $user->name }}</td>
                             <td>{{ $user->username ?? $user->email ?? '-' }}</td>
@@ -69,12 +71,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">Belum ada data warga yang terdaftar.</td>
+                            <td colspan="7" class="text-center text-muted py-4">Belum ada data warga yang terdaftar.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
     </div>
+    <form id="bulkDeleteUsers" action="{{ route('admin.users.bulk-destroy') }}" method="POST" class="mt-3" onsubmit="return confirm('Hapus semua warga yang dipilih? Akun dan profil mereka tidak dapat dikembalikan.');">@csrf @method('DELETE')<button class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash me-1"></i> Hapus warga terpilih</button><span class="text-muted small ms-2">Pilih warga dari tabel terlebih dahulu.</span></form>
 </div>
+@push('scripts')<script>document.getElementById('selectAllUsers')?.addEventListener('change',function(){document.querySelectorAll('.user-checkbox').forEach(item=>item.checked=this.checked);});</script>@endpush
 @endsection
