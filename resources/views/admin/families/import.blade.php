@@ -1,0 +1,6 @@
+@extends('admin.layout')
+@section('title', 'Import Data KK | Admin Masjid')
+@section('header', 'Import Data KK')
+@section('content')
+<div class="mb-4"><a href="{{ route('admin.families.index') }}" class="text-decoration-none text-muted small"><i class="fa-solid fa-arrow-left me-1"></i>Kembali ke Data KK</a><h2 class="fw-bold mt-2" style="font-family:serif">Import Data KK</h2><p class="text-muted mb-0">Tambahkan banyak KK melalui Excel atau CSV.</p></div><div class="card border-0 shadow-sm" style="border-radius:1rem"><div class="card-body p-4"><form method="POST" enctype="multipart/form-data" action="{{ route('admin.families.import.store') }}">@csrf<label class="form-label fw-semibold">File Excel / CSV</label><input type="file" name="file" accept=".xlsx,.xls,.csv" class="form-control @error('file') is-invalid @enderror" required>@error('file')<div class="invalid-feedback">{{ $message }}</div>@enderror<div class="alert alert-light border small mt-3 mb-0"><strong>Format header:</strong> <code>no_kk | golongan</code><br>Contoh: <code>320585542417 | 2</code></div><button class="btn btn-success mt-3"><i class="fa-solid fa-file-arrow-up me-1"></i>Import Data KK</button></form></div></div>
+@endsection

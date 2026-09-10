@@ -26,6 +26,9 @@
                 <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users*', 'admin.import-warga*') ? 'active' : '' }}">
                     <i class="fa-solid fa-users"></i><span>Kelola Data Warga</span>
                 </a>
+                <a href="{{ route('admin.families.index') }}" class="{{ request()->routeIs('admin.families.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-people-roof"></i><span>Kelola Data KK</span>
+                </a>
                 <a href="{{ route('admin.jadwal') }}" class="{{ request()->routeIs('admin.jadwal') ? 'active' : '' }}">
                     <i class="fa-solid fa-clock"></i><span>Kelola Jadwal Salat</span>
                 </a>
@@ -34,6 +37,9 @@
                 </a>
                 <a href="{{ route('admin.contents.index', 'laporan-keuangan') }}" class="{{ request()->is('admin/laporan-keuangan*') ? 'active' : '' }}">
                     <i class="fa-solid fa-file-invoice-dollar"></i><span>Kelola Laporan Keuangan</span>
+                </a>
+                <a href="{{ route('admin.kas-kk.index') }}" class="{{ request()->routeIs('admin.kas-kk.*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-wallet"></i><span>Kelola Kas KK</span>
                 </a>
                 <a href="{{ route('admin.contents.index', 'informasi-masjid') }}" class="{{ request()->is('admin/informasi-masjid*') ? 'active' : '' }}">
                     <i class="fa-solid fa-mosque"></i><span>Kelola Informasi & Kegiatan</span>

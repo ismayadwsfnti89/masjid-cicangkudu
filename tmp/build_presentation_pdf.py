@@ -4,7 +4,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import cm
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
-OUT = r'C:\masjid-cicangkudu\output\pdf\Presentasi_Sistem_Masjid_Cicangkudu.pdf'
+OUT = r'C:\masjid-cicangkudu\output\pdf\Presentasi_Sistem_Masjid_Cicangkudu_Revisi.pdf'
 W, H = landscape(A4)
 GREEN=colors.HexColor('#0B5C3D'); DARK=colors.HexColor('#15362B'); MINT=colors.HexColor('#EAF5EF'); SOFT=colors.HexColor('#F7FAF8'); GOLD=colors.HexColor('#D9A441'); MUTED=colors.HexColor('#60736B'); WHITE=colors.white
 
@@ -45,17 +45,17 @@ for i,(n,t,b) in enumerate(items):
 txt(c,'Profil warga dapat diperbarui untuk nama, kata sandi, dan foto profil.',54,112,17,GREEN,True,maxw=700); c.showPage()
 
 page(c,4,'Alur kerja admin','Admin mengelola konten, data, pembayaran, dan verifikasi dalam dashboard.')
-card(c,54,310,340,120,'Kelola konten','Buat informasi atau kegiatan, unggah gambar, lalu terbitkan agar warga memperoleh notifikasi.'); card(c,448,310,340,120,'Kelola donasi','Atur rekening dan QRIS sendiri. Periksa bukti transfer dan terima atau tolak donasi.',GOLD); card(c,54,145,340,120,'Warga dan profil','Tambah, impor, edit, atau pilih beberapa data warga untuk dihapus sekaligus.'); card(c,448,145,340,120,'Keuangan','Catat pemasukan atau pengeluaran. Donasi diterima menjadi pemasukan otomatis.'); c.showPage()
+card(c,54,310,340,120,'Kelola konten','Buat informasi atau kegiatan, unggah gambar, lalu terbitkan agar warga memperoleh notifikasi.'); card(c,448,310,340,120,'Kelola donasi','Atur rekening dan QRIS sendiri. Periksa bukti transfer dan terima atau tolak donasi.',GOLD); card(c,54,145,340,120,'Warga dan profil','Tambah, impor, edit, atau pilih beberapa data warga untuk dihapus sekaligus.'); card(c,448,145,340,120,'Kelola laporan','Catat pengeluaran. Donasi yang diverifikasi tampil otomatis sebagai Donasi Masuk.'); c.showPage()
 
 page(c,5,'Struktur sistem dan data','Aplikasi Laravel memisahkan tampilan, rute, proses bisnis, dan basis data.')
-cols=[('Tampilan','Blade admin dan warga','Dashboard, formulir, kartu informasi, profil, notifikasi'),('Rute','routes/web.php','URL, middleware admin, dan controller'),('Proses','Controller + Model','CRUD, donasi, API jadwal, neraca kas'),('Data','MySQL + storage','Akun, konten, donasi, profil, gambar')]
+cols=[('Tampilan','Blade admin dan warga','Dashboard, formulir, kartu informasi, profil, notifikasi'),('Rute','routes/web.php','URL, middleware admin, dan controller'),('Proses','Controller + Model','CRUD, donasi, API jadwal, laporan'),('Data','MySQL + storage','Akun, konten, donasi, profil, gambar')]
 for i,(a,b,d) in enumerate(cols): card(c,54+i*190,225,165,175,a,b+'\n\n'+d,GOLD if i==1 else GREEN)
-txt(c,'API jadwal salat memakai data Kab. Tasikmalaya, Jawa Barat (wilayah Cicangkudu).',54,130,15,GREEN,True,maxw=700); c.showPage()
+txt(c,'API jadwal salat memakai data Kab. Tasikmalaya. Warga dan admin dapat memilih bulan serta tahun.',54,130,15,GREEN,True,maxw=700); c.showPage()
 
-page(c,6,'Donasi terverifikasi dan Neraca Kas','Pencatatan berbasis kas agar mudah dipahami dan siap dikembangkan.')
-cols=[('Pemasukan','Donasi diterima + transaksi pemasukan',GREEN),('Pengeluaran','Transaksi pengeluaran',GOLD),('Kas dan Bank','Pemasukan - Pengeluaran',GREEN),('Dana Bersih','Kas dan Bank - kewajiban',GREEN)]
-for i,(a,b,col) in enumerate(cols): card(c,54+i*190,250,165,130,a,b,col)
-txt(c,'Dalam versi ini kewajiban bernilai Rp0, sehingga Aset Kas = Dana Bersih.',54,160,17,GREEN,True,maxw=700); txt(c,'Jika nanti ada utang atau aset tetap, modul dapat diperluas tanpa mengubah alur transaksi kas.',54,124,12,MUTED,maxw=700); c.showPage()
+page(c,6,'Donasi masuk dan riwayat laporan','Laporan menampilkan donasi terverifikasi, pengeluaran, dan saldo.')
+cols=[('Donasi Masuk','Bukti donasi yang diterima admin',GREEN),('Pengeluaran','Catatan pengeluaran yang dibuat admin',GOLD),('Saldo','Donasi Masuk dikurangi Pengeluaran',GREEN)]
+for i,(a,b,col) in enumerate(cols): card(c,75+i*250,250,220,130,a,b,col)
+txt(c,'Kotak amal serta fasilitas atau inventaris milik santri tidak masuk perhitungan laporan masjid.',54,160,15,GREEN,True,maxw=700); txt(c,'Riwayat laporan dapat ditambah, diubah, dan dihapus oleh admin.',54,124,12,MUTED,maxw=700); c.showPage()
 
 page(c,7,'Hasil akhir dan langkah demo','Sistem siap digunakan sebagai dasar pengelolaan masjid yang lebih tertib.')
-card(c,54,260,340,150,'1. Demo admin','Tambahkan informasi, ubah profil masjid, atur QRIS, verifikasi donasi, dan lihat neraca kas.'); card(c,448,260,340,150,'2. Demo warga','Buka jadwal salat, baca informasi, donasi dengan bukti transfer, dan cek notifikasi.',GOLD); rect(c,54,125,734,62,GREEN); c.setFont('Helvetica-Bold',19); c.setFillColor(WHITE); c.drawCentredString(W/2,148,'Terima kasih — Sistem Digital Masjid Jami Cicangkudu'); c.showPage(); c.save()
+card(c,54,260,340,150,'1. Demo admin','Tambahkan informasi, ubah profil masjid, atur QRIS, verifikasi donasi, lalu periksa riwayat laporan.'); card(c,448,260,340,150,'2. Demo warga','Buka jadwal salat, baca informasi, donasi dengan bukti transfer, dan cek notifikasi.',GOLD); rect(c,54,125,734,62,GREEN); c.setFont('Helvetica-Bold',19); c.setFillColor(WHITE); c.drawCentredString(W/2,148,'Terima kasih — Sistem Digital Masjid Jami Cicangkudu'); c.showPage(); c.save()

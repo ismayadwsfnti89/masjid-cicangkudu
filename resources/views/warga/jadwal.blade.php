@@ -17,6 +17,25 @@
     </div>
 </div>
 
+<form id="filterJadwal" class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
+    <div class="card-body p-3">
+        <div class="row g-3 align-items-end">
+            <div class="col-sm-5 col-md-4">
+                <label for="pilihBulan" class="form-label fw-semibold mb-1">Bulan</label>
+                <select id="pilihBulan" class="form-select"></select>
+            </div>
+            <div class="col-sm-5 col-md-3">
+                <label for="pilihTahun" class="form-label fw-semibold mb-1">Tahun</label>
+                <select id="pilihTahun" class="form-select"></select>
+            </div>
+            <div class="col-sm-2 col-md-auto">
+                <button type="submit" class="btn btn-success w-100"><i class="fa-solid fa-calendar-check me-1"></i>Tampilkan</button>
+            </div>
+        </div>
+        <div class="form-text mt-2">Pilih bulan dan tahun untuk membuka jadwal salat terdahulu selama data tersedia dari API.</div>
+    </div>
+</form>
+
 <!-- Content Card: Tabel Jadwal Salat Bulanan -->
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem; background-color: #ffffff;">
     <div class="card-body p-4">
@@ -61,90 +80,64 @@
 
 @push('scripts')
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date();
+    const params = new URLSearchParams(window.location.search);
+    const namaBulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const tahunSekarang = today.getFullYear();
+    const bulanAwal = Number(params.get('bulan')) || today.getMonth() + 1;
+    const tahunAwal = Number(params.get('tahun')) || tahunSekarang;
+    const pilihBulan = document.getElementById('pilihBulan');
+    const pilihTahun = document.getElementById('pilihTahun');
+    const tabel = document.getElementById('tabelJadwalBulanan');
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0');
+    namaBulan.forEach((nama, index) => pilihBulan.add(new Option(nama, index + 1, false, index + 1 === bulanAwal)));
+    for (let tahun = tahunSekarang + 1; tahun >= 2016; tahun--) {
+        pilihTahun.add(new Option(tahun, tahun, false, tahun === tahunAwal));
+    }
 
-        // Set Label Bulan & Tahun
-        const namaBulan = [
-            'Januari', 'Februari', 'Maret', 'April',
-            'Mei', 'Juni', 'Juli', 'Agustus',
-            'September', 'Oktober', 'November', 'Desember'
-        ];
+    const bagianTanggalJakarta = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date());
+    const tanggalHariIni = tipe => bagianTanggalJakarta.find(item => item.type === tipe)?.value;
+    const todayIso = `${tanggalHariIni('year')}-${tanggalHariIni('month')}-${tanggalHariIni('day')}`;
 
-        document.getElementById('labelBulanTahun').innerText =
-            `${namaBulan[today.getMonth()]} ${year}`;
-
-        const jakartaDateParts = new Intl.DateTimeFormat('en-US', {timeZone: 'Asia/Jakarta', year: 'numeric', month: '2-digit', day: '2-digit'}).formatToParts(new Date());
-        const part = type => jakartaDateParts.find(item => item.type === type)?.value;
-        const todayIso = `${part('year')}-${part('month')}-${part('day')}`;
-
-        // ID wilayah
-        const idWilayah = '1218';
-
-        // Ambil jadwal 1 bulan penuh
-        const url =
-            `https://api.myquran.com/v2/sholat/jadwal/${idWilayah}/${year}/${month}`;
+    function muatJadwal() {
+        const tahun = pilihTahun.value;
+        const bulan = pilihBulan.value;
+        document.getElementById('labelBulanTahun').innerText = `${namaBulan[bulan - 1]} ${tahun}`;
+        tabel.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-4">Memuat data jadwal sebulan penuh...</td></tr>';
+        const url = `https://api.myquran.com/v2/sholat/jadwal/1218/${tahun}/${String(bulan).padStart(2, '0')}`;
 
         fetch(url)
             .then(response => response.json())
             .then(result => {
+                if (!result?.status || !result?.data?.jadwal) throw new Error('Data jadwal tidak tersedia');
 
-                if (result && result.status && result.data && result.data.jadwal) {
-
-                    const listJadwal = result.data.jadwal;
-                    let rows = '';
-
-                    listJadwal.forEach(item => {
-
-                        const itemDate = new Date(`${item.date}T12:00:00+07:00`);
-                        const hari = new Intl.DateTimeFormat('id-ID', {weekday: 'long', timeZone: 'Asia/Jakarta'}).format(itemDate);
-                        const isToday = item.date === todayIso ? 'table-success fw-bold' : '';
-
-                        rows += `
-                            <tr class="${isToday}">
-                                <td class="text-start">${item.tanggal ?? '-'}</td>
-                                <td><span class="${item.date === todayIso ? 'badge bg-success' : 'text-muted'}">${hari}${item.date === todayIso ? ' · Hari ini' : ''}</span></td>
-                                <td>${item.imsak ?? '-'}</td>
-                                <td>${item.subuh ?? '-'}</td>
-                                <td>${item.dzuhur ?? '-'}</td>
-                                <td>${item.ashar ?? '-'}</td>
-                                <td>${item.maghrib ?? '-'}</td>
-                                <td>${item.isya ?? '-'}</td>
-                            </tr>
-                        `;
-                    });
-
-                    document.getElementById('tabelJadwalBulanan').innerHTML = rows;
-
-                } else {
-
-                    document.getElementById('tabelJadwalBulanan').innerHTML = `
-                        <tr>
-                            <td colspan="8" class="text-center text-danger py-4">
-                                Gagal memuat data jadwal bulanan.
-                            </td>
-                        </tr>
-                    `;
-                }
-
+                tabel.innerHTML = result.data.jadwal.map(item => {
+                    const itemDate = new Date(`${item.date}T12:00:00+07:00`);
+                    const hari = new Intl.DateTimeFormat('id-ID', { weekday: 'long', timeZone: 'Asia/Jakarta' }).format(itemDate);
+                    const isToday = item.date === todayIso;
+                    return `<tr class="${isToday ? 'table-success fw-bold' : ''}">
+                        <td class="text-start">${item.tanggal ?? '-'}</td>
+                        <td><span class="${isToday ? 'badge bg-success' : 'text-muted'}">${hari}${isToday ? ' · Hari ini' : ''}</span></td>
+                        <td>${item.imsak ?? '-'}</td><td>${item.subuh ?? '-'}</td><td>${item.dzuhur ?? '-'}</td>
+                        <td>${item.ashar ?? '-'}</td><td>${item.maghrib ?? '-'}</td><td>${item.isya ?? '-'}</td>
+                    </tr>`;
+                }).join('');
             })
-            .catch(error => {
-
-                console.error("Gagal mengambil data:", error);
-
-                document.getElementById('tabelJadwalBulanan').innerHTML = `
-                    <tr>
-                        <td colspan="8" class="text-center text-danger py-4">
-                            Terjadi kesalahan koneksi ke server jadwal.
-                        </td>
-                    </tr>
-                `;
+            .catch(() => {
+                tabel.innerHTML = '<tr><td colspan="8" class="text-center text-danger py-4">Jadwal untuk bulan dan tahun ini belum tersedia dari API.</td></tr>';
             });
+    }
 
+    document.getElementById('filterJadwal').addEventListener('submit', event => {
+        event.preventDefault();
+        const paramsBaru = new URLSearchParams({ bulan: pilihBulan.value, tahun: pilihTahun.value });
+        window.history.replaceState({}, '', `${window.location.pathname}?${paramsBaru}`);
+        muatJadwal();
     });
+
+    muatJadwal();
+});
 </script>
 @endpush
 @endsection

@@ -78,7 +78,22 @@
             </table>
         </div>
     </div>
-    <form id="bulkDeleteUsers" action="{{ route('admin.users.bulk-destroy') }}" method="POST" class="mt-3" onsubmit="return confirm('Hapus semua warga yang dipilih? Akun dan profil mereka tidak dapat dikembalikan.');">@csrf @method('DELETE')<button class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash me-1"></i> Hapus warga terpilih</button><span class="text-muted small ms-2">Pilih warga dari tabel terlebih dahulu.</span></form>
+    <div class="card-body pt-0">
+        <form id="bulkDeleteUsers" action="{{ route('admin.users.bulk-destroy') }}" method="POST" onsubmit="return confirm('Hapus semua warga yang dipilih? Akun dan profil mereka tidak dapat dikembalikan.');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="fa-solid fa-trash me-1"></i> Hapus warga terpilih
+            </button>
+            <span class="text-muted small ms-2">Pilih warga dari tabel terlebih dahulu.</span>
+        </form>
+    </div>
 </div>
-@push('scripts')<script>document.getElementById('selectAllUsers')?.addEventListener('change',function(){document.querySelectorAll('.user-checkbox').forEach(item=>item.checked=this.checked);});</script>@endpush
+@push('scripts')
+<script>
+document.getElementById('selectAllUsers')?.addEventListener('change', function () {
+    document.querySelectorAll('.user-checkbox').forEach(item => item.checked = this.checked);
+});
+</script>
+@endpush
 @endsection

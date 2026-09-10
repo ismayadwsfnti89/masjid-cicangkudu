@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KasPayment;
+use App\Models\Family;
 use App\Models\MasjidContent;
 use Illuminate\Http\Request;
 
@@ -11,7 +13,7 @@ class LaporanController extends Controller
     {
         $bulan = $request->input('bulan', now()->format('Y-m'));
 
-        if (!preg_match('/^\d{4}-\d{2}$/', $bulan)) {
+        if (! preg_match('/^\d{4}-\d{2}$/', $bulan)) {
             $bulan = now()->format('Y-m');
         }
 
@@ -19,6 +21,7 @@ class LaporanController extends Controller
 
         $transaksi = MasjidContent::where('type', 'laporan-keuangan')
             ->whereIn('status', ['published', 'active'])
+            ->whereIn('transaction_type', ['pemasukan', 'pengeluaran'])
             ->whereNotNull('event_date')
             ->whereYear('event_date', $tahun)
             ->whereMonth('event_date', $nomorBulan)
@@ -33,14 +36,20 @@ class LaporanController extends Controller
             ->where('transaction_type', 'pengeluaran')
             ->sum('amount');
 
+        $kasPayments = KasPayment::with(['family', 'payer.wargaProfile'])
+            ->where('bulan', $nomorBulan)
+            ->where('tahun', $tahun)
+            ->orderByDesc('tanggal_pembayaran')
+            ->get();
+
+        $pemasukanKas = $kasPayments
+            ->where('status', 'verified')
+            ->sum('nominal');
+        $jumlahSudahBayar = $kasPayments->where('status', 'verified')->count();
+        $jumlahBelumBayar = max(0, Family::count() - $jumlahSudahBayar);
+
+        $totalPemasukan += $pemasukanKas;
         $saldo = $totalPemasukan - $totalPengeluaran;
-        // Neraca kas sederhana: seluruh transaksi memakai basis kas.
-        // Pemasukan menambah kas/dana bersih, pengeluaran mengurangi kas/dana bersih.
-        $neraca = [
-            'aset_kas' => $saldo,
-            'kewajiban' => 0,
-            'dana_bersih' => $saldo,
-        ];
 
         $bulanOptions = collect();
 
@@ -59,8 +68,11 @@ class LaporanController extends Controller
             'totalPengeluaran',
             'saldo',
             'bulan',
-            'bulanOptions'
-            , 'neraca'
+            'bulanOptions',
+            'kasPayments',
+            'pemasukanKas',
+            'jumlahSudahBayar',
+            'jumlahBelumBayar',
         ));
     }
 }

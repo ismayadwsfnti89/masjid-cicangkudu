@@ -24,6 +24,7 @@
                 <a href="{{ route('jadwal') }}" class="{{ request()->routeIs('jadwal') ? 'active' : '' }}"><i class="fa-solid fa-clock"></i><span>Jadwal Salat</span></a>
                 <a href="{{ route('donasi') }}" class="{{ request()->routeIs('donasi') ? 'active' : '' }}"><i class="fa-solid fa-hand-holding-heart"></i><span>Donasi</span></a>
                 <a href="{{ route('laporan') }}" class="{{ request()->routeIs('laporan') ? 'active' : '' }}"><i class="fa-solid fa-chart-column"></i><span>Laporan</span></a>
+                <a href="{{ route('kas.saya') }}" class="{{ request()->routeIs('kas.saya*') ? 'active' : '' }}"><i class="fa-solid fa-wallet"></i><span>Kas Keluarga</span></a>
                 <a href="{{ route('informasi') }}" class="{{ request()->routeIs('informasi', 'kegiatan') ? 'active' : '' }}"><i class="fa-solid fa-mosque"></i><span>Informasi & Kegiatan</span></a>
                 <a href="{{ route('profil') }}" class="{{ request()->routeIs('profil') ? 'active' : '' }}"><i class="fa-solid fa-user"></i><span>Profil Warga</span></a>
                 <form action="{{ route('logout') }}" method="POST" class="logout-form" onsubmit="return confirm('Yakin ingin logout dari akun warga?')">@csrf<button type="submit"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></button></form>

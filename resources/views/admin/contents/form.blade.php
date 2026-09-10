@@ -65,7 +65,7 @@
 
                 <div class="col-md-3">
                     <label class="form-label fw-semibold" for="amount">
-                        Nominal (Rp)
+                        {{ $section === 'donasi' ? 'Target Donasi (Rp)' : 'Nominal (Rp)' }}
                     </label>
 
                     <input
@@ -81,41 +81,20 @@
                     @error('amount')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                    @if($section === 'donasi')
+                        <div class="form-text">Progres pada dashboard dihitung dari donasi terverifikasi dibandingkan target ini.</div>
+                    @endif
                 </div>
 
 
                 @if($section === 'laporan-keuangan')
                     <div class="col-md-3">
-                        <label class="form-label fw-semibold" for="transaction_type">
-                            Jenis Transaksi
-                        </label>
-
-                        <select
-                            id="transaction_type"
-                            name="transaction_type"
-                            class="form-select @error('transaction_type') is-invalid @enderror"
-                            required
-                        >
-                            <option value="">-- Pilih Jenis --</option>
-
-                            <option
-                                value="pemasukan"
-                                @selected(old('transaction_type', $content->transaction_type ?? '') === 'pemasukan')
-                            >
-                                Pemasukan
-                            </option>
-
-                            <option
-                                value="pengeluaran"
-                                @selected(old('transaction_type', $content->transaction_type ?? '') === 'pengeluaran')
-                            >
-                                Pengeluaran
-                            </option>
-                        </select>
-
-                        @error('transaction_type')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <label class="form-label fw-semibold">Jenis Catatan</label>
+                        <input type="hidden" name="transaction_type" value="{{ $content->transaction_type ?? 'pengeluaran' }}">
+                        <div class="form-control bg-light {{ ($content->transaction_type ?? 'pengeluaran') === 'pemasukan' ? 'text-success' : 'text-danger' }}">
+                            {{ ($content->transaction_type ?? 'pengeluaran') === 'pemasukan' ? 'Donasi Masuk' : 'Pengeluaran' }}
+                        </div>
+                        <div class="form-text">Jenis catatan tidak dapat diubah dari halaman laporan.</div>
                     </div>
                 @endif
 

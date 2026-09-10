@@ -27,7 +27,7 @@
                         <th>Judul</th>
                         @if($section === 'informasi-masjid')<th>Jenis</th>@endif
                         <th>Tanggal</th>
-                        @if($meta['requires_amount'])<th>Nominal</th>@endif
+                        @if($meta['requires_amount'])<th>{{ $section === 'donasi' ? 'Target' : 'Nominal' }}</th>@endif
                         <th>Status</th>
                         <th class="text-center">Aksi</th>
                     </tr>
@@ -57,8 +57,21 @@
         </div>
     </div>
 </div>
-<form id="bulkDeleteContents" action="{{ route('admin.contents.bulk-destroy', $section) }}" method="POST" class="mt-3" onsubmit="return confirm('Hapus semua data yang dipilih? Tindakan ini tidak dapat dibatalkan.');">@csrf @method('DELETE')<button class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash me-1"></i> Hapus data terpilih</button><span class="text-muted small ms-2">Pilih data dari tabel terlebih dahulu.</span></form>
-@push('scripts')<script>document.getElementById('selectAllContents')?.addEventListener('change',function(){document.querySelectorAll('.content-checkbox').forEach(item=>item.checked=this.checked);});</script>@endpush
+<form id="bulkDeleteContents" action="{{ route('admin.contents.bulk-destroy', $section) }}" method="POST" class="mt-3" onsubmit="return confirm('Hapus semua data yang dipilih? Tindakan ini tidak dapat dibatalkan.');">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-outline-danger btn-sm">
+        <i class="fa-solid fa-trash me-1"></i> Hapus data terpilih
+    </button>
+    <span class="text-muted small ms-2">Pilih data dari tabel terlebih dahulu.</span>
+</form>
+@push('scripts')
+<script>
+document.getElementById('selectAllContents')?.addEventListener('change', function () {
+    document.querySelectorAll('.content-checkbox').forEach(item => item.checked = this.checked);
+});
+</script>
+@endpush
 @if($section === 'informasi-masjid')
 <div class="card border-0 shadow-sm mt-4" style="border-radius:1rem"><div class="card-body p-4"><div class="d-flex justify-content-between align-items-start mb-3"><div><h5 class="fw-bold mb-1">Profil Masjid yang Tampil di Warga</h5><p class="text-muted small mb-0">Ubah foto, biodata, visi, dan misi pada kartu profil halaman Informasi Masjid warga.</p></div></div><form method="POST" enctype="multipart/form-data" action="{{ route('admin.masjid-profile.update') }}">@csrf @method('PUT')<div class="row g-3"><div class="col-md-6"><label class="form-label">Nama masjid</label><input name="name" class="form-control" value="{{ old('name', $masjidProfile?->name ?? 'Masjid Jami Cicangkudu') }}" required></div><div class="col-md-6"><label class="form-label">Jenis masjid</label><input name="masjid_type" class="form-control" value="{{ old('masjid_type', $masjidProfile?->masjid_type ?? 'Masjid Jami') }}" required></div><div class="col-12"><label class="form-label">Deskripsi singkat</label><textarea name="description" rows="3" class="form-control" required>{{ old('description', $masjidProfile?->description ?? "Pusat ibadah, pendidikan Al-Qur'an, serta kegiatan sosial warga Cicangkudu.") }}</textarea></div><div class="col-md-6"><label class="form-label">Alamat</label><input name="address" class="form-control" value="{{ old('address', $masjidProfile?->address ?? 'Cicangkudu, Mangunreja, Kab. Tasikmalaya') }}" required></div><div class="col-md-6"><label class="form-label">Jam buka</label><input name="open_hours" class="form-control" value="{{ old('open_hours', $masjidProfile?->open_hours ?? 'Terbuka setiap hari') }}" required></div><div class="col-md-6"><label class="form-label">Keterangan kegiatan</label><input name="activity_label" class="form-control" value="{{ old('activity_label', $masjidProfile?->activity_label ?? 'Pusat kegiatan warga') }}" required></div><div class="col-md-6"><label class="form-label">Foto profil masjid</label><input id="profileImage" type="file" name="image" accept="image/jpeg,image/png,image/webp" class="form-control">@if($masjidProfile?->image_path)<img id="profilePreview" src="{{ asset('storage/'.$masjidProfile->image_path) }}" class="img-thumbnail mt-2" style="height:80px;object-fit:cover" alt="Foto profil masjid">@else<img id="profilePreview" class="img-thumbnail mt-2 d-none" style="height:80px;object-fit:cover" alt="Preview foto profil masjid">@endif</div><div class="col-md-6"><label class="form-label">Visi</label><textarea name="vision" rows="4" class="form-control" required>{{ old('vision', $masjidProfile?->vision ?? 'Mewujudkan masjid sebagai pusat ibadah, pendidikan, dan kegiatan sosial yang bermanfaat bagi masyarakat.') }}</textarea></div><div class="col-md-6"><label class="form-label">Misi</label><textarea name="mission" rows="4" class="form-control" required>{{ old('mission', $masjidProfile?->mission ?? 'Melayani jamaah dengan terbuka, menguatkan kegiatan keagamaan, dan menjaga transparansi program masjid.') }}</textarea></div></div><button class="btn btn-success mt-3"><i class="fa-solid fa-floppy-disk me-1"></i>Simpan Profil Masjid</button></form></div></div>
 @push('scripts')<script>document.getElementById('profileImage')?.addEventListener('change',function(){const file=this.files?.[0];if(!file)return;const preview=document.getElementById('profilePreview');preview.src=URL.createObjectURL(file);preview.classList.remove('d-none');});</script>@endpush

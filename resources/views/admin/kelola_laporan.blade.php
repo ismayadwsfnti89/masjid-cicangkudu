@@ -14,9 +14,10 @@
                 Kelola Laporan Keuangan
             </h3>
             <p class="text-muted mb-0">
-                Kelola pemasukan dan pengeluaran Masjid Jami Cicangkudu.
+                Riwayat pemasukan kas dan donasi, pengeluaran, serta saldo Masjid Jami Cicangkudu.
             </p>
         </div>
+        <a href="{{ route('admin.kas-kk.index') }}" class="btn btn-outline-success"><i class="fa-solid fa-wallet me-1"></i> Kelola Kas KK</a>
     </div>
 
     {{-- ALERT --}}
@@ -32,7 +33,7 @@
         <div class="card-header bg-white">
             <h5 class="fw-bold mb-0">
                 <i class="fa-solid fa-plus me-2"></i>
-                Tambah Laporan Keuangan
+                Catat Transaksi Kas
             </h5>
         </div>
 
@@ -54,7 +55,7 @@
                         <input type="text"
                                name="title"
                                class="form-control"
-                               placeholder="Contoh: Donasi Jumat"
+                               placeholder="Contoh: Belanja perlengkapan kebersihan"
                                required>
                     </div>
 
@@ -84,21 +85,15 @@
                                required>
                     </div>
 
-                    {{-- Jenis Transaksi --}}
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">
-                            Jenis Transaksi
+                            Jenis Catatan
                         </label>
-
-                        <select name="transaction_type"
-                                class="form-select"
-                                required>
-
-                            <option value="">-- Pilih Jenis --</option>
-                            <option value="pemasukan">Pemasukan</option>
+                        <select name="transaction_type" class="form-select" required>
+                            <option value="pemasukan">Pemasukan kas warga</option>
                             <option value="pengeluaran">Pengeluaran</option>
-
                         </select>
+                        <div class="form-text">Donasi masuk tetap dicatat otomatis setelah bukti donasi diverifikasi.</div>
                     </div>
 
                     {{-- Keterangan --}}
@@ -148,8 +143,6 @@
 
 
     {{-- RINGKASAN --}}
-    <div class="card shadow-sm border-0 mb-4"><div class="card-body p-4"><div class="d-flex justify-content-between align-items-start mb-3"><div><h5 class="fw-bold mb-1">Neraca Kas</h5><p class="text-muted small mb-0">Neraca dihitung otomatis dari transaksi. Total aset selalu setara dengan kewajiban dan dana bersih.</p></div><span class="badge bg-success">Basis Kas</span></div><div class="row g-3"><div class="col-md-6"><div class="border rounded p-3"><strong class="text-success">Aset</strong><div class="d-flex justify-content-between mt-2"><span>Kas dan Bank</span><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div></div></div><div class="col-md-6"><div class="border rounded p-3"><strong class="text-primary">Kewajiban dan Dana Bersih</strong><div class="d-flex justify-content-between mt-2"><span>Kewajiban</span><strong>Rp {{ number_format($neraca['kewajiban'], 0, ',', '.') }}</strong></div><div class="d-flex justify-content-between mt-2"><span>Dana Bersih</span><strong>Rp {{ number_format($neraca['dana_bersih'], 0, ',', '.') }}</strong></div></div></div></div></div></div>
-
     <div class="row g-3 mb-4">
 
         <div class="col-md-4">
@@ -246,7 +239,7 @@
                                     @if($item->transaction_type === 'pemasukan')
 
                                         <span class="badge bg-success">
-                                            Pemasukan
+                                            {{ $item->donation_id ? 'Donasi Masuk' : 'Pemasukan Kas' }}
                                         </span>
 
                                     @else

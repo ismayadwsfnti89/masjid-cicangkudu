@@ -21,7 +21,7 @@
             </h2>
 
             <p class="text-muted mb-0">
-                Transparansi pemasukan dan pengeluaran Masjid Jami Cicangkudu.
+                Transparansi pemasukan kas dan donasi, pengeluaran, serta saldo Masjid Jami Cicangkudu.
             </p>
         </div>
 
@@ -32,14 +32,6 @@
     </div>
 </div>
 
-
-{{-- NERACA KAS --}}
-<div class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
-    <div class="card-body p-4 p-md-5">
-        <div class="d-flex justify-content-between align-items-start mb-3"><div><h5 class="fw-bold mb-1">Neraca Kas Masjid</h5><p class="text-muted small mb-0">Posisi kas berdasarkan transaksi pemasukan dan pengeluaran yang telah dipublikasikan.</p></div><span class="badge bg-success">Basis Kas</span></div>
-        <div class="row g-3"><div class="col-md-6"><div class="border rounded-3 p-3 h-100"><strong class="d-block mb-2 text-success">Aset</strong><div class="d-flex justify-content-between"><span>Kas dan Bank</span><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div><hr><div class="d-flex justify-content-between"><strong>Total Aset</strong><strong>Rp {{ number_format($neraca['aset_kas'], 0, ',', '.') }}</strong></div></div></div><div class="col-md-6"><div class="border rounded-3 p-3 h-100"><strong class="d-block mb-2 text-primary">Kewajiban dan Dana Bersih</strong><div class="d-flex justify-content-between"><span>Kewajiban</span><strong>Rp {{ number_format($neraca['kewajiban'], 0, ',', '.') }}</strong></div><div class="d-flex justify-content-between mt-2"><span>Dana Bersih</span><strong>Rp {{ number_format($neraca['dana_bersih'], 0, ',', '.') }}</strong></div><hr><div class="d-flex justify-content-between"><strong>Total</strong><strong>Rp {{ number_format($neraca['kewajiban'] + $neraca['dana_bersih'], 0, ',', '.') }}</strong></div></div></div></div>
-    </div>
-</div>
 
 {{-- ========================= --}}
 {{-- RINGKASAN KEUANGAN --}}
@@ -159,6 +151,44 @@
 
 </div>
 
+{{-- KETENTUAN KAS DAN NERACA --}}
+<div class="row g-4 mb-4">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm h-100" style="border-radius:1rem;">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="rounded-circle d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;background:#fff4d6;color:#9a6700;"><i class="fa-solid fa-people-roof"></i></span>
+                    <div><h5 class="fw-bold mb-0">Ketentuan Kas Warga</h5><small class="text-muted">Jumlah warga terdaftar: 100 KK</small></div>
+                </div>
+                <div class="table-responsive"><table class="table table-sm align-middle mb-0"><thead class="text-muted small"><tr><th>Golongan</th><th class="text-end">Iuran / bulan</th></tr></thead><tbody><tr><td>Golongan 1</td><td class="text-end fw-semibold">Rp 3.000</td></tr><tr><td>Golongan 2</td><td class="text-end fw-semibold">Rp 5.000</td></tr><tr><td>Golongan 3</td><td class="text-end fw-semibold">Rp 10.000</td></tr></tbody></table></div>
+                <p class="small text-muted mb-0 mt-3">Kas dihimpun setiap bulan. Token listrik dicatat sebagai pengeluaran rutin bulanan.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm h-100" style="border-radius:1rem;">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-scale-balanced text-primary me-2"></i>Neraca {{ \Carbon\Carbon::createFromFormat('Y-m', $bulan)->translatedFormat('F Y') }}</h5>
+                <div class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">Pemasukan</span><strong class="text-success">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</strong></div>
+                <div class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">Pengeluaran</span><strong class="text-danger">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</strong></div>
+                <div class="d-flex justify-content-between pt-3"><strong>Saldo akhir</strong><strong class="text-primary fs-5">Rp {{ number_format($saldo, 0, ',', '.') }}</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- REKAP PEMBAYARAN KAS --}}
+<div class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+            <div><h5 class="fw-bold mb-1" style="color:#111d13;">Rekap Pembayaran Kas</h5><p class="text-muted small mb-0">Pembayaran kas warga untuk periode yang dipilih.</p></div>
+            <div class="d-flex gap-2"><span class="badge bg-success bg-opacity-15 text-success px-3 py-2">{{ $jumlahSudahBayar }} KK sudah bayar</span><span class="badge bg-secondary bg-opacity-15 text-secondary px-3 py-2">{{ $jumlahBelumBayar }} KK belum bayar</span></div>
+        </div>
+        <div class="row g-3 mb-4"><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Pemasukan kas</small><strong class="text-success fs-5">Rp {{ number_format($pemasukanKas, 0, ',', '.') }}</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Sudah bayar</small><strong>{{ $jumlahSudahBayar }} dari 100 KK</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Belum bayar</small><strong>{{ $jumlahBelumBayar }} dari 100 KK</strong></div></div></div>
+        <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>No. KK</th><th>Golongan</th><th>Nominal</th><th>Pembayar</th><th>Tanggal bayar</th><th>Status</th></tr></thead><tbody>@forelse($kasPayments as $payment)<tr><td class="fw-semibold">{{ $payment->family->no_kk }}</td><td>{{ $payment->nama_golongan }}</td><td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td><td>{{ $payment->payer?->name ?? '-' }}</td><td>{{ $payment->tanggal_pembayaran?->translatedFormat('d M Y') ?? '-' }}</td><td><span class="badge {{ $payment->status === 'sudah_bayar' ? 'bg-success' : 'bg-secondary' }}">{{ $payment->status === 'sudah_bayar' ? 'Sudah Bayar' : 'Belum Bayar' }}</span></td></tr>@empty<tr><td colspan="6" class="text-center text-muted py-4">Belum ada pembayaran kas pada periode ini.</td></tr>@endforelse</tbody></table></div>
+    </div>
+</div>
+
 
 {{-- ========================= --}}
 {{-- RIWAYAT TRANSAKSI --}}
@@ -181,7 +211,7 @@
                 </h5>
 
                 <p class="text-muted mb-0 small">
-                    Daftar pemasukan dan pengeluaran Masjid Jami Cicangkudu.
+                    Daftar pemasukan kas, donasi, dan pengeluaran Masjid Jami Cicangkudu.
                 </p>
 
             </div>
@@ -272,7 +302,7 @@
                                 @if($item->transaction_type === 'pemasukan')
 
                                     <span class="badge bg-success bg-opacity-15 text-success px-2 py-1">
-                                        Pemasukan
+                                        {{ $item->donation_id ? 'Donasi Masuk' : 'Pemasukan Kas' }}
                                     </span>
 
                                 @else

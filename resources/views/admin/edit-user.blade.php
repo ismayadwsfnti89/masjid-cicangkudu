@@ -51,6 +51,12 @@
                 @enderror
             </div>
 
+            <div class="row g-3 mb-3">
+                <div class="col-md-4"><label class="form-label fw-semibold">NIK</label><input name="nik" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik', $user->wargaProfile?->nik) }}">@error('nik')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-md-4"><label class="form-label fw-semibold">No. KK</label><input name="no_kk" class="form-control @error('no_kk') is-invalid @enderror" value="{{ old('no_kk', $user->wargaProfile?->family?->no_kk) }}">@error('no_kk')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-md-4"><label class="form-label fw-semibold">Golongan kas</label><select name="golongan" class="form-select"><option value="1" @selected((int) old('golongan', $user->wargaProfile?->family?->golongan) === 1)>Golongan 1 — Rp3.000</option><option value="2" @selected((int) old('golongan', $user->wargaProfile?->family?->golongan) === 2)>Golongan 2 — Rp5.000</option><option value="3" @selected((int) old('golongan', $user->wargaProfile?->family?->golongan) === 3)>Golongan 3 — Rp10.000</option></select></div>
+            </div>
+
             <div class="mb-3">
                 <label for="alamat" class="form-label fw-semibold">Alamat</label>
                 <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="3">{{ old('alamat', $user->wargaProfile?->alamat) }}</textarea>

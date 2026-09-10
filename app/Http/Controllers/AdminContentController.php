@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MasjidContent;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Donation;
+use App\Models\KasPayment;
+use App\Models\MasjidContent;
+use App\Models\MasjidProfile;
 use App\Models\PaymentSetting;
 use App\Models\User;
-use App\Models\MasjidProfile;
 use App\Notifications\ContentPublished;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminContentController extends Controller
 {
@@ -22,7 +23,6 @@ class AdminContentController extends Controller
 
     public function index(string $section)
     {
-        
         $meta = $this->section($section);
 
         $contents = MasjidContent::whereIn('type', $this->contentTypesFor($section))
@@ -31,21 +31,21 @@ class AdminContentController extends Controller
             ->get();
 
         if ($section === 'laporan-keuangan') {
+            $contents = $contents
+                ->filter(fn (MasjidContent $content) => in_array($content->transaction_type, ['pemasukan', 'pengeluaran'], true))
+                ->values();
 
             $totalPemasukan = $contents
                 ->where('transaction_type', 'pemasukan')
                 ->sum('amount');
+
+            $totalPemasukan += KasPayment::where('status', 'verified')->sum('nominal');
 
             $totalPengeluaran = $contents
                 ->where('transaction_type', 'pengeluaran')
                 ->sum('amount');
 
             $saldo = $totalPemasukan - $totalPengeluaran;
-            $neraca = [
-                'aset_kas' => $saldo,
-                'kewajiban' => 0,
-                'dana_bersih' => $saldo,
-            ];
 
             return view('admin.kelola_laporan', compact(
                 'section',
@@ -53,8 +53,7 @@ class AdminContentController extends Controller
                 'contents',
                 'totalPemasukan',
                 'totalPengeluaran',
-                'saldo'
-                , 'neraca'
+                'saldo',
             ));
         }
 
@@ -74,8 +73,8 @@ class AdminContentController extends Controller
                 'meta',
                 'contents',
                 'donations',
-                'paymentSetting'
-                , 'masjidProfile'
+                'paymentSetting',
+                'masjidProfile',
             )
         );
     }
@@ -96,6 +95,7 @@ class AdminContentController extends Controller
     {
         $meta = $this->section($section);
         $data = $this->validated($request, $section);
+
         $data['type'] = $section === 'informasi-masjid' ? $data['content_type'] : $section;
         unset($data['content_type']);
         if ($request->hasFile('image')) {
@@ -122,15 +122,22 @@ class AdminContentController extends Controller
         $wasPublic = in_array($content->status, ['published', 'active'], true);
         $data = $this->validated($request, $section);
         if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($content->image_path);
+            $this->deleteImage($content->image_path);
             $data['image_path'] = $request->file('image')->store('masjid-content', 'public');
         }
         if ($section === 'informasi-masjid') {
             $data['type'] = $data['content_type'];
         }
+
+        if ($section === 'laporan-keuangan') {
+            $data['transaction_type'] = $content->transaction_type;
+        }
+
         unset($data['content_type']);
         $content->update($data);
-        if (! $wasPublic) $this->notifyWargaIfPublished($content);
+        if (! $wasPublic) {
+            $this->notifyWargaIfPublished($content);
+        }
 
         return redirect()->route('admin.contents.index', $section)->with('success', $meta['label'].' berhasil diperbarui.');
     }
@@ -139,7 +146,7 @@ class AdminContentController extends Controller
     {
         $meta = $this->section($section);
         $this->ensureContentMatchesSection($section, $content);
-        Storage::disk('public')->delete($content->image_path);
+        $this->deleteImage($content->image_path);
         $content->delete();
 
         return redirect()->route('admin.contents.index', $section)->with('success', $meta['label'].' berhasil dihapus.');
@@ -148,15 +155,23 @@ class AdminContentController extends Controller
     public function bulkDestroy(Request $request, string $section)
     {
         $this->section($section);
-        $data = $request->validate(['ids' => ['required', 'array', 'min:1'], 'ids.*' => ['integer']]);
-        $contents = MasjidContent::whereIn('type', $this->contentTypesFor($section))->whereIn('id', $data['ids'])->get();
+        $data = $request->validate([
+            'ids' => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $contents = MasjidContent::whereIn('type', $this->contentTypesFor($section))
+            ->whereIn('id', $data['ids'])
+            ->get();
 
         foreach ($contents as $content) {
-            Storage::disk('public')->delete($content->image_path);
+            $this->deleteImage($content->image_path);
             $content->delete();
         }
 
-        return redirect()->route('admin.contents.index', $section)->with('success', $contents->count().' data berhasil dihapus.');
+        return redirect()
+            ->route('admin.contents.index', $section)
+            ->with('success', $contents->count().' data berhasil dihapus.');
     }
 
     private function section(string $section): array
@@ -168,28 +183,28 @@ class AdminContentController extends Controller
 
     private function validated(Request $request, string $section): array
     {
-    $meta = $this->section($section);
+        $meta = $this->section($section);
 
-    return $request->validate([
-        'title' => ['required', 'string', 'max:255'],
-        'description' => ['nullable', 'string'],
-        'image' => ['nullable', 'image', 'max:2048'],
-        'event_date' => ['nullable', 'date'],
-        'amount' => [
-            $meta['requires_amount'] ? 'required' : 'nullable',
-            'numeric',
-            'min:0'
-        ],
-        'transaction_type' => [
-            $section === 'laporan-keuangan' ? 'required' : 'nullable',
-            'in:pemasukan,pengeluaran'
-        ],
-        'content_type' => [
-            $section === 'informasi-masjid' ? 'required' : 'nullable',
-            'in:informasi-masjid,kegiatan',
-        ],
-        'status' => ['required', 'in:draft,published,active,completed'],
-    ]);
+        return $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'event_date' => ['nullable', 'date'],
+            'amount' => [
+                $meta['requires_amount'] ? 'required' : 'nullable',
+                'numeric',
+                'min:0',
+            ],
+            'transaction_type' => [
+                $section === 'laporan-keuangan' ? 'required' : 'nullable',
+                'in:pemasukan,pengeluaran',
+            ],
+            'content_type' => [
+                $section === 'informasi-masjid' ? 'required' : 'nullable',
+                'in:informasi-masjid,kegiatan',
+            ],
+            'status' => ['required', 'in:draft,published,active,completed'],
+        ]);
     }
 
     private function contentTypesFor(string $section): array
@@ -200,6 +215,13 @@ class AdminContentController extends Controller
     private function ensureContentMatchesSection(string $section, MasjidContent $content): void
     {
         abort_unless(in_array($content->type, $this->contentTypesFor($section), true), 404);
+    }
+
+    private function deleteImage(?string $imagePath): void
+    {
+        if ($imagePath) {
+            Storage::disk('public')->delete($imagePath);
+        }
     }
 
     private function notifyWargaIfPublished(MasjidContent $content): void

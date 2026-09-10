@@ -15,6 +15,28 @@
 
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem;">
     <div class="card-body p-4">
+        <form method="GET" action="{{ route('admin.jadwal') }}" class="row g-3 align-items-end mb-4">
+            <div class="col-sm-5 col-md-4">
+                <label for="bulan" class="form-label fw-semibold">Bulan</label>
+                <select id="bulan" name="bulan" class="form-select">
+                    @foreach($bulanOptions as $nomorBulan => $namaBulan)
+                        <option value="{{ $nomorBulan }}" @selected($bulan === $nomorBulan)>{{ $namaBulan }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-5 col-md-3">
+                <label for="tahun" class="form-label fw-semibold">Tahun</label>
+                <select id="tahun" name="tahun" class="form-select">
+                    @foreach($tahunOptions as $opsiTahun)
+                        <option value="{{ $opsiTahun }}" @selected($tahun === $opsiTahun)>{{ $opsiTahun }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-sm-2 col-md-auto">
+                <button type="submit" class="btn btn-success w-100"><i class="fa-solid fa-calendar-check me-1"></i>Tampilkan</button>
+            </div>
+        </form>
+        <p class="text-muted small mb-3">Pilih bulan dan tahun untuk melihat jadwal terdahulu atau jadwal tahun berikutnya yang tersedia di API.</p>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light text-uppercase fs-7 text-muted">
