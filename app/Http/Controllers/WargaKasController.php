@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KasPayment;
+use App\Models\PaymentSetting;
 use App\Models\User;
 use App\Notifications\KasProofSubmitted;
 use Illuminate\Http\Request;
@@ -24,7 +25,8 @@ class WargaKasController extends Controller
             : collect();
         $paymentPeriode = $payments->first(fn (KasPayment $payment) => $payment->bulan === $bulan && $payment->tahun === $tahun);
 
-        return view('warga.kas', compact('profile', 'family', 'payments', 'paymentPeriode', 'bulan', 'tahun'));
+        $paymentSetting = PaymentSetting::first();
+        return view('warga.kas', compact('profile', 'family', 'payments', 'paymentPeriode', 'bulan', 'tahun', 'paymentSetting'));
     }
 
     public function pay(Request $request)
@@ -35,7 +37,8 @@ class WargaKasController extends Controller
         $data = $request->validate([
             'bulan' => ['required', 'integer', 'between:1,12'],
             'tahun' => ['required', 'integer', 'between:2020,2100'],
-            'proof' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'payment_method' => ['required', 'in:cash,transfer_bank,qris'],
+            'proof' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048', 'required_unless:payment_method,cash'],
         ]);
         $family = $profile->family;
 
@@ -52,7 +55,8 @@ class WargaKasController extends Controller
                     'golongan' => $family->golongan,
                     'nominal' => $family->nominal_kas,
                     'tanggal_pembayaran' => now()->toDateString(),
-                    'proof_path' => $request->file('proof')->store('kas-proofs', 'public'),
+                    'payment_method' => $data['payment_method'],
+                    'proof_path' => $request->hasFile('proof') ? $request->file('proof')->store('kas-proofs', 'public') : null,
                     'status' => 'pending',
                 ],
             );

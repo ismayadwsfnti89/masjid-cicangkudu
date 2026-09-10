@@ -21,6 +21,7 @@ class KasPayment extends Model
         'family_id',
         'golongan',
         'nominal',
+        'payment_method',
         'bulan',
         'tahun',
         'tanggal_pembayaran',

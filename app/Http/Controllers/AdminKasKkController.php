@@ -126,6 +126,7 @@ class AdminKasKkController extends Controller
 
         $data['golongan'] = $family->golongan;
         $data['nominal'] = $family->nominal_kas;
+        $data['payment_method'] = 'cash';
         return $data;
     }
 
