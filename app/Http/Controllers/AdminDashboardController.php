@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use App\Models\KasPayment;
 use App\Models\MasjidContent;
 use App\Models\User;
 
@@ -13,8 +14,10 @@ class AdminDashboardController extends Controller
         $stats = [
             'warga' => User::where('role', 'warga')->count(),
             'informasi' => MasjidContent::whereIn('type', ['kegiatan', 'informasi-masjid'])->count(),
-            'donasiPending' => Donation::where('status', 'pending')->count(),
-            'totalDonasi' => Donation::where('status', 'verified')->sum('amount'),
+            'pembayaranPending' => Donation::where('status', 'pending')->count()
+                + KasPayment::where('status', 'pending')->count(),
+            'totalPemasukanTerverifikasi' => Donation::where('status', 'verified')->sum('amount')
+                + KasPayment::where('status', 'verified')->sum('nominal'),
         ];
 
         $donationProgress = MasjidContent::query()
@@ -41,5 +44,19 @@ class AdminDashboardController extends Controller
         $latest = MasjidContent::latest()->take(4)->get();
 
         return view('admin.dashboard', compact('stats', 'latest', 'donationProgress'));
+    }
+
+    public function verifications()
+    {
+        $pendingDonations = Donation::with(['user', 'program'])
+            ->where('status', 'pending')
+            ->latest()
+            ->get();
+        $pendingKasPayments = KasPayment::with(['family', 'payer.wargaProfile'])
+            ->where('status', 'pending')
+            ->orderByDesc('tanggal_pembayaran')
+            ->get();
+
+        return view('admin.verifications', compact('pendingDonations', 'pendingKasPayments'));
     }
 }

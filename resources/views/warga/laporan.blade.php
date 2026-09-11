@@ -40,7 +40,7 @@
 <div class="row g-4 mb-4">
 
     {{-- PEMASUKAN --}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-3">
 
         <div class="card border-0 shadow-sm h-100"
              style="border-radius: 1rem;">
@@ -77,7 +77,7 @@
 
 
     {{-- PENGELUARAN --}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-3">
 
         <div class="card border-0 shadow-sm h-100"
              style="border-radius:1rem;">
@@ -114,7 +114,7 @@
 
 
     {{-- SALDO --}}
-    <div class="col-md-6 col-lg-4">
+    <div class="col-md-6 col-lg-3">
 
         <div class="card border-0 shadow-sm h-100"
              style="border-radius:1rem;">
@@ -151,6 +151,17 @@
 
 </div>
 
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100" style="border-radius:1rem;">
+            <div class="card-body p-4 d-flex align-items-center">
+                <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="width:52px;height:52px;background:#fff4d6;color:#9a6700;"><i class="fa-solid fa-people-roof fs-4"></i></div>
+                <div><span class="text-muted small d-block mb-1">Pemasukan Kas KK</span><h4 class="fw-bold mb-0" style="color:#9a6700;">Rp {{ number_format($pemasukanKas, 0, ',', '.') }}</h4></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- KETENTUAN KAS DAN NERACA --}}
 <div class="row g-4 mb-4">
     <div class="col-lg-7">
@@ -181,11 +192,11 @@
 <div class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
     <div class="card-body p-4 p-md-5">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-            <div><h5 class="fw-bold mb-1" style="color:#111d13;">Rekap Pembayaran Kas</h5><p class="text-muted small mb-0">Pembayaran kas warga untuk periode yang dipilih.</p></div>
+            <div><h5 class="fw-bold mb-1" style="color:#111d13;">Rekap Pembayaran Kas</h5><p class="text-muted small mb-0">Hanya pembayaran yang sudah diverifikasi dihitung sebagai pemasukan.</p></div>
             <div class="d-flex gap-2"><span class="badge bg-success bg-opacity-15 text-success px-3 py-2">{{ $jumlahSudahBayar }} KK sudah bayar</span><span class="badge bg-secondary bg-opacity-15 text-secondary px-3 py-2">{{ $jumlahBelumBayar }} KK belum bayar</span></div>
         </div>
         <div class="row g-3 mb-4"><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Pemasukan kas</small><strong class="text-success fs-5">Rp {{ number_format($pemasukanKas, 0, ',', '.') }}</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Sudah bayar</small><strong>{{ $jumlahSudahBayar }} dari 100 KK</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Belum bayar</small><strong>{{ $jumlahBelumBayar }} dari 100 KK</strong></div></div></div>
-        <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>No. KK</th><th>Golongan</th><th>Nominal</th><th>Pembayar</th><th>Tanggal bayar</th><th>Status</th></tr></thead><tbody>@forelse($kasPayments as $payment)<tr><td class="fw-semibold">{{ $payment->family->no_kk }}</td><td>{{ $payment->nama_golongan }}</td><td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td><td>{{ $payment->payer?->name ?? '-' }}</td><td>{{ $payment->tanggal_pembayaran?->translatedFormat('d M Y') ?? '-' }}</td><td><span class="badge {{ $payment->status === 'sudah_bayar' ? 'bg-success' : 'bg-secondary' }}">{{ $payment->status === 'sudah_bayar' ? 'Sudah Bayar' : 'Belum Bayar' }}</span></td></tr>@empty<tr><td colspan="6" class="text-center text-muted py-4">Belum ada pembayaran kas pada periode ini.</td></tr>@endforelse</tbody></table></div>
+        <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>No. KK</th><th>Golongan</th><th>Nominal</th><th>Pembayar</th><th>Tanggal bayar</th><th>Status</th></tr></thead><tbody>@forelse($kasPayments as $payment)<tr><td class="fw-semibold">{{ $payment->family->no_kk }}</td><td>{{ $payment->nama_golongan }}</td><td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td><td>{{ $payment->payer?->name ?? '-' }}</td><td>{{ $payment->tanggal_pembayaran?->translatedFormat('d M Y') ?? '-' }}</td><td>@if($payment->status === 'verified')<span class="badge bg-success">Sudah Diverifikasi</span>@elseif($payment->status === 'pending')<span class="badge bg-warning text-dark">Menunggu Verifikasi</span>@else<span class="badge bg-danger">Bukti Ditolak</span>@endif</td></tr>@empty<tr><td colspan="6" class="text-center text-muted py-4">Belum ada pembayaran kas pada periode ini.</td></tr>@endforelse</tbody></table></div>
     </div>
 </div>
 
@@ -302,7 +313,7 @@
                                 @if($item->transaction_type === 'pemasukan')
 
                                     <span class="badge bg-success bg-opacity-15 text-success px-2 py-1">
-                                        {{ $item->donation_id ? 'Donasi Masuk' : 'Pemasukan Kas' }}
+                                        {{ $item->is_kas_kk ? 'Pemasukan Kas KK' : ($item->donation_id ? 'Donasi Masuk' : 'Pemasukan Lain') }}
                                     </span>
 
                                 @else

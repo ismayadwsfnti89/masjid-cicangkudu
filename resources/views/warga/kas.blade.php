@@ -56,6 +56,24 @@
                         <option value="transfer_bank">Transfer bank</option>
                         <option value="qris">QRIS</option>
                     </select>
+                    <div id="qrisInstructions" class="mt-3 d-none">
+                        <div class="border rounded-3 bg-light p-3 text-center">
+                            @if($paymentSetting?->qris_path)
+                                <img src="{{ asset('storage/'.$paymentSetting->qris_path) }}" class="img-fluid" style="max-height:220px" alt="QRIS pembayaran Kas Keluarga">
+                                <small class="d-block text-muted mt-2">Scan QRIS ini untuk membayar kas sebesar Rp {{ number_format($family->nominal_kas, 0, ',', '.') }}.</small>
+                            @else
+                                <i class="fa-solid fa-qrcode fs-2 text-muted"></i>
+                                <small class="d-block text-muted mt-2">QRIS belum diatur oleh pengurus.</small>
+                            @endif
+                        </div>
+                    </div>
+                    <div id="bankInstructions" class="mt-3 d-none">
+                        <div class="border rounded-3 bg-light p-3">
+                            <small class="text-muted d-block">{{ $paymentSetting?->bank_name ?? 'Rekening belum diatur' }}</small>
+                            <strong class="d-block fs-5 font-monospace">{{ $paymentSetting?->account_number ?? '-' }}</strong>
+                            <small>a.n. {{ $paymentSetting?->account_name ?? '-' }}</small>
+                        </div>
+                    </div>
                     <div id="proofGroup" class="mt-3 d-none">
                         <label class="form-label small fw-semibold">Bukti transfer (JPG, PNG, atau PDF)</label>
                         <input type="file" name="proof" accept="image/jpeg,image/png,application/pdf" class="form-control @error('proof') is-invalid @enderror">
@@ -84,8 +102,15 @@
 <script>
 const method = document.getElementById('paymentMethod');
 const proof = document.getElementById('proofGroup');
-function updateProof() { if (method && proof) proof.classList.toggle('d-none', method.value === 'cash'); }
-method?.addEventListener('change', updateProof);
-updateProof();
+const qrisInstructions = document.getElementById('qrisInstructions');
+const bankInstructions = document.getElementById('bankInstructions');
+function updatePaymentInstructions() {
+    if (!method) return;
+    proof?.classList.toggle('d-none', method.value === 'cash');
+    qrisInstructions?.classList.toggle('d-none', method.value !== 'qris');
+    bankInstructions?.classList.toggle('d-none', method.value !== 'transfer_bank');
+}
+method?.addEventListener('change', updatePaymentInstructions);
+updatePaymentInstructions();
 </script>
 @endpush

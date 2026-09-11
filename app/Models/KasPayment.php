@@ -39,7 +39,10 @@ class KasPayment extends Model
 
     public function payer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        // Kolom relasi pada tabel memakai nama user_id, bukan payer_id.
+        // Menyebutkan foreign key secara eksplisit memastikan nama dan NIK
+        // pembayar tampil pada daftar Kas KK maupun laporan keuangan.
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function family(): BelongsTo

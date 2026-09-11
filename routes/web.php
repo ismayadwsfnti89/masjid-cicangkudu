@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
 // Routes Khusus Admin (Panel Pengelola)
 Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/verifikasi-pembayaran', [AdminDashboardController::class, 'verifications'])->name('verifications');
     Route::get('/notifikasi', [AdminNotificationController::class, 'index'])->name('notifications');
     Route::get('/jadwal', [AdminJadwalController::class, 'index'])->name('jadwal');
 

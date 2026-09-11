@@ -90,10 +90,10 @@
                             Jenis Catatan
                         </label>
                         <select name="transaction_type" class="form-select" required>
-                            <option value="pemasukan">Pemasukan kas warga</option>
                             <option value="pengeluaran">Pengeluaran</option>
+                            <option value="pemasukan">Pemasukan lainnya</option>
                         </select>
-                        <div class="form-text">Donasi masuk tetap dicatat otomatis setelah bukti donasi diverifikasi.</div>
+                        <div class="form-text">Pemasukan kas KK dan donasi tercatat otomatis setelah diverifikasi. Gunakan pemasukan lainnya hanya untuk sumber selain keduanya.</div>
                     </div>
 
                     {{-- Keterangan --}}
@@ -236,10 +236,14 @@
 
                                 <td>
 
-                                    @if($item->transaction_type === 'pemasukan')
+                                    @if($item->is_kas_kk ?? false)
+
+                                        <span class="badge bg-success">Kas KK Masuk</span>
+
+                                    @elseif($item->transaction_type === 'pemasukan')
 
                                         <span class="badge bg-success">
-                                            {{ $item->donation_id ? 'Donasi Masuk' : 'Pemasukan Kas' }}
+                                            {{ $item->donation_id ? 'Donasi Masuk' : 'Pemasukan Lainnya' }}
                                         </span>
 
                                     @else
@@ -276,6 +280,10 @@
 
                                 <td>
 
+                                    @if($item->is_kas_kk ?? false)
+                                        <span class="text-muted small">Otomatis dari Kas KK</span>
+                                    @else
+
                                     <div class="d-flex gap-1">
 
                                         <a href="{{ route('admin.contents.edit', ['section' => 'laporan-keuangan', 'content' => $item->id]) }}"
@@ -302,6 +310,8 @@
                                         </form>
 
                                     </div>
+
+                                    @endif
 
                                 </td>
 

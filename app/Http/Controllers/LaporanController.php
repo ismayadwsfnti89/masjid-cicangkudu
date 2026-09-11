@@ -19,7 +19,7 @@ class LaporanController extends Controller
 
         [$tahun, $nomorBulan] = explode('-', $bulan);
 
-        $transaksi = MasjidContent::where('type', 'laporan-keuangan')
+        $transaksiLaporan = MasjidContent::where('type', 'laporan-keuangan')
             ->whereIn('status', ['published', 'active'])
             ->whereIn('transaction_type', ['pemasukan', 'pengeluaran'])
             ->whereNotNull('event_date')
@@ -28,11 +28,11 @@ class LaporanController extends Controller
             ->orderBy('event_date', 'asc')
             ->get();
 
-        $totalPemasukan = $transaksi
+        $totalPemasukanNonKas = $transaksiLaporan
             ->where('transaction_type', 'pemasukan')
             ->sum('amount');
 
-        $totalPengeluaran = $transaksi
+        $totalPengeluaran = $transaksiLaporan
             ->where('transaction_type', 'pengeluaran')
             ->sum('amount');
 
@@ -48,8 +48,31 @@ class LaporanController extends Controller
         $jumlahSudahBayar = $kasPayments->where('status', 'verified')->count();
         $jumlahBelumBayar = max(0, Family::count() - $jumlahSudahBayar);
 
-        $totalPemasukan += $pemasukanKas;
+        $totalPemasukan = $totalPemasukanNonKas + $pemasukanKas;
         $saldo = $totalPemasukan - $totalPengeluaran;
+
+        $transaksiKas = $kasPayments
+            ->where('status', 'verified')
+            ->map(function (KasPayment $payment) {
+                return (object) [
+                    'event_date' => $payment->tanggal_pembayaran,
+                    'title' => 'Kas KK '.$payment->family->no_kk,
+                    'description' => 'Pembayaran kas oleh '.($payment->payer?->name ?? 'anggota KK'),
+                    'amount' => $payment->nominal,
+                    'transaction_type' => 'pemasukan',
+                    'donation_id' => null,
+                    'is_kas_kk' => true,
+                ];
+            });
+
+        $transaksi = collect($transaksiLaporan)
+            ->map(function (MasjidContent $transaction) {
+                $transaction->is_kas_kk = false;
+                return $transaction;
+            })
+            ->merge($transaksiKas)
+            ->sortBy('event_date')
+            ->values();
 
         $bulanOptions = collect();
 

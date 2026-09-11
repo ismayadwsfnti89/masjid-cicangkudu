@@ -31,21 +31,40 @@ class AdminContentController extends Controller
             ->get();
 
         if ($section === 'laporan-keuangan') {
-            $contents = $contents
+            $manualContents = $contents
                 ->filter(fn (MasjidContent $content) => in_array($content->transaction_type, ['pemasukan', 'pengeluaran'], true))
                 ->values();
 
-            $totalPemasukan = $contents
+            $totalPemasukan = $manualContents
                 ->where('transaction_type', 'pemasukan')
                 ->sum('amount');
 
             $totalPemasukan += KasPayment::where('status', 'verified')->sum('nominal');
 
-            $totalPengeluaran = $contents
+            $totalPengeluaran = $manualContents
                 ->where('transaction_type', 'pengeluaran')
                 ->sum('amount');
 
             $saldo = $totalPemasukan - $totalPengeluaran;
+
+            $kasRows = KasPayment::with(['family', 'payer.wargaProfile'])
+                ->where('status', 'verified')
+                ->get()
+                ->map(fn (KasPayment $payment) => (object) [
+                    'id' => $payment->id,
+                    'event_date' => $payment->tanggal_pembayaran,
+                    'title' => 'Kas KK '.$payment->family->no_kk,
+                    'description' => 'Pembayaran '.($payment->payer?->name ?? 'anggota KK'),
+                    'amount' => $payment->nominal,
+                    'transaction_type' => 'pemasukan',
+                    'status' => 'published',
+                    'donation_id' => null,
+                    'is_kas_kk' => true,
+                ]);
+            $contents = collect($manualContents->each(fn (MasjidContent $content) => $content->is_kas_kk = false))
+                ->merge($kasRows)
+                ->sortByDesc('event_date')
+                ->values();
 
             return view('admin.kelola_laporan', compact(
                 'section',
