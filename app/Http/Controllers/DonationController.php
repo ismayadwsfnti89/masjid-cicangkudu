@@ -24,12 +24,12 @@ class DonationController extends Controller
         $data = $request->validate([
             'masjid_content_id' => ['nullable', Rule::exists('masjid_contents', 'id')->where('type', 'donasi')],
             'amount' => ['required', 'numeric', 'min:1000'],
-            'payment_method' => ['required', 'in:qris,transfer_bank'],
-            'proof' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'payment_method' => ['required', 'in:cash,qris,transfer_bank'],
+            'proof' => ['nullable', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048', 'required_unless:payment_method,cash'],
         ]);
 
         $data['user_id'] = $request->user()->id;
-        $data['proof_path'] = $request->file('proof')->store('donation-proofs', 'public');
+        $data['proof_path'] = $request->hasFile('proof') ? $request->file('proof')->store('donation-proofs', 'public') : null;
         $data['status'] = 'pending';
         unset($data['proof']);
 

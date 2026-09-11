@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\MasjidInformationController;
 use App\Http\Controllers\MasjidProfileController;
 use App\Http\Controllers\NotificationController;
@@ -32,7 +33,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Authentication Routes
-Route::get('/', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/', [LandingPageController::class, 'index'])->name('home');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
@@ -65,6 +67,8 @@ Route::middleware(['auth', EnsureUserIsAdmin::class])->prefix('admin')->name('ad
 
     // Manajemen warga dan impor data.
     Route::get('/admins', [AdminUserController::class, 'adminIndex'])->name('admins');
+    Route::get('/admins/create', [AdminUserController::class, 'createAdmin'])->name('admins.create');
+    Route::post('/admins', [AdminUserController::class, 'storeAdmin'])->name('admins.store');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users');
     Route::get('/users/create', [AdminUserController::class, 'create'])->name('users.create');
     Route::get('/users/{id}/edit', [AdminUserController::class, 'edit'])->name('users.edit');

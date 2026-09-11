@@ -1,6 +1,6 @@
 @extends('admin.layout')
 
-@section('title', 'Kelola Laporan Keuangan')
+@section('title', 'Catat Transaksi')
 
 @section('content')
 
@@ -11,7 +11,7 @@
         <div>
             <h3 class="fw-bold mb-1">
                 <i class="fa-solid fa-file-invoice-dollar me-2"></i>
-                Kelola Laporan Keuangan
+                Catat Transaksi
             </h3>
             <p class="text-muted mb-0">
                 Riwayat pemasukan kas dan donasi, pengeluaran, serta saldo Masjid Jami Cicangkudu.
@@ -20,20 +20,12 @@
         <a href="{{ route('admin.kas-kk.index') }}" class="btn btn-outline-success"><i class="fa-solid fa-wallet me-1"></i> Kelola Kas KK</a>
     </div>
 
-    {{-- ALERT --}}
-    @if(session('success'))
-        <div class="alert alert-success">
-            <i class="fa-solid fa-circle-check me-2"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     {{-- FORM TAMBAH --}}
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-header bg-white">
             <h5 class="fw-bold mb-0">
                 <i class="fa-solid fa-plus me-2"></i>
-                Catat Transaksi Kas
+                Catat Transaksi
             </h5>
         </div>
 

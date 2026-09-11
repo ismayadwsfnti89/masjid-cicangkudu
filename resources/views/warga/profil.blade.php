@@ -48,6 +48,11 @@
                         <input type="text" name="nama_lengkap" class="form-control bg-light border-light py-2" value="{{ old('nama_lengkap', $warga->name ?? '') }}" required />
                     </div>
                     <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Username</label>
+                        <input type="text" name="username" class="form-control bg-light border-light py-2 @error('username') is-invalid @enderror" value="{{ old('username', $warga->username ?? '') }}" required />
+                        @error('username')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-md-6">
                         <label class="form-label small fw-semibold text-muted" for="avatar">Foto Profil (opsional)</label>
                         <input id="avatar" type="file" name="avatar" accept="image/jpeg,image/png,image/webp" class="form-control bg-light border-light py-2 @error('avatar') is-invalid @enderror">
                         <div class="form-text">JPG, PNG, atau WEBP, maksimal 2 MB. Foto tersimpan otomatis saat profil disimpan.</div>

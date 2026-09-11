@@ -10,20 +10,26 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Hanya ambil user yang rolenya 'warga' saja agar admin tidak ikut tampil
-        $users = User::with('wargaProfile.family')->where('role', 'warga')->get();
+        $cari = trim((string) $request->input('cari', ''));
+        $users = User::with('wargaProfile.family')->where('role', 'warga')->orderBy('name')->get();
 
-        return view('admin.users', compact('users'));
+        if (ctype_digit($cari) && (int) $cari > 0) {
+            $users = $users->values()->filter(fn (User $user, int $index) => $index + 1 === (int) $cari)->values();
+        }
+
+        return view('admin.users', compact('users', 'cari'));
     }
 
     public function destroy($id)
     {
-        $user = User::where('role', 'warga')->findOrFail($id);
+        $user = User::findOrFail($id);
+        abort_if($user->id === auth()->id(), 422, 'Akun admin yang sedang digunakan tidak dapat dihapus.');
+        abort_if($user->role === 'admin' && User::where('role', 'admin')->count() <= 1, 422, 'Minimal harus ada satu akun admin.');
         $user->delete();
 
-        return redirect()->route('admin.users')->with('success', 'Data warga berhasil dihapus!');
+        return redirect()->route($user->role === 'admin' ? 'admin.admins' : 'admin.users')->with('success', 'Akun berhasil dihapus.');
     }
 
     public function bulkDestroy(Request $request)
@@ -140,6 +146,31 @@ class AdminUserController extends Controller
         $admins = User::where('role', 'admin')->get();
 
         return view('admin.kelola_admin', compact('admins'));
+    }
+
+    public function createAdmin()
+    {
+        return view('admin.create-admin');
+    }
+
+    public function storeAdmin(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        User::create([
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'] ?? $data['username'].'@admin.local',
+            'password' => Hash::make($data['password']),
+            'role' => 'admin',
+        ]);
+
+        return redirect()->route('admin.admins')->with('success', 'Akun admin berhasil ditambahkan.');
     }
 
     private function findOrCreateFamily(string $noKk, int $golongan): Family

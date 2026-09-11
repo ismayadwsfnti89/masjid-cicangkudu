@@ -188,15 +188,14 @@
     </div>
 </div>
 
-{{-- REKAP PEMBAYARAN KAS --}}
+{{-- RIWAYAT KAS KELUARGA --}}
 <div class="card border-0 shadow-sm mb-4" style="border-radius:1rem;">
     <div class="card-body p-4 p-md-5">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
-            <div><h5 class="fw-bold mb-1" style="color:#111d13;">Rekap Pembayaran Kas</h5><p class="text-muted small mb-0">Hanya pembayaran yang sudah diverifikasi dihitung sebagai pemasukan.</p></div>
-            <div class="d-flex gap-2"><span class="badge bg-success bg-opacity-15 text-success px-3 py-2">{{ $jumlahSudahBayar }} KK sudah bayar</span><span class="badge bg-secondary bg-opacity-15 text-secondary px-3 py-2">{{ $jumlahBelumBayar }} KK belum bayar</span></div>
+            <div><h5 class="fw-bold mb-1" style="color:#111d13;">Riwayat Kas Keluarga</h5><p class="text-muted small mb-0">Hanya riwayat pembayaran dari KK Anda yang ditampilkan.</p></div>
+            <form method="GET" action="{{ route('laporan') }}" style="width:200px;"><select name="bulan" class="form-select form-select-sm border-light bg-light py-2" onchange="this.form.submit()">@foreach($bulanOptions as $option)<option value="{{ $option['value'] }}" @selected($bulan == $option['value'])>{{ $option['label'] }}</option>@endforeach</select></form>
         </div>
-        <div class="row g-3 mb-4"><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Pemasukan kas</small><strong class="text-success fs-5">Rp {{ number_format($pemasukanKas, 0, ',', '.') }}</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Sudah bayar</small><strong>{{ $jumlahSudahBayar }} dari 100 KK</strong></div></div><div class="col-md-4"><div class="border rounded-3 p-3"><small class="text-muted d-block">Belum bayar</small><strong>{{ $jumlahBelumBayar }} dari 100 KK</strong></div></div></div>
-        <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>No. KK</th><th>Golongan</th><th>Nominal</th><th>Pembayar</th><th>Tanggal bayar</th><th>Status</th></tr></thead><tbody>@forelse($kasPayments as $payment)<tr><td class="fw-semibold">{{ $payment->family->no_kk }}</td><td>{{ $payment->nama_golongan }}</td><td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td><td>{{ $payment->payer?->name ?? '-' }}</td><td>{{ $payment->tanggal_pembayaran?->translatedFormat('d M Y') ?? '-' }}</td><td>@if($payment->status === 'verified')<span class="badge bg-success">Sudah Diverifikasi</span>@elseif($payment->status === 'pending')<span class="badge bg-warning text-dark">Menunggu Verifikasi</span>@else<span class="badge bg-danger">Bukti Ditolak</span>@endif</td></tr>@empty<tr><td colspan="6" class="text-center text-muted py-4">Belum ada pembayaran kas pada periode ini.</td></tr>@endforelse</tbody></table></div>
+        <div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Periode</th><th>Golongan</th><th>Nominal</th><th>Tanggal bayar</th><th>Status</th></tr></thead><tbody>@forelse($kasPayments as $payment)<tr><td class="fw-semibold">{{ \Carbon\Carbon::create(null, $payment->bulan, 1)->locale('id')->translatedFormat('F') }} {{ $payment->tahun }}</td><td>Golongan {{ $payment->golongan }}</td><td>Rp {{ number_format($payment->nominal, 0, ',', '.') }}</td><td>{{ $payment->tanggal_pembayaran?->locale('id')->translatedFormat('d M Y') ?? '-' }}</td><td>@if($payment->status === 'verified')<span class="badge bg-success">Sudah Diverifikasi</span>@elseif($payment->status === 'pending')<span class="badge bg-warning text-dark">Menunggu Verifikasi</span>@else<span class="badge bg-danger">Bukti Ditolak</span>@endif</td></tr>@empty<tr><td colspan="5" class="text-center text-muted py-4">Belum ada pembayaran kas dari KK Anda pada periode ini.</td></tr>@endforelse</tbody></table></div>
     </div>
 </div>
 
@@ -204,6 +203,9 @@
 {{-- ========================= --}}
 {{-- RIWAYAT TRANSAKSI --}}
 {{-- ========================= --}}
+
+{{-- Riwayat kas sudah ditampilkan pada kartu "Riwayat Kas Keluarga" di atas. --}}
+@if(false)
 
 <div class="card border-0 shadow-sm mb-4"
      style="border-radius:1rem;">
@@ -218,11 +220,11 @@
 
                 <h5 class="fw-bold mb-1"
                     style="color:#111d13;">
-                    Riwayat Transaksi
+                    Riwayat Kas KK Anda
                 </h5>
 
                 <p class="text-muted mb-0 small">
-                    Daftar pemasukan kas, donasi, dan pengeluaran Masjid Jami Cicangkudu.
+                    Hanya transaksi kas dari KK Anda yang ditampilkan. Informasi donatur dan transaksi warga lain hanya tersedia untuk admin.
                 </p>
 
             </div>
@@ -368,6 +370,7 @@
 
 </div>
 
+@endif
 
 {{-- ========================= --}}
 {{-- TRANSPARANSI --}}

@@ -55,9 +55,10 @@
                 <tbody>
                     @forelse($jadwalList ?? [] as $jadwal)
                         @php($isToday = ($jadwal['date'] ?? null) === now('Asia/Jakarta')->toDateString())
+                        @php($tanggal = isset($jadwal['date']) ? \Carbon\Carbon::parse($jadwal['date'])->locale('id') : null)
                         <tr class="{{ $isToday ? 'table-success' : '' }}">
-                            <td class="fw-semibold text-dark">{{ $jadwal['tanggal'] ?? '-' }}</td>
-                            <td><span class="{{ $isToday ? 'badge bg-success' : 'text-muted' }}">{{ isset($jadwal['date']) ? \Carbon\Carbon::parse($jadwal['date'])->translatedFormat('l') : '-' }}{{ $isToday ? ' · Hari ini' : '' }}</span></td>
+                            <td class="fw-semibold text-dark">{{ $tanggal?->translatedFormat('d F Y') ?? '-' }}</td>
+                            <td><span class="{{ $isToday ? 'badge bg-success' : 'text-muted' }}">{{ $tanggal?->translatedFormat('l') ?? '-' }}{{ $isToday ? ' · Hari ini' : '' }}</span></td>
                             <td>{{ $jadwal['imsak'] ?? '-' }}</td>
                             <td class="fw-semibold text-primary">{{ $jadwal['subuh'] ?? '-' }}</td>
                             <td>{{ $jadwal['terbit'] ?? '-' }}</td>

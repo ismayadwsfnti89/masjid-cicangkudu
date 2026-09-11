@@ -36,43 +36,36 @@ class LaporanController extends Controller
             ->where('transaction_type', 'pengeluaran')
             ->sum('amount');
 
-        $kasPayments = KasPayment::with(['family', 'payer.wargaProfile'])
+        $semuaKasPayments = KasPayment::with(['family', 'payer.wargaProfile'])
             ->where('bulan', $nomorBulan)
             ->where('tahun', $tahun)
             ->orderByDesc('tanggal_pembayaran')
             ->get();
 
-        $pemasukanKas = $kasPayments
+        $familyId = $request->user()?->wargaProfile?->family_id;
+        $kasPayments = $familyId
+            ? $semuaKasPayments->where('family_id', $familyId)->values()
+            : collect();
+
+        $pemasukanKas = $semuaKasPayments
             ->where('status', 'verified')
             ->sum('nominal');
-        $jumlahSudahBayar = $kasPayments->where('status', 'verified')->count();
+        $jumlahSudahBayar = $semuaKasPayments->where('status', 'verified')->count();
         $jumlahBelumBayar = max(0, Family::count() - $jumlahSudahBayar);
 
         $totalPemasukan = $totalPemasukanNonKas + $pemasukanKas;
         $saldo = $totalPemasukan - $totalPengeluaran;
 
-        $transaksiKas = $kasPayments
-            ->where('status', 'verified')
-            ->map(function (KasPayment $payment) {
-                return (object) [
-                    'event_date' => $payment->tanggal_pembayaran,
-                    'title' => 'Kas KK '.$payment->family->no_kk,
-                    'description' => 'Pembayaran kas oleh '.($payment->payer?->name ?? 'anggota KK'),
-                    'amount' => $payment->nominal,
-                    'transaction_type' => 'pemasukan',
-                    'donation_id' => null,
-                    'is_kas_kk' => true,
-                ];
-            });
-
-        $transaksi = collect($transaksiLaporan)
-            ->map(function (MasjidContent $transaction) {
-                $transaction->is_kas_kk = false;
-                return $transaction;
-            })
-            ->merge($transaksiKas)
-            ->sortBy('event_date')
-            ->values();
+        $transaksi = $kasPayments->where('status', 'verified')->map(function (KasPayment $payment) {
+            return (object) [
+                'event_date' => $payment->tanggal_pembayaran,
+                'title' => 'Kas KK '.$payment->family->no_kk,
+                'amount' => $payment->nominal,
+                'transaction_type' => 'pemasukan',
+                'donation_id' => null,
+                'is_kas_kk' => true,
+            ];
+        })->sortBy('event_date')->values();
 
         $bulanOptions = collect();
 

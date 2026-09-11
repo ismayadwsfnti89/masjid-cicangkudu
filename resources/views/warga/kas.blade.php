@@ -23,6 +23,11 @@
     <div class="alert alert-warning">Data KK belum tersedia. Hubungi pengurus agar akun Anda dihubungkan ke KK.</div>
 @else
     @php($currentStatus = $paymentPeriode?->status ?? 'belum_bayar')
+    @if($tunggakan->isNotEmpty())
+        <div class="alert alert-warning border-0 shadow-sm d-flex align-items-start gap-3 mb-4" style="border-radius:1rem">
+            <i class="fa-solid fa-bell fs-4 mt-1"></i><div><strong>Ada {{ $tunggakan->count() }} tunggakan kas KK.</strong><div class="small">Pilih periode tunggakan di bawah untuk melihat rincian dan mengajukan pembayaran.</div></div>
+        </div>
+    @endif
     <div class="row g-4 mb-4">
         <div class="col-lg-7"><div class="card border-0 shadow-sm h-100" style="border-radius:1rem"><div class="card-body p-4">
             <h5 class="fw-bold">Identitas Kas Keluarga</h5>
@@ -84,6 +89,11 @@
             @endif
         </div></div></div>
     </div>
+
+    <div class="card border-0 shadow-sm mb-4" style="border-radius:1rem"><div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3"><div><h5 class="fw-bold mb-1">Notifikasi Tunggakan Kas</h5><p class="text-muted small mb-0">Kas yang belum dibayar atau bukti yang ditolak dapat dibayar kembali per bulan.</p></div><span class="badge bg-{{ $tunggakan->isEmpty() ? 'success' : 'warning text-dark' }}">{{ $tunggakan->isEmpty() ? 'Tidak ada tunggakan' : $tunggakan->count().' periode' }}</span></div>
+        @if($tunggakan->isNotEmpty())<div class="list-group list-group-flush">@foreach($tunggakan as $periode)<div class="list-group-item px-0 d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2"><div><strong>{{ $periode['label'] }}</strong><small class="d-block text-{{ $periode['status'] === 'rejected' ? 'danger' : 'muted' }}">{{ $periode['status'] === 'rejected' ? 'Bukti pembayaran sebelumnya ditolak.' : 'Belum ada pembayaran.' }}</small></div><a class="btn btn-sm btn-success" href="{{ route('kas.saya', ['bulan' => $periode['bulan'], 'tahun' => $periode['tahun']]) }}">Bayar periode ini</a></div>@endforeach</div>@else<div class="text-success small"><i class="fa-solid fa-circle-check me-1"></i>Semua kewajiban kas telah tercatat.</div>@endif
+    </div></div>
 
     <div class="card border-0 shadow-sm" style="border-radius:1rem"><div class="card-body p-4">
         <h5 class="fw-bold mb-3">Riwayat Kas KK {{ $family->no_kk }}</h5>

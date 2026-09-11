@@ -11,10 +11,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminFamilyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $families = Family::withCount('members')->orderBy('no_kk')->get();
-        return view('admin.families.index', compact('families'));
+        $cari = trim((string) $request->input('cari', ''));
+        $golongan = $request->input('golongan');
+        $families = Family::withCount('members')
+            ->when(in_array((int) $golongan, array_keys(Family::TARIF_GOLONGAN), true), fn ($query) => $query->where('golongan', $golongan))
+            ->orderBy('no_kk')->get();
+
+        if (ctype_digit($cari) && (int) $cari > 0) {
+            $families = $families->values()->filter(fn (Family $family, int $index) => $index + 1 === (int) $cari)->values();
+        }
+        return view('admin.families.index', compact('families', 'cari', 'golongan'));
     }
 
     public function create()

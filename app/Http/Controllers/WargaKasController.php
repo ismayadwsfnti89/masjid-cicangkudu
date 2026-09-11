@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications\KasProofSubmitted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class WargaKasController extends Controller
 {
@@ -25,8 +26,27 @@ class WargaKasController extends Controller
             : collect();
         $paymentPeriode = $payments->first(fn (KasPayment $payment) => $payment->bulan === $bulan && $payment->tahun === $tahun);
 
+        $paymentByPeriod = $payments->keyBy(fn (KasPayment $payment) => sprintf('%04d-%02d', $payment->tahun, $payment->bulan));
+        $awalPeriode = Carbon::parse($family?->created_at ?? now(), 'Asia/Jakarta')->startOfMonth();
+        $akhirPeriode = now('Asia/Jakarta')->startOfMonth();
+        $tunggakan = collect();
+
+        while ($family && $awalPeriode->lte($akhirPeriode)) {
+            $key = $awalPeriode->format('Y-m');
+            $payment = $paymentByPeriod->get($key);
+            if (! $payment || $payment->status === 'rejected') {
+                $tunggakan->push([
+                    'bulan' => $awalPeriode->month,
+                    'tahun' => $awalPeriode->year,
+                    'label' => $awalPeriode->copy()->locale('id')->translatedFormat('F Y'),
+                    'status' => $payment?->status ?? 'belum_bayar',
+                ]);
+            }
+            $awalPeriode->addMonth();
+        }
+
         $paymentSetting = PaymentSetting::first();
-        return view('warga.kas', compact('profile', 'family', 'payments', 'paymentPeriode', 'bulan', 'tahun', 'paymentSetting'));
+        return view('warga.kas', compact('profile', 'family', 'payments', 'paymentPeriode', 'bulan', 'tahun', 'tunggakan', 'paymentSetting'));
     }
 
     public function pay(Request $request)

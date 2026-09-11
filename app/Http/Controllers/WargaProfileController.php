@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\WargaProfile;
+use Illuminate\Validation\Rule;
 
 class WargaProfileController extends Controller
 {
@@ -25,12 +26,14 @@ class WargaProfileController extends Controller
 
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'username' => ['required', 'string', 'min:3', 'max:255', Rule::unique('users', 'username')->ignore($warga->id)],
             'password' => 'nullable|string|min:8',
             'avatar' => 'nullable|image|max:2048',
         ]);
 
         // Update nama
         $warga->name = $request->nama_lengkap;
+        $warga->username = $request->username;
 
         // Update password jika diisi
         if ($request->filled('password')) {

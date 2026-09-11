@@ -26,6 +26,9 @@
                 <a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users*', 'admin.import-warga*') ? 'active' : '' }}">
                     <i class="fa-solid fa-users"></i><span>Kelola Data Warga</span>
                 </a>
+                <a href="{{ route('admin.admins') }}" class="{{ request()->routeIs('admin.admins*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user-shield"></i><span>Kelola Admin</span>
+                </a>
                 <a href="{{ route('admin.families.index') }}" class="{{ request()->routeIs('admin.families.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-people-roof"></i><span>Kelola Data KK</span>
                 </a>
@@ -36,7 +39,7 @@
                     <i class="fa-solid fa-hand-holding-heart"></i><span>Kelola Program Donasi</span>
                 </a>
                 <a href="{{ route('admin.contents.index', 'laporan-keuangan') }}" class="{{ request()->is('admin/laporan-keuangan*') ? 'active' : '' }}">
-                    <i class="fa-solid fa-file-invoice-dollar"></i><span>Kelola Laporan Keuangan</span>
+                    <i class="fa-solid fa-file-invoice-dollar"></i><span>Catat Transaksi</span>
                 </a>
                 <a href="{{ route('admin.kas-kk.index') }}" class="{{ request()->routeIs('admin.kas-kk.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-wallet"></i><span>Kelola Kas KK</span>

@@ -12,7 +12,7 @@
         <p class="text-muted mb-0">Daftar seluruh pengurus atau admin yang memiliki akses ke sistem.</p>
     </div>
     
-    <a href="{{ route('admin.users.create') }}" class="btn btn-primary px-3 py-2 fw-semibold" style="border-radius: 0.75rem;">
+    <a href="{{ route('admin.admins.create') }}" class="btn btn-primary px-3 py-2 fw-semibold" style="border-radius: 0.75rem;">
         <i class="fa-solid fa-user-shield me-1"></i> Tambah Admin Baru
     </a>
 </div>
@@ -26,7 +26,7 @@
                         <th>No</th>
                         <th>Nama Lengkap</th>
                         <th>Username</th>
-                        <th>Nomor HP</th>
+                        <th>Email</th>
                         <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -36,7 +36,7 @@
                         <td class="fw-semibold">{{ $index + 1 }}</td>
                         <td class="fw-semibold text-dark">{{ $admin->name }}</td>
                         <td>{{ $admin->username ?? '-' }}</td>
-                        <td>{{ $admin->no_hp ?? '-' }}</td>
+                        <td>{{ $admin->email ?? '-' }}</td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-1">
                                 <a href="{{ route('admin.users.edit', $admin->id) }}" class="btn btn-sm btn-outline-primary" style="border-radius: 0.5rem;" title="Edit">

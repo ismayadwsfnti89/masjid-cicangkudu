@@ -112,12 +112,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(result => {
                 if (!result?.status || !result?.data?.jadwal) throw new Error('Data jadwal tidak tersedia');
 
-                tabel.innerHTML = result.data.jadwal.map(item => {
+                const jadwalUrut = [...result.data.jadwal].sort((a, b) => {
+                    // Pada bulan berjalan: hari ini dan hari berikutnya di atas,
+                    // lalu hari-hari yang sudah lewat di bagian bawah.
+                    const aLewat = a.date < todayIso;
+                    const bLewat = b.date < todayIso;
+                    if (aLewat !== bLewat) return aLewat ? 1 : -1;
+                    return a.date.localeCompare(b.date);
+                });
+
+                tabel.innerHTML = jadwalUrut.map(item => {
                     const itemDate = new Date(`${item.date}T12:00:00+07:00`);
                     const hari = new Intl.DateTimeFormat('id-ID', { weekday: 'long', timeZone: 'Asia/Jakarta' }).format(itemDate);
+                    const tanggalMasehi = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' }).format(itemDate);
+                    const tanggalHijriah = new Intl.DateTimeFormat('id-ID-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jakarta' }).format(itemDate);
                     const isToday = item.date === todayIso;
                     return `<tr class="${isToday ? 'table-success fw-bold' : ''}">
-                        <td class="text-start">${item.tanggal ?? '-'}</td>
+                        <td class="text-start"><strong>${tanggalMasehi}</strong><small class="d-block text-muted fw-normal">${tanggalHijriah}</small></td>
                         <td><span class="${isToday ? 'badge bg-success' : 'text-muted'}">${hari}${isToday ? ' · Hari ini' : ''}</span></td>
                         <td>${item.imsak ?? '-'}</td><td>${item.subuh ?? '-'}</td><td>${item.dzuhur ?? '-'}</td>
                         <td>${item.ashar ?? '-'}</td><td>${item.maghrib ?? '-'}</td><td>${item.isya ?? '-'}</td>

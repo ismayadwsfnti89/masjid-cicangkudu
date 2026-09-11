@@ -28,6 +28,15 @@ class AdminJadwalController extends Controller
 
         if ($response->successful()) {
             $jadwalList = $response->json()['data']['jadwal'] ?? [];
+            $tanggalHariIni = $hariIni->toDateString();
+            usort($jadwalList, function (array $a, array $b) use ($tanggalHariIni) {
+                $aLewat = ($a['date'] ?? '') < $tanggalHariIni;
+                $bLewat = ($b['date'] ?? '') < $tanggalHariIni;
+                if ($aLewat !== $bLewat) {
+                    return $aLewat ? 1 : -1;
+                }
+                return strcmp($a['date'] ?? '', $b['date'] ?? '');
+            });
         } else {
             $jadwalList = [];
         }

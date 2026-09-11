@@ -16,6 +16,7 @@ class AdminKasKkController extends Controller
     {
         [$bulan, $tahun] = $this->periode($request);
         $status = $request->input('status');
+        $cari = trim((string) $request->input('cari', ''));
 
         $families = Family::with([
             'members.user',
@@ -30,11 +31,17 @@ class AdminKasKkController extends Controller
             $families = $families->filter(fn (Family $family) => ($family->paymentPeriode?->status ?? 'belum_bayar') === $status)->values();
         }
 
+        if (ctype_digit($cari) && (int) $cari > 0) {
+            $families = $families->values()
+                ->filter(fn (Family $family, int $index) => $index + 1 === (int) $cari)
+                ->values();
+        }
+
         $semuaKk = Family::count();
         $sudahBayar = KasPayment::where('bulan', $bulan)->where('tahun', $tahun)->where('status', 'verified')->count();
         $totalPemasukan = KasPayment::where('bulan', $bulan)->where('tahun', $tahun)->where('status', 'verified')->sum('nominal');
 
-        return view('admin.kas-kk.index', compact('families', 'bulan', 'tahun', 'status', 'semuaKk', 'sudahBayar', 'totalPemasukan'));
+        return view('admin.kas-kk.index', compact('families', 'bulan', 'tahun', 'status', 'cari', 'semuaKk', 'sudahBayar', 'totalPemasukan'));
     }
 
     public function create(Request $request)

@@ -27,6 +27,8 @@
     </div>
 </div>
 
+<div class="card border-0 shadow-sm mb-4" style="border-radius:1rem"><div class="card-body p-3"><form method="GET" class="row g-2 align-items-end"><div class="col-md-4"><label class="form-label small">Cari Nomor Urut Warga</label><input name="cari" type="number" min="1" class="form-control" value="{{ $cari }}" placeholder="Contoh: 12"></div><div class="col-md-2"><button class="btn btn-outline-success w-100"><i class="fa-solid fa-magnifying-glass me-1"></i>Cari</button></div></form></div></div>
+
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem;">
     <div class="card-body p-4">
         <div class="table-responsive">
