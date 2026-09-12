@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('warga_profiles', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->string('nik')->nullable();
         $table->string('no_hp')->nullable();
         $table->text('alamat')->nullable();
         $table->timestamps();

@@ -39,4 +39,25 @@ class DonationController extends Controller
 
         return back()->with('success', 'Bukti transfer berhasil dikirim. Admin akan memverifikasinya.');
     }
+
+    public function storePublic(Request $request)
+    {
+        $data = $request->validate([
+            'donor_name' => ['required', 'string', 'max:255'],
+            'donor_phone' => ['nullable', 'string', 'max:30'],
+            'masjid_content_id' => ['nullable', Rule::exists('masjid_contents', 'id')->where('type', 'donasi')],
+            'amount' => ['required', 'numeric', 'min:1000'],
+            'payment_method' => ['required', 'in:qris,transfer_bank'],
+            'proof' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+        ]);
+
+        $data['proof_path'] = $request->file('proof')->store('donation-proofs', 'public');
+        $data['status'] = 'pending';
+        unset($data['proof']);
+
+        $donation = Donation::create($data);
+        User::where('role', 'admin')->get()->each->notify(new DonationProofSubmitted($donation));
+
+        return redirect()->to(route('home').'#donasi')->with('success', 'Bukti donasi berhasil dikirim. Pengurus akan memverifikasinya.');
+    }
 }

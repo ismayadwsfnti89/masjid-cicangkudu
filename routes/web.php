@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 
 // Authentication Routes
 Route::get('/', [LandingPageController::class, 'index'])->name('home');
+Route::post('/donasi/kirim', [DonationController::class, 'storePublic'])->name('donasi.public.store');
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

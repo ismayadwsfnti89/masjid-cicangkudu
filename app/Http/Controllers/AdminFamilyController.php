@@ -15,13 +15,28 @@ class AdminFamilyController extends Controller
     {
         $cari = trim((string) $request->input('cari', ''));
         $golongan = $request->input('golongan');
-        $families = Family::withCount('members')
+        $families = Family::query()
+            ->with(['members.user'])
+            ->withCount('members')
             ->when(in_array((int) $golongan, array_keys(Family::TARIF_GOLONGAN), true), fn ($query) => $query->where('golongan', $golongan))
-            ->orderBy('no_kk')->get();
+            ->when($cari !== '', function ($query) use ($cari) {
+                $query->where(function ($query) use ($cari) {
+                    $query->where('no_kk', 'like', "%{$cari}%")
+                        ->orWhereHas('members', function ($query) use ($cari) {
+                            $query->where('nik', 'like', "%{$cari}%")
+                                ->orWhere('no_hp', 'like', "%{$cari}%")
+                                ->orWhere('alamat', 'like', "%{$cari}%")
+                                ->orWhereHas('user', function ($query) use ($cari) {
+                                    $query->where('name', 'like', "%{$cari}%")
+                                        ->orWhere('username', 'like', "%{$cari}%")
+                                        ->orWhere('email', 'like', "%{$cari}%");
+                                });
+                        });
+                });
+            })
+            ->orderBy('no_kk')
+            ->get();
 
-        if (ctype_digit($cari) && (int) $cari > 0) {
-            $families = $families->values()->filter(fn (Family $family, int $index) => $index + 1 === (int) $cari)->values();
-        }
         return view('admin.families.index', compact('families', 'cari', 'golongan'));
     }
 

@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\WargaProfile;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 
 class WargaProfileController extends Controller
 {
     public function index()
     {
-        $warga = Auth::user()->load('wargaProfile');
+        /** @var \App\Models\User $warga */
+        // $warga = Auth::user()->load('wargaProfile');
+        $warga = Auth::user();
 
         return view('warga.profil', compact('warga'));
     }

@@ -13,11 +13,24 @@ class AdminUserController extends Controller
     public function index(Request $request)
     {
         $cari = trim((string) $request->input('cari', ''));
-        $users = User::with('wargaProfile.family')->where('role', 'warga')->orderBy('name')->get();
-
-        if (ctype_digit($cari) && (int) $cari > 0) {
-            $users = $users->values()->filter(fn (User $user, int $index) => $index + 1 === (int) $cari)->values();
-        }
+        $users = User::query()
+            ->with('wargaProfile')
+            ->where('role', 'warga')
+            ->when($cari !== '', function ($query) use ($cari) {
+                $query->where(function ($query) use ($cari) {
+                    $query->where('name', 'like', "%{$cari}%")
+                        ->orWhere('username', 'like', "%{$cari}%")
+                        ->orWhere('email', 'like', "%{$cari}%")
+                        ->orWhereHas('wargaProfile', function ($query) use ($cari) {
+                            $query->where('nik', 'like', "%{$cari}%")
+                                ->orWhere('no_hp', 'like', "%{$cari}%")
+                                ->orWhere('alamat', 'like', "%{$cari}%")
+                                ->orWhereHas('family', fn ($query) => $query->where('no_kk', 'like', "%{$cari}%"));
+                        });
+                });
+            })
+            ->orderBy('name')
+            ->get();
 
         return view('admin.users', compact('users', 'cari'));
     }
@@ -140,12 +153,20 @@ class AdminUserController extends Controller
         return redirect()->route('admin.users')->with('success', 'Data pengguna berhasil diperbarui!');
     }
 
-    public function adminIndex()
+    public function adminIndex(Request $request)
     {
-        // Hanya mengambil user yang memiliki role 'admin'
-        $admins = User::where('role', 'admin')->get();
+        $cari = trim((string) $request->input('cari', ''));
+        $admins = User::query()
+            ->where('role', 'admin')
+            ->when($cari !== '', fn ($query) => $query->where(function ($query) use ($cari) {
+                $query->where('name', 'like', "%{$cari}%")
+                    ->orWhere('username', 'like', "%{$cari}%")
+                    ->orWhere('email', 'like', "%{$cari}%");
+            }))
+            ->orderBy('name')
+            ->get();
 
-        return view('admin.kelola_admin', compact('admins'));
+        return view('admin.kelola_admin', compact('admins', 'cari'));
     }
 
     public function createAdmin()

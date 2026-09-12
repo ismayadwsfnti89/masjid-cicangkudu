@@ -176,16 +176,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-5">
-        <div class="card border-0 shadow-sm h-100" style="border-radius:1rem;">
-            <div class="card-body p-4">
-                <h5 class="fw-bold mb-3"><i class="fa-solid fa-scale-balanced text-primary me-2"></i>Neraca {{ \Carbon\Carbon::createFromFormat('Y-m', $bulan)->translatedFormat('F Y') }}</h5>
-                <div class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">Pemasukan</span><strong class="text-success">Rp {{ number_format($totalPemasukan, 0, ',', '.') }}</strong></div>
-                <div class="d-flex justify-content-between border-bottom py-2"><span class="text-muted">Pengeluaran</span><strong class="text-danger">Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}</strong></div>
-                <div class="d-flex justify-content-between pt-3"><strong>Saldo akhir</strong><strong class="text-primary fs-5">Rp {{ number_format($saldo, 0, ',', '.') }}</strong></div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 {{-- RIWAYAT KAS KELUARGA --}}

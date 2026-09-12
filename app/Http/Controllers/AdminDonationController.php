@@ -22,7 +22,7 @@ class AdminDonationController extends Controller
                 ['donation_id' => $donation->id],
                 [
                     'type' => 'laporan-keuangan',
-                    'title' => 'Donasi '.$donation->user->name,
+                    'title' => 'Donasi '.($donation->user?->name ?? $donation->donor_name ?? 'Hamba Allah'),
                     'description' => 'Pemasukan otomatis dari donasi terverifikasi.',
                     'event_date' => now()->toDateString(),
                     'amount' => $donation->amount,
@@ -32,7 +32,7 @@ class AdminDonationController extends Controller
             );
         });
 
-        $donation->user->notify(new DonationStatusUpdated($donation->fresh(), true));
+        $donation->user?->notify(new DonationStatusUpdated($donation->fresh(), true));
 
         return back()->with('success', 'Donasi berhasil diverifikasi dan dicatat sebagai pemasukan.');
     }
@@ -44,8 +44,10 @@ class AdminDonationController extends Controller
         }
 
         $donation->update(['status' => 'rejected']);
-        $donation->user->notify(new DonationStatusUpdated($donation->fresh(), false));
+        $donation->user?->notify(new DonationStatusUpdated($donation->fresh(), false));
 
-        return back()->with('success', 'Bukti donasi ditolak. Warga sudah diberi notifikasi.');
+        return back()->with('success', $donation->user_id
+            ? 'Bukti donasi ditolak. Warga sudah diberi notifikasi.'
+            : 'Bukti donasi ditolak. Hubungi donatur bila diperlukan.');
     }
 }

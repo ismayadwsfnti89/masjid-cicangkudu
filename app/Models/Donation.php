@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Donation extends Model
 {
-    protected $fillable = ['user_id', 'masjid_content_id', 'amount', 'payment_method', 'proof_path', 'status'];
+    protected $fillable = ['user_id', 'donor_name', 'donor_phone', 'masjid_content_id', 'amount', 'payment_method', 'proof_path', 'status'];
 
     protected function casts(): array
     {

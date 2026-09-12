@@ -17,6 +17,8 @@
     </a>
 </div>
 
+<div class="card border-0 shadow-sm mb-4" style="border-radius:1rem"><div class="card-body p-3"><form method="GET" class="row g-2 align-items-end"><div class="col-md-7"><label class="form-label small">Cari Admin</label><input name="cari" type="search" class="form-control" value="{{ $cari }}" placeholder="Nama, username, atau email"></div><div class="col-md-2"><button class="btn btn-outline-success w-100"><i class="fa-solid fa-magnifying-glass me-1"></i>Cari</button></div>@if($cari)<div class="col-md-2"><a href="{{ route('admin.admins') }}" class="btn btn-outline-secondary w-100">Reset</a></div>@endif</form></div></div>
+
 <div class="card border-0 shadow-sm mb-4" style="border-radius: 1rem;">
     <div class="card-body p-4">
         <div class="table-responsive">
@@ -56,7 +58,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">Belum ada data admin lain.</td>
+                        <td colspan="5" class="text-center text-muted py-4">{{ $cari ? 'Admin tidak ditemukan.' : 'Belum ada data admin lain.' }}</td>
                     </tr>
                     @endforelse
                 </tbody>

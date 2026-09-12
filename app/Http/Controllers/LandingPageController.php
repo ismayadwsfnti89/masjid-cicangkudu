@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MasjidContent;
 use App\Models\MasjidProfile;
+use App\Models\PaymentSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -15,11 +16,13 @@ class LandingPageController extends Controller
             $profile = MasjidProfile::first();
             $news = MasjidContent::query()->whereIn('type', ['informasi-masjid', 'kegiatan'])->whereIn('status', ['published', 'active'])->latest('event_date')->latest()->take(3)->get();
             $programs = MasjidContent::query()->where('type', 'donasi')->whereIn('status', ['published', 'active'])->latest('event_date')->take(3)->get();
+            $paymentSetting = PaymentSetting::first();
         } catch (\Throwable) {
             // Halaman publik tetap tersedia saat pemasangan awal sebelum basis data dibuat.
             $profile = null;
             $news = collect();
             $programs = collect();
+            $paymentSetting = null;
         }
 
         $prayers = collect();
@@ -33,6 +36,6 @@ class LandingPageController extends Controller
             // Jadwal tidak menghalangi halaman publik ketika API tidak tersedia.
         }
 
-        return view('welcome', compact('profile', 'news', 'programs', 'prayers'));
+        return view('welcome', compact('profile', 'news', 'programs', 'prayers', 'paymentSetting'));
     }
 }

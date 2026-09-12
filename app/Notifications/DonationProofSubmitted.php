@@ -18,7 +18,7 @@ class DonationProofSubmitted extends Notification
     {
         return [
             'title' => 'Bukti donasi baru',
-            'message' => $this->donation->user->name.' mengunggah bukti donasi Rp '.number_format((float) $this->donation->amount, 0, ',', '.'),
+            'message' => ($this->donation->user?->name ?? $this->donation->donor_name ?? 'Donatur').' mengunggah bukti donasi Rp '.number_format((float) $this->donation->amount, 0, ',', '.'),
             'donation_id' => $this->donation->id,
             'url' => route('admin.contents.index', 'donasi'),
         ];
